@@ -1,0 +1,66 @@
+---
+title: "Converting 'LaTeX' 'R Journal' Articles into 'RJ-web-articles'"
+date: "2022-11-09"
+abstract: >
+  An abstract of less than 150 words.
+draft: true
+author:  
+  # see ?rjournal_article for more information
+  - name: Abhishek Ulayil
+    affiliation: Student, Institute of Actuaries of India
+    address:
+    - Mumbai, India
+    orcid: 0009-0000-6935-8690
+    email: perricoq@outlook.com
+type: package
+output: 
+  rjtools::rjournal_web_article:
+    web_only: yes
+    self_contained: yes
+    toc: no
+bibliography: RJreferences.bib
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(plotly)
+library(ggplot2)
+library(palmerpenguins)
+```
+
+# Introduction
+
+Explain the purpose of the work, some background on the rjournal/rjtools[DC],
+
+# Background
+
+LaTeX, Regex, pandoc
+building blocks of the packages, methods used in them [MOW]
+
+# texor package converting LaTeX to Rmarkdown
+
+## Also mention the hard parts
+## Lua Filters with pandoc
+A lot of details about different components of texor
+
+# rebib package working out bibliography
+
+
+
+# getting started 
+ 
+ Examples/ getting started / usage and so on
+ 
+# Summary
+
+
+# Acknowledgments
+pandoc
+ "TODO : Later"
+ 
+# supplementary Materials
+ github repos for the packages, rjtools
+
+
+
