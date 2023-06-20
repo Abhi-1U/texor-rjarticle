@@ -1,5 +1,5 @@
 ---
-title: "Converting 'LaTeX' 'R Journal' Articles into 'RJ-web-articles'"
+title: "Converting LaTeX R Journal Articles into RJ-web-articles"
 date: "2022-11-09"
 abstract: >
   An abstract of less than 150 words.
@@ -7,11 +7,35 @@ draft: true
 author:  
   # see ?rjournal_article for more information
   - name: Abhishek Ulayil
-    affiliation: Student, Institute of Actuaries of India
+    affiliation: Institute of Actuaries of India
     address:
     - Mumbai, India
     orcid: 0009-0000-6935-8690
     email: perricoq@outlook.com
+  - name: Mitch O'Hara-Wild
+    affiliation: Monash University
+    address:
+    - Melbourne, Australia
+    orcid: 0000-0001-6729-7695
+    email: mail@mitchelloharawild.com
+  - name: Christophe Dervieux
+    affiliation: Posit PBC
+    address:
+    - Paris, France
+    orcid: 0000-0003-4474-2498
+    email: christophe.dervieux@gmail.com
+  - name: Heather Turner
+    affiliation: University of Warwick
+    address:
+    - Newport, United Kingdom
+    orcid: 0000-0002-1256-3375
+    email: ht@heatherturner.net
+  - name: Dianne Cook
+    affiliation: Monash University
+    address:
+    - Melbourne, Australia
+    orcid: 0000-0002-3813-7155
+    email: dicook@monash.edu
 type: package
 output: 
   rjtools::rjournal_web_article:
@@ -26,12 +50,20 @@ bibliography: RJreferences.bib
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 library(plotly)
 library(ggplot2)
-library(palmerpenguins)
 ```
 
 # Introduction
 
-Explain the purpose of the work, some background on the rjournal/rjtools[DC],
+The R Journal is the primary open-access outlet for the R community. In 2019, with the help of funding from the R Consortium it was decided that it was time to update operations. One aspect of this was to change from LaTeX paper submissions to a more reproducible format, where code was embedded in the document, and the output could be both HTML and pdf. 
+
+There are numerous benefits of HTML format: 
+
+1. Articles can include interactive graphics and tables.
+2. The format is more accessible to screen readers making the work more accessible to vision impaired researchers.
+
+<!-- traditional HTML is the most universally accessible format - Australian Human Rights Commission https://humanrights.gov.au/our-work/disability-rights/world-wide-web-access-disability-discrimination-act-advisory-notes-ver and https://printdisability.org -->
+
+Describe changes in templates, and web site. Desirability to convert the legacy articles. Decided to convert latex input to Rmd, rather than directly html and why.
 
 # Background
 
@@ -88,6 +120,7 @@ A lot of details about different components of texor
  
 # Summary
 
+Where this might be useful in the future, other applications.
 
 # Acknowledgments
 pandoc
