@@ -71,7 +71,7 @@ Describe changes in templates, and web site. Desirability to convert the legacy 
 # Background
 
 
-### Pandoc Usage
+### Pandoc does the heavy-lifting
 
 Pandoc is a versatile document conversion program written in Haskell that is core
 to numerous documentation systems, including Rmarkdown and Quarto. Pandoc first 
@@ -84,6 +84,25 @@ The Texor package uses these filters heavily, even for simple tasks like choosin
 which supporting figures to copy. A lua filter constructs a list of image paths, 
 writes it to an intermediate file and feeds them to the Texor package.
 
+
+### Pre-Processing : Regular Expressions 
+
+LaTeX is very descriptive and allows unfettered levels of customization to authors,
+which poses an issue during conversions. RMarkdown is quite a bit restrictive by 
+syntax though you can always embed HTML to expand the feature set. Although 
+pandoc does most of the heavy lifting, there are some instances where even 
+filters cannot assist. A good demonstration of the issue in hand is code 
+environments.
+
+A limitation of pandoc is that it only works with a "verbatim" environment. 
+However, in "RJournal",  we have multiple custom code environments which are not
+supported or defined due to lower-level tex limitations in pandoc. Hence the code 
+environments used to be eliminated during the conversion process, including a Lua
+filter to find these elements and redefine them as code environments would also 
+fail because pandoc would have already tried to process the code inside an unknown 
+code environment, leading to missing code elements lost in the conversion.	
+
+### Post-Processing : Lua Filters
 
 This was one of the earliest and most basic Lua filters, and it was part of the 
 texor package:
@@ -101,7 +120,6 @@ Then it looks for the class "thebibliography." It turns out that this Div elemen
 contains the LaTeX bibliographic records, which usually appear at the very end 
 of papers. We don't need this portion in the article with the "RJ-web-article" 
 layout,  given its inclusion as meta-data in the footer.
-
 
 
 LaTeX, Regex, pandoc
