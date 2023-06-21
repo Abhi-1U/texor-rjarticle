@@ -65,6 +65,9 @@ There are numerous benefits of HTML format:
 
 Describe changes in templates, and web site. Desirability to convert the legacy articles. Decided to convert latex input to Rmd, rather than directly html and why.
 
+- R Journal latex template and formatting
+- Quirks of the legacy articles
+
 # Background
 
 
