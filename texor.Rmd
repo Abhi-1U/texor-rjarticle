@@ -7,7 +7,7 @@ draft: true
 author:  
   # see ?rjournal_article for more information
   - name: Abhishek Ulayil
-    affiliation: Institute of Actuaries of India
+    affiliation: Student, Institute of Actuaries of India
     address:
     - Mumbai, India
     orcid: 0009-0000-6935-8690
@@ -81,14 +81,14 @@ in Lua can be challenging, pandoc includes filters that allow users to customise
 the output generated based on matching patterns plus some logic to modify them. 
 
 The Texor package uses these filters heavily, even for simple tasks like choosing
-which supporting figures to copy. A lua filter constructs a list of image paths, 
-writes it to an intermediate file and feeds them to the Texor package.
+which supporting figures to copy. A Lua filter constructs a list of image paths, 
+stores them momentarily and the package uses this data to copy images.
 
 
 ### Pre-Processing : Regular Expressions 
 
 LaTeX is very descriptive and allows unfettered levels of customization to authors,
-which poses an issue during conversions. RMarkdown is quite a bit restrictive by 
+which poses an issue during conversions. RMarkdown is quite restrictive by 
 syntax though you can always embed HTML to expand the feature set. Although 
 pandoc does most of the heavy lifting, there are some instances where even 
 filters cannot assist. A good demonstration of the issue in hand is code 
@@ -96,16 +96,17 @@ environments.
 
 A limitation of pandoc is that it only works with a "verbatim" environment. 
 However, in "RJournal",  we have multiple custom code environments which are not
-supported or defined due to lower-level tex limitations in pandoc. Hence the code 
-environments used to be eliminated during the conversion process, including a Lua
-filter to find these elements and redefine them as code environments would also 
-fail because pandoc would have already tried to process the code inside an unknown 
-code environment, leading to missing code elements lost in the conversion.	
+supported or defined due to lower-level tex limitations in pandoc. So the code 
+environments are eliminated during the conversion process. Including a Lua filter
+to find these elements and redefine them as verbatim environments would also be 
+ineffective. If the code environment is not verbatim, then pandoc will also try 
+to process the actual code content as LaTeX commands and will lose out on 
+details in some cases. 	
 
 ### Post-Processing : Lua Filters
 
 This was one of the earliest and most basic Lua filters, and it was part of the 
-texor package:
+\CRANpkg{texor} package:
 
 ```Lua
 function Div(el)
@@ -125,13 +126,31 @@ layout,  given its inclusion as meta-data in the footer.
 LaTeX, Regex, pandoc
 building blocks of the packages, methods used in them [MOW]
 
-# texor package converting LaTeX to Rmarkdown
+# Texor package converting LaTeX to Rmarkdown
 
 ## Also mention the hard parts
 ## Lua Filters with pandoc
-A lot of details about different components of texor
+A lot of details about different components of \CRANpkg{texor}
 
-# rebib package working out bibliography
+# Rebib is in charge of the bibliography
+
+The \CRANpkg{rebib} package addresses the issue with LaTeX articles using 
+built-in bibliography options with or without BibTeX files. While this works 
+well with LaTeX, it won't work with Rmarkdown. Initially the goal was to use 
+external software like Biber to convert the embedded bibliography to BibTeX. 
+However the integration of external software was not viable, hence the 
+experimental idea of a bibliography parser gained momentum. 
+
+It was initially a part of the \CRANpkg{texor} package, as those functions grew 
+in features and became more involved; at that point, it made sense to move those
+functions as a separate package. Initially, there were some reservations about 
+the usage of rebib and its stability with various formats. However,
+the package has improved over time and proven to be a good performer.
+
+Rebib's best feature is its ability to merge bibliographies from both the 
+LaTeX and BibTeX files. \CRANpkg{rebib} saves authors from manually 
+converting to BibTeX format.
+
 
 
 
