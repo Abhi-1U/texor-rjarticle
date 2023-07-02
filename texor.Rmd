@@ -1,5 +1,5 @@
 ---
-title: "Converting LaTeX R Journal Articles into RJ-web-articles"
+title: "Converting LaTeX R Journal Articles into Rmarkdown using texor and rebib"
 date: "2022-11-09"
 abstract: >
   An abstract of less than 150 words.
@@ -77,10 +77,10 @@ Pandoc is a versatile document conversion program written in Haskell that is cor
 to numerous documentation systems, including Rmarkdown and Quarto. Pandoc first 
 converts a document into an abstract syntax tree. From this, it can convert to a
 different format, including custom ones. Although creating bespoke writers/readers
-in Lua can be challenging, pandoc includes filters that allow users to customise 
+in Lua can be challenging, pandoc includes filters that allow users to customize 
 the output generated based on matching patterns plus some logic to modify them. 
 
-The Texor package uses these filters heavily, even for simple tasks like choosing
+The \CRANpkg{texor} package uses these filters heavily, even for simple tasks like choosing
 which supporting figures to copy. A Lua filter constructs a list of image paths, 
 stores them momentarily and the package uses this data to copy images.
 
@@ -126,13 +126,13 @@ layout,  given its inclusion as meta-data in the footer.
 LaTeX, Regex, pandoc
 building blocks of the packages, methods used in them [MOW]
 
-# Texor package converting LaTeX to Rmarkdown
+# Converting LaTeX to Markdown
 
 ## Also mention the hard parts
 ## Lua Filters with pandoc
 A lot of details about different components of \CRANpkg{texor}
 
-# Rebib is in charge of the bibliography
+# Managing bibliography using \CRANpkg{rebib}
 
 The \CRANpkg{rebib} package addresses the issue with LaTeX articles using 
 built-in bibliography options with or without BibTeX files. While this works 
@@ -144,17 +144,11 @@ experimental idea of a bibliography parser gained momentum.
 It was initially a part of the \CRANpkg{texor} package, as those functions grew 
 in features and became more involved; at that point, it made sense to move those
 functions as a separate package. Initially, there were some reservations about 
-the usage of rebib and its stability with various formats. However,
+the usage of \CRANpkg{rebib} and its stability with various formats. However,
 the package has improved over time and proven to be a good performer.
 
-Rebib's best feature is its ability to merge bibliographies from both the 
-LaTeX and BibTeX files. \CRANpkg{rebib} saves authors from manually 
-converting to BibTeX format.
 
-
-
-
-# getting started 
+# Getting started 
  
  Examples/ getting started / usage and so on
  
@@ -166,7 +160,7 @@ Where this might be useful in the future, other applications.
 pandoc
  "TODO : Later"
  
-# supplementary Materials
+# Supplementary materials
  github repos for the packages, rjtools
 
 
