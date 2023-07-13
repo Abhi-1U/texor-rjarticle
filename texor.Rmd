@@ -82,45 +82,34 @@ Describe changes in templates, and web site. Desirability to convert the legacy 
 - Quirks of the legacy articles
 -->
 
-# Background
+# Converting from LaTeX to R Markdown
+
+The decision to convert to R Markdown format means that the output to pdf and HTML will depend on Pandoc [@pandoc]. 
+Pandoc is a versatile document conversion program written in Haskell that is core to numerous documentation systems, including Rmarkdown and Quarto. Pandoc first converts a document into an abstract syntax tree. From this, it can convert to a different format, including custom ones. Although creating bespoke writers/readers in `Lua` can be challenging, pandoc includes filters that allow users to customize the output generated based on matching patterns plus some logic to modify them. 
+
+**DC: Can you explain what a Lua filter is?**
+
+The \CRANpkg{texor} package uses these filters heavily, even for simple tasks like choosing which supporting figures to copy. A `Lua` filter constructs a list of image paths, stores them momentarily and the package uses this data to copy images. However, \CRANpkg{texor} also includes many pre-processing functions that employ regular expressions. This is needed to convert some text and LaTeX commands that are not recognized or handled by Pandoc. 
+
+**DC: Add a diagram here showing flow of work, just pre-process .tex -> pandoc -> lua ???**
 
 
-### Pandoc does the heavy-lifting
 
-Pandoc is a versatile document conversion program written in Haskell that is core
-to numerous documentation systems, including Rmarkdown and Quarto. Pandoc first 
-converts a document into an abstract syntax tree. From this, it can convert to a
-different format, including custom ones. Although creating bespoke writers/readers
-in Lua can be challenging, pandoc includes filters that allow users to customize 
-the output generated based on matching patterns plus some logic to modify them. 
+**Maybe more details on the supporting packages here: LaTeX, Regex, pandoc building blocks of the packages, methods used in them [MOW]**
 
-The \CRANpkg{texor} package uses these filters heavily, even for simple tasks like choosing
-which supporting figures to copy. A Lua filter constructs a list of image paths, 
-stores them momentarily and the package uses this data to copy images.
+## Pre-processing using regular expressions 
+
+LaTeX is very descriptive and allows unfettered levels of customization to authors, which poses an issue during conversions. RMarkdown is quite restrictive by  syntax though you can always embed HTML to expand the feature set. Although 
+pandoc does most of the heavy lifting, there are some instances where even  filters cannot assist. A good demonstration of the issue in hand is code environments.
+
+A limitation of pandoc is that it only works with a "verbatim" environment. However, in "RJournal",  we have multiple custom code environments which are not supported or defined due to lower-level tex limitations in pandoc. So the code  environments are eliminated during the conversion process. Including a Lua filter to find these elements and redefine them as verbatim environments would also be  ineffective. If the code environment is not verbatim, then pandoc will also try to process the actual code content as LaTeX commands and will lose out on details in some cases. 	
+
+**Be sure to mention the hard parts**
 
 
-### Pre-Processing : Regular Expressions 
+## Post-Processing : Lua Filters
 
-LaTeX is very descriptive and allows unfettered levels of customization to authors,
-which poses an issue during conversions. RMarkdown is quite restrictive by 
-syntax though you can always embed HTML to expand the feature set. Although 
-pandoc does most of the heavy lifting, there are some instances where even 
-filters cannot assist. A good demonstration of the issue in hand is code 
-environments.
-
-A limitation of pandoc is that it only works with a "verbatim" environment. 
-However, in "RJournal",  we have multiple custom code environments which are not
-supported or defined due to lower-level tex limitations in pandoc. So the code 
-environments are eliminated during the conversion process. Including a Lua filter
-to find these elements and redefine them as verbatim environments would also be 
-ineffective. If the code environment is not verbatim, then pandoc will also try 
-to process the actual code content as LaTeX commands and will lose out on 
-details in some cases. 	
-
-### Post-Processing : Lua Filters
-
-This was one of the earliest and most basic Lua filters, and it was part of the 
-\CRANpkg{texor} package:
+This was one of the earliest and most basic Lua filters, and it was part of the \CRANpkg{texor} package:
 
 ```Lua
 function Div(el)
@@ -130,41 +119,35 @@ function Div(el)
 end
 ```
 
-Above filter reads the abstract syntax tree and filters out all the Div elements.
-Then it looks for the class "thebibliography." It turns out that this Div element 
-contains the LaTeX bibliographic records, which usually appear at the very end 
-of papers. We don't need this portion in the article with the "RJ-web-article" 
-layout,  given its inclusion as meta-data in the footer.
+Above filter reads the abstract syntax tree and filters out all the Div elements. Then it looks for the class "thebibliography." It turns out that this Div element  contains the LaTeX bibliographic records, which usually appear at the very end 
+of papers. We don't need this portion in the article with the "RJ-web-article" layout,  given its inclusion as meta-data in the footer.
+
+# Structure of the \CRANpkg{texor} package
+
+**DC: List the main functions in an organised way, could be the pre-processing functions, the post-processing functions, utility functions. This can be also be summarized in a table, but there needs to be text explanations of the main functionality.**
+
+# Using \CRANpkg{texor}
+
+**Install instructions**
+
+**Examples / getting started / usage and so on**
 
 
-LaTeX, Regex, pandoc
-building blocks of the packages, methods used in them [MOW]
+# Managing the bibliography using \CRANpkg{rebib}
 
-# Converting LaTeX to Markdown
+## Overview
 
-## Also mention the hard parts
-## Lua Filters with pandoc
-A lot of details about different components of \CRANpkg{texor}
+The \CRANpkg{rebib} package addresses the issue with LaTeX articles using  built-in bibliography options with or without BibTeX files. While this works  well with LaTeX, it won't work with Rmarkdown. Initially the goal was to use external software like Biber to convert the embedded bibliography to BibTeX. 
+However the integration of external software was not viable, hence the experimental idea of a bibliography parser gained momentum. 
 
-# Managing bibliography using \CRANpkg{rebib}
+It was initially a part of the \CRANpkg{texor} package, as those functions grew in features and became more involved; at that point, it made sense to move those functions as a separate package. Initially, there were some reservations about 
+the usage of \CRANpkg{rebib} and its stability with various formats. However, the package has improved over time and proven to be a good performer.
 
-The \CRANpkg{rebib} package addresses the issue with LaTeX articles using 
-built-in bibliography options with or without BibTeX files. While this works 
-well with LaTeX, it won't work with Rmarkdown. Initially the goal was to use 
-external software like Biber to convert the embedded bibliography to BibTeX. 
-However the integration of external software was not viable, hence the 
-experimental idea of a bibliography parser gained momentum. 
-
-It was initially a part of the \CRANpkg{texor} package, as those functions grew 
-in features and became more involved; at that point, it made sense to move those
-functions as a separate package. Initially, there were some reservations about 
-the usage of \CRANpkg{rebib} and its stability with various formats. However,
-the package has improved over time and proven to be a good performer.
-
-
-# Getting started 
+## Using \CRANpkg{rebib}
  
- Examples/ getting started / usage and so on
+**Install instructions**
+
+**Examples / getting started / usage and so on**
  
 # Summary
 
@@ -175,7 +158,8 @@ pandoc
  "TODO : Later"
  
 # Supplementary materials
- github repos for the packages, rjtools
+
+ github repos for the packages, texor, rebib, rjtools
 
 
 
