@@ -130,7 +130,6 @@ in the generated html article.
 \subsubsection{Tikz Code:}
 \begin{verbatim}
 \begin{figure}
-\includegraphics{tikz/figtikz.png}
 %% Generated Image will included as a PNG above automatically
   \centering
 \tikzstyle{process} = [rectangle, rounded corners,
@@ -162,7 +161,6 @@ draw=black]
 
 \subsubsection{Resultant Figure :}
 \begin{figure}
-\includegraphics{tikz/figtikz.png}
 
 %% Generated Image will included as a PNG above
   \centering
@@ -197,9 +195,7 @@ draw=black]
 we do support algorithm2e diagrams and images, these will be numbered differently
 and we strongly suggest to use "alg:" in labels for best results. 
 Here is an example of algorithm \ref{alg:how}, referenced from \citet{algoexample}
-\begin{figure}[H]
-\includegraphics{alg/alghow.png}
-
+\begin{algorithm}[H]
 \SetAlgoLined
 \KwData{this text}
 \KwResult{how to write algorithm with \LaTeX2e }
@@ -215,7 +211,7 @@ go back to the beginning of current section\;
 }
 \caption{How to write algorithms}
   \label{alg:how}
-\end{figure}
+\end{algorithm}
 
 
 \section{Summary}
