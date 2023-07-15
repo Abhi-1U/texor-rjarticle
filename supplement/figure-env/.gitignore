@@ -1,0 +1,10 @@
+alg/
+tikz/
+web/
+*.yaml
+*.log
+*.txt
+*.bk
+outfile.tex
+*.bib
+*.sty
