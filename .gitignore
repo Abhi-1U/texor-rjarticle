@@ -5,3 +5,5 @@ texor.log
 RJwrapper.log
 .Rproj.user
 RJwrapper.log
+*.brf
+*.bbl
