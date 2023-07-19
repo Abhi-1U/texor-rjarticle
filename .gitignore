@@ -7,3 +7,6 @@ RJwrapper.log
 RJwrapper.log
 *.brf
 *.bbl
+RJwrapper.Rmd
+RJwrapper.md
+RJwrapper.R

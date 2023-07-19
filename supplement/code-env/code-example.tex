@@ -1,0 +1,199 @@
+% !TeX root = RJwrapper.tex
+\title{Working with Code environments in texor}
+\author{by Abhishek Ulayil}
+
+\maketitle
+
+\abstract{
+This is a small sample article to demonstrate usage of texor to convert code environments.
+}
+
+\section{Introduction}
+
+Pandoc naturally converts verbatim environment easily, however the redefination of other commands such as example, example*, Sinput etc to verbatim does not work well in pandoc.
+
+Hence Texor package uses the stream editor to search find and replace matching code environments to verbatim before pandoc touches it.
+
+This way the the code is not lost in conversion, also a pandoc extension is used to add attributes to the markdown code using 
+'fenced\_code\_attributes' 
+
+Code Environment types are well summarized in the table \ref{table:1}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{l | lllll }
+ \hline
+ Code Environment Type &  &  &  & & \\
+ \hline
+ Example          & example & example* & smallexample & & \\
+ S.series         & Sin & Sout & Sinput & Soutput & Scode \\
+ Special Verbatim & smallverbatim & boxedverbatim &  & & \\
+\hline
+\end{tabular}
+\caption{Code Environment support in texor}
+\label{table:1}
+\end{table}
+
+
+\section{Environments}
+
+\subsection{Verbatim Series}
+While verbatim is naturally supported in pandoc,other extensions of verbatim environment
+like boxedverbatim from moreverb package \citep{moreverb}.
+% verbatim
+
+1. verbatim :
+
+\begin{verbatim}
+print("Hello world")
+\end{verbatim}
+
+
+2. smallverbatim :
+
+\begin{smallverbatim}
+print("Hello world")
+\end{smallverbatim}
+
+
+3. boxedverbatim :
+
+\begin{boxedverbatim}
+print("Hello world")
+\end{boxedverbatim}
+
+
+
+
+
+\subsection{S series}
+
+S series code environement is defined in Rjournal.sty file.
+
+1. Sinput :
+
+\begin{Sinput}
+print("Hello world")
+\end{Sinput}
+
+
+2. Soutput :
+
+\begin{Soutput}
+[1] "hello world"
+\end{Soutput}
+
+
+3. Sin :
+
+\begin{Sin}
+print("Hello world")
+\end{Sin}
+
+
+4. Sout :
+\begin{Sout}
+[1] "hello world"
+\end{Sout}
+
+
+\subsection{Example series}
+Example series of code environment is defined in Rjournal.sty file.
+
+1. example :
+
+\begin{example}
+print("Hello world")
+\end{example}
+
+
+2. example* :
+
+\begin{example*}
+print("Hello world")
+\end{example*}
+
+
+3. smallexample :
+
+\begin{smallexample}
+print("Hello world")
+\end{smallexample}
+
+\section{Code in Figure Environments}
+A small example of this is visble in \ref{code:example}
+
+\begin{figure*}[htbp]
+\begin{Sinput}
+code_in_figure <- function() {
+  if (pandoc_version >= 3) {
+    print("Code in Figure Supported")
+  }
+  else {
+    print("code in Figure not supported")
+  }
+}
+\end{Sinput}
+\caption{ Example Code inside Figure environment}
+\label{code:example}
+\end{figure*}
+Pandoc v3 or greater \citep{pandoc} has a Figure object which allows non-image
+figures to be treated like one.
+
+\section{Code in Table Environments}
+
+\section{Inline Code usage}
+
+
+\section{Code chunks using Schunk}
+
+\begin{Schunk}
+Input :
+\begin{Sinput}
+print("Hello world")
+\end{Sinput}
+Output :
+\begin{Soutput}
+[1] "hello world"
+\end{Soutput}
+
+\end{Schunk}
+\section{Summary}
+
+In summary the \CRANpkg{texor} package supports:
+\begin{itemize}
+\item Almost all code environments in RJournal.
+\item Code Highlight for R language.
+\item Code blocks inside Figure environment with captions.
+\item Inline Code.
+\end{itemize}
+
+
+
+\begin{thebibliography}{2}
+    \providecommand{\natexlab}[1]{#1}
+    \providecommand{\url}[1]{\texttt{#1}}
+    \expandafter\ifx\csname urlstyle\endcsname\relax
+      \providecommand{\doi}[1]{doi: #1}\else
+      \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Krewinkel, Lucero (2023)]{pandoc}
+A.~ Krewinkel and A.~ Lucero
+\newblock pandoc 3.0 Release notes
+\newblock \emph{pandoc} \penalty0 2023
+\newblock URL \url{https://pandoc.org/releases.html#pandoc-3.0-2023-01-18}
+
+\bibitem[Fairbairns, Duggan, Schöpf, Eijkhout (2011)]{moreverb}
+R.~ Fairbairns, A.~ Duggan, R.~ Schöpf and V.~ Eijkhout
+\newblock The moreverb package documentation
+\newblock \emph{CTAN} \penalty0 2011
+\newblock URL \url{https://mirror.niser.ac.in/ctan/macros/latex/contrib/moreverb/moreverb.pdf}
+\end{thebibliography}
+
+
+\address{%
+Abhishek Ulayil\\
+Student, Institute of Actuaries of India\\%
+Mumbai, India\\
+ORCiD: 0009-0000-6935-8690\\
+}

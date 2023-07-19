@@ -1,4 +1,4 @@
-# A sample to demonstrate usage of figures inside of an article.
+# A sample to demonstrate usage of code inside of an article.
 
 
 ## Dependencies
@@ -26,3 +26,4 @@ texor::latex_to_web(article_dir)
 This will create HTML/Rmarkdown version of the file in web folder.
 
 Note : A Rendered PDF and HTML file is also included.
+
