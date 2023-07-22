@@ -12,10 +12,9 @@ This is a small sample article to demonstrate usage of texor to convert code env
 
 Pandoc naturally converts verbatim environment easily, however the redefination of other commands such as example, example*, Sinput etc to verbatim does not work well in pandoc.
 
-Hence Texor package uses the stream editor to search find and replace matching code environments to verbatim before pandoc touches it.
+Hence \CRANpkg{texor} package uses the stream editor to search find and replace matching code environments to verbatim before pandoc touches it.
 
-This way the the code is not lost in conversion, also a pandoc extension is used to add attributes to the markdown code using 
-'fenced\_code\_attributes' 
+This way the the code is not lost in conversion, also a pandoc extension is used to add attributes to the markdown code using  \verb|fenced_code_attributes|
 
 Code Environment types are well summarized in the table \ref{table:1}
 
@@ -25,9 +24,9 @@ Code Environment types are well summarized in the table \ref{table:1}
  \hline
  Code Environment Type &  &  &  & & \\
  \hline
- Example          & example & example* & smallexample & & \\
+ Example          & example & example* &  & & \\
  S.series         & Sin & Sout & Sinput & Soutput & Scode \\
- Special Verbatim & smallverbatim & boxedverbatim &  & & \\
+ Special Verbatim & boxedverbatim & &  & & \\
 \hline
 \end{tabular}
 \caption{Code Environment support in texor}
@@ -49,21 +48,11 @@ print("Hello world")
 \end{verbatim}
 
 
-2. smallverbatim :
-
-\begin{smallverbatim}
-print("Hello world")
-\end{smallverbatim}
-
-
-3. boxedverbatim :
+2. boxedverbatim :
 
 \begin{boxedverbatim}
 print("Hello world")
 \end{boxedverbatim}
-
-
-
 
 
 \subsection{S series}
@@ -114,12 +103,7 @@ print("Hello world")
 \end{example*}
 
 
-3. smallexample :
-
-\begin{smallexample}
-print("Hello world")
-\end{smallexample}
-
+% Code in Figures
 \section{Code in Figure Environments}
 A small example of this is visble in \ref{code:example}
 
@@ -140,10 +124,13 @@ code_in_figure <- function() {
 Pandoc v3 or greater \citep{pandoc} has a Figure object which allows non-image
 figures to be treated like one.
 
+
+
+% Code in Tables
 \section{Code in Table Environments}
 We can use code environments in a table using minipage environments.
 
-Table \ref{table:2} is an example of table with code environments within a table.
+Table \ref{table:2} is an example of code environments within a table.
 
 \begin{table}[htbp]
 \centering
@@ -226,6 +213,7 @@ plot(x,y)
 \end{table}
 
 
+% Inline Code
 \section{Inline Code usage}
 
 Using inline code in LaTeX is possible using \verb|\verb| command.
@@ -269,8 +257,8 @@ In summary the \CRANpkg{texor} package supports:
 \begin{itemize}
 \item Almost all code environments in RJournal.
 \item Code Highlight for R language.
-\item Code blocks inside Figure environment with captions.
 \item Inline Code.
+\item Code in different environments like tables/figures.
 \end{itemize}
 
 
