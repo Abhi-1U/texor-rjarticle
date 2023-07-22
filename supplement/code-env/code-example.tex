@@ -141,11 +141,102 @@ Pandoc v3 or greater \citep{pandoc} has a Figure object which allows non-image
 figures to be treated like one.
 
 \section{Code in Table Environments}
+We can use code environments in a table using minipage environments.
+
+Table \ref{table:2} is an example of table with code environments within a table.
+
+\begin{table}[htbp]
+\centering
+  \begin{tabular}{|c | c |}
+    \hline
+    Language & Function Defination Syntax \\
+    \hline
+    R & \begin{minipage}{0.75\textwidth}
+\vspace{1mm}
+\begin{example}
+fun <- function(){
+  print("A function in R")
+  return(0)
+}
+
+\end{example}
+\end{minipage}\\
+\hline
+Python & \begin{minipage}{0.75\textwidth}
+\vspace{1mm}
+\begin{example}
+def fun():
+  print("A function in Python")
+
+\end{example}
+\end{minipage}\\
+\hline
+
+Lua & \begin{minipage}{0.75\textwidth}
+\vspace{1mm}
+\begin{example}
+function fun()
+  print("A function in Lua")
+end
+
+\end{example}
+\end{minipage}\\
+\hline
+
+C & \begin{minipage}{0.75\textwidth}
+\vspace{1mm}
+\begin{example}
+int fun() {
+  printf("A function in C");
+  return 0;
+}
+
+\end{example}
+\end{minipage}\\
+\hline
+\end{tabular}
+\caption{Code in a table}
+\label{table:2}
+\end{table}
+
+A similar arrangement can be had for figures/plots besides code environment.
+Table \ref{table:3} demonstrates a table with code and figure.
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{| c | c |}
+  \hline
+  Code & Plot\\
+    \hline
+    \begin{minipage}{0.45\textwidth}
+\vspace{1mm}
+\begin{example}
+x <- 1:100
+y <- dbinom(x,100,prob = 0.5)
+plot(x,y)
+\end{example}
+    \end{minipage} &
+    \begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{binom}
+    \end{minipage}\\
+    \hline
+  \end{tabular}
+  \caption{Code and Plot side by side}
+  \label{table:3}
+\end{table}
+
 
 \section{Inline Code usage}
 
+Using inline code in LaTeX is possible using \verb|\verb| command.
+It would be repoduced similarly, as a Inline code element.
+\begin{verbatim}
+\verb|x <- 1:100|
+\end{verbatim}
+will be represented as \verb|x <- 1:100| in Inline format.
 
 \section{Code chunks using Schunk}
+Code chunks within an \verb|Schunk| environment to demonstrate Input/Output
 
 \begin{Schunk}
 Input :
@@ -156,8 +247,22 @@ Output :
 \begin{Soutput}
 [1] "hello world"
 \end{Soutput}
-
 \end{Schunk}
+
+Similar arrangement can be had for Plots as well using figure environnment.
+
+\begin{Schunk}
+Input :
+\begin{Sinput}
+x <- 1:100
+y <- dbinom(x,100,prob = 0.5)
+plot(x,y)
+\end{Sinput}
+Output :\\
+\includegraphics[width=0.5\textwidth]{binom}
+\end{Schunk}
+
+
 \section{Summary}
 
 In summary the \CRANpkg{texor} package supports:
@@ -188,6 +293,7 @@ R.~ Fairbairns, A.~ Duggan, R.~ Schöpf and V.~ Eijkhout
 \newblock The moreverb package documentation
 \newblock \emph{CTAN} \penalty0 2011
 \newblock URL \url{https://mirror.niser.ac.in/ctan/macros/latex/contrib/moreverb/moreverb.pdf}
+
 \end{thebibliography}
 
 
