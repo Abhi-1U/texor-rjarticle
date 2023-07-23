@@ -12,7 +12,7 @@ This is a small sample article to demonstrate usage of texor to convert code env
 
 Pandoc naturally converts verbatim environment easily, however the redefination of other commands such as example, example*, Sinput etc to verbatim does not work well in pandoc.
 
-Hence \CRANpkg{texor} package uses the stream editor to search find and replace matching code environments to verbatim before pandoc touches it.
+Hence, the \CRANpkg{texor} package uses a stream editor to search find and replace matching code environments to verbatim before pandoc touches it.
 
 This way the the code is not lost in conversion, also a pandoc extension is used to add attributes to the markdown code using  \verb|fenced_code_attributes|
 
@@ -38,7 +38,7 @@ Code Environment types are well summarized in the table \ref{table:1}
 
 \subsection{Verbatim Series}
 While verbatim is naturally supported in pandoc,other extensions of verbatim environment
-like boxedverbatim from moreverb package \citep{moreverb}.
+like boxedverbatim from moreverb package \citep{moreverb} falls back to normal verbatim.
 % verbatim
 
 1. verbatim :
@@ -57,7 +57,8 @@ print("Hello world")
 
 \subsection{S series}
 
-S series code environement is defined in Rjournal.sty file.
+S series code environement is defined in Rjournal.sty file. Most of these are
+extensions of verbatim environment and are represented as vanilla verbatim in HTML.
 
 1. Sinput :
 
@@ -87,7 +88,8 @@ print("Hello world")
 
 
 \subsection{Example series}
-Example series of code environment is defined in Rjournal.sty file.
+Example series of code environment is defined in Rjournal.sty file. Examples are
+extensions of verbatim environment and are represented as vanilla verbatim in HTML.
 
 1. example :
 
@@ -105,10 +107,13 @@ print("Hello world")
 
 % Code in Figures
 \section{Code in Figure Environments}
-A small example of this is visble in \ref{code:example}
+A small example of this is visble in \ref{code:example}. This is a common practice
+in Rnews articles as it used to add a boxed border around the code which looks 
+attractive. However, in web articles there isn't much advantage to it. 
 
-\begin{figure*}[htbp]
-\begin{Sinput}
+\begin{figure}[htbp]
+\begin{center}
+\begin{verbatim}
 code_in_figure <- function() {
   if (pandoc_version >= 3) {
     print("Code in Figure Supported")
@@ -117,18 +122,24 @@ code_in_figure <- function() {
     print("code in Figure not supported")
   }
 }
-\end{Sinput}
+\end{verbatim}
 \caption{ Example Code inside Figure environment}
 \label{code:example}
-\end{figure*}
+\end{center}
+\end{figure}
+
 Pandoc v3 or greater \citep{pandoc} has a Figure object which allows non-image
-figures to be treated like one.
+figures to be treated like one. This is why \CRANpkg{texor} package requires atleast version 3
+of pandoc.
 
 
 
 % Code in Tables
 \section{Code in Table Environments}
-We can use code environments in a table using minipage environments.
+We can use code environments in a table using minipage environments. This is not
+a common practice among LaTeX article authors, but a few articles had such complex
+structures. So, as a example to demonstrate pandoc and \CRANpkg{texor} package's capabilities, 
+I have included a few of them.
 
 Table \ref{table:2} is an example of code environments within a table.
 

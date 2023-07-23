@@ -2526,9 +2526,9 @@ margin-right: 0.5em;
 <p>Pandoc naturally converts verbatim environment easily, however the
 redefination of other commands such as example, example*, Sinput etc to
 verbatim does not work well in pandoc.</p>
-<p>Hence <a href="https://CRAN.R-project.org/package=texor"><em>texor</em></a> package uses
-the stream editor to search find and replace matching code environments
-to verbatim before pandoc touches it.</p>
+<p>Hence, the <a href="https://CRAN.R-project.org/package=texor"><em>texor</em></a> package
+uses a stream editor to search find and replace matching code
+environments to verbatim before pandoc touches it.</p>
 <p>This way the the code is not lost in conversion, also a pandoc extension
 is used to add attributes to the markdown code using
 <code>fenced_code_attributes</code></p>
@@ -2586,13 +2586,15 @@ is used to add attributes to the markdown code using
 <h2 class="unnumbered" id="verbatim-series">Verbatim Series</h2>
 <p>While verbatim is naturally supported in pandoc,other extensions of
 verbatim environment like boxedverbatim from moreverb package
-<span class="citation" data-cites="moreverb">(<a href="#ref-moreverb" role="doc-biblioref">Fairbairns, A.  Duggan, R.  Schöpf and V.  Eijkhout 2011</a>)</span>.</p>
+<span class="citation" data-cites="moreverb">(<a href="#ref-moreverb" role="doc-biblioref">Fairbairns, A.  Duggan, R.  Schöpf and V.  Eijkhout 2011</a>)</span> falls back to normal verbatim.</p>
 <p>1. verbatim :</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Hello world&quot;</span>)</span></code></pre></div>
 <p>2. boxedverbatim :</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Hello world&quot;</span>)</span></code></pre></div>
 <h2 class="unnumbered" id="s-series">S series</h2>
-<p>S series code environement is defined in Rjournal.sty file.</p>
+<p>S series code environement is defined in Rjournal.sty file. Most of
+these are extensions of verbatim environment and are represented as
+vanilla verbatim in HTML.</p>
 <p>1. Sinput :</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Hello world&quot;</span>)</span></code></pre></div>
 <p>2. Soutput :</p>
@@ -2602,14 +2604,20 @@ verbatim environment like boxedverbatim from moreverb package
 <p>4. Sout :</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;hello world&quot;</span></span></code></pre></div>
 <h2 class="unnumbered" id="example-series">Example series</h2>
-<p>Example series of code environment is defined in Rjournal.sty file.</p>
+<p>Example series of code environment is defined in Rjournal.sty file.
+Examples are extensions of verbatim environment and are represented as
+vanilla verbatim in HTML.</p>
 <p>1. example :</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Hello world&quot;</span>)</span></code></pre></div>
 <p>2. example* :</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Hello world&quot;</span>)</span></code></pre></div>
 <h1 data-number="3" id="code-in-figure-environments"><span class="header-section-number">3</span> Code in Figure Environments</h1>
-<p>A small example of this is visble in <a href="#code:example">1</a></p>
+<p>A small example of this is visble in <a href="#code:example">1</a>. This is a
+common practice in Rnews articles as it used to add a boxed border
+around the code which looks attractive. However, in web articles there
+isn’t much advantage to it.</p>
 <figure id="code:example">
+<div class="center">
 <div id="cb1" class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>code_in_figure <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (pandoc_version <span class="sc">&gt;=</span> <span class="dv">3</span>) {</span>
@@ -2620,14 +2628,21 @@ verbatim environment like boxedverbatim from moreverb package
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
 </div>
+</div>
 <figcaption>
 Example Code inside Figure environment
 </figcaption>
 </figure>
 <p>Pandoc v3 or greater <span class="citation" data-cites="pandoc">(<a href="#ref-pandoc" role="doc-biblioref">Krewinkel and A.  Lucero 2023</a>)</span> has a Figure object which allows
-non-image figures to be treated like one.</p>
+non-image figures to be treated like one. This is why
+<a href="https://CRAN.R-project.org/package=texor"><em>texor</em></a> package requires
+atleast version 3 of pandoc.</p>
 <h1 data-number="4" id="code-in-table-environments"><span class="header-section-number">4</span> Code in Table Environments</h1>
-<p>We can use code environments in a table using minipage environments.</p>
+<p>We can use code environments in a table using minipage environments.
+This is not a common practice among LaTeX article authors, but a few
+articles had such complex structures. So, as a example to demonstrate
+pandoc and <a href="https://CRAN.R-project.org/package=texor"><em>texor</em></a> package’s
+capabilities, I have included a few of them.</p>
 <p>Table <a href="#table:2">2</a> is an example of code environments within a table.</p>
 <div id="table:2">
 <table style="width:62%;">
