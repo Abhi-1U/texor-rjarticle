@@ -10,3 +10,4 @@ RJwrapper.log
 RJwrapper.Rmd
 RJwrapper.md
 RJwrapper.R
+*.backup
