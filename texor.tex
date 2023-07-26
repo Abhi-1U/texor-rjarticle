@@ -50,7 +50,7 @@ Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, 
 \hypertarget{pre-processing-using-regular-expressions}{%
 \subsection{Pre-processing using regular expressions}\label{pre-processing-using-regular-expressions}}
 
-LaTeX is very descriptive language, that allows authors substantial freedom for customization. Markdown (Gruber 2002), on which R Markdown is based, is more restrictive and was born to make it easier to create web pages without the distraction of a gazillion HTML tags. The purpose of Markdown is that it allows the author to focus on writing, without format cluttering the text.
+LaTeX is very descriptive language, that allows authors substantial freedom for customization. Markdown (Gruber 2002), on which R Markdown is based, is more restrictive and was born to make it easier to create web pages without the distraction of a gazillion HTML tags. The beauty of Markdown is that it allows the author to focus on writing, without format cluttering the text. The drawback is that it is simple typesetting, optimized for web delivery.
 
 While pandoc can do most of the heavy-lifting, it cannot cope with all the freedom with which LaTeX documents are written. An example of this is with formatting of code. Pandoc only handles the \texttt{verbatim} environment, but there are many ways to format code in LaTeX, and the R Journal template has a special \texttt{\textbackslash{}code\{\}} command. If the code environment is not verbatim, then pandoc will also try to process the actual code content as LaTeX commands and will likely lose details. It is better to convert these synonyms into \texttt{verbatim} environments this prior to passing the document to pandoc.
 
@@ -75,7 +75,9 @@ These functions are verbose and describe all the changes being made. They also c
 \hypertarget{post-processing-using-lua-filters}{%
 \subsection{Post-processing using Lua filters}\label{post-processing-using-lua-filters}}
 
-This was one of the earliest and most basic Lua filters, and it was part of the \CRANpkg{texor} package:
+Lua (Ierusalimschy, Figueiredo, and Filho 1996) is a programming language, that is light-weight, fast, ideal for procedural operations. It is embedded in many other applications to allow custom scripting for extensibility. Pandoc allows users to provide custom lua filters to produce custom output formats. The \CRANpkg{texor} package handles post-processing of the R Markdown document into the special format for the R Journal using a suite of Lua filters.
+
+Here is an example of a Lua filter in \CRANpkg{texor}:
 
 \begin{verbatim}
 function Div(el)
@@ -85,8 +87,7 @@ function Div(el)
 end
 \end{verbatim}
 
-Above filter reads the abstract syntax tree and filters out all the Div elements. Then it looks for the class ``thebibliography.'' It turns out that this Div element contains the LaTeX bibliographic records, which usually appear at the very end
-of papers. We don't need this portion in the article with the ``RJ-web-article'' layout, given its inclusion as meta-data in the footer.
+This filter reads the abstract syntax tree and filters out all the Div elements. Then it looks for the class ``thebibliography.'' It turns out that this Div element contains the LaTeX bibliographic records, which usually appear at the very end of papers. We don't need this portion in the article with the ``RJ-web-article'' layout, given its inclusion as meta-data in the footer.
 
 \hypertarget{structure-of-the-package}{%
 \section{\texorpdfstring{Structure of the \CRANpkg{texor} package}{Structure of the  package}}\label{structure-of-the-package}}
@@ -146,6 +147,9 @@ Dervieux, Christophe, JJ Allaire, Rich Iannone, Alison Presmanes Hill, and Yihui
 
 \leavevmode\vadjust pre{\hypertarget{ref-markdown}{}}%
 Gruber, John. 2002. {``Markdown.''} https://daringfireball.net/projects/markdown/.
+
+\leavevmode\vadjust pre{\hypertarget{ref-lua}{}}%
+Ierusalimschy, Roberto, Luiz Henrique de Figueiredo, and Waldemar Celes Filho. 1996. {``Lua---an Extensible Extension Language.''} \emph{Software: Practice and Experience} 26 (6): 635--52.
 
 \leavevmode\vadjust pre{\hypertarget{ref-pandoc}{}}%
 MacFarlane, John. 2023. {``Pandoc: A Universal Document Converter.''} https://pandoc.org.

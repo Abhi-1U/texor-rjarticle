@@ -162,6 +162,7 @@ margin-left: 2em;
   <meta name="citation_reference" content="citation_title=Pandoc: A universal document converter;citation_publisher=https://pandoc.org;citation_author=John MacFarlane" />
   <meta name="citation_reference" content="citation_title=Markdown;citation_publisher=https://daringfireball.net/projects/markdown/;citation_author=John Gruber" />
   <meta name="citation_reference" content="citation_title=The UNIX time-sharing system;citation_volume=57;citation_doi=10.1002/j.1538-7305.1978.tb02136.x;citation_author=O. M. Ritchie;citation_author=K. Thompson" />
+  <meta name="citation_reference" content="citation_title=Lua—an extensible extension language;citation_volume=26;citation_author=Roberto Ierusalimschy;citation_author=Luiz Henrique Figueiredo;citation_author=Waldemar Celes Filho" />
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
@@ -2571,7 +2572,7 @@ Describe changes in templates, and web site. Desirability to convert the legacy 
 <p><strong>DC: Add a diagram here showing flow of work, just pre-process .tex -&gt; pandoc -&gt; lua ; rebib operations???</strong></p>
 <!-- **Maybe more details on the supporting packages here: LaTeX, Regex, pandoc building blocks of the packages, methods used in them [MOW]**-->
 <h2 class="unnumbered" id="pre-processing-using-regular-expressions">Pre-processing using regular expressions</h2>
-<p>LaTeX is very descriptive language, that allows authors substantial freedom for customization. Markdown <span class="citation" data-cites="markdown">(<a href="#ref-markdown" role="doc-biblioref">Gruber 2002</a>)</span>, on which R Markdown is based, is more restrictive and was born to make it easier to create web pages without the distraction of a gazillion HTML tags. The purpose of Markdown is that it allows the author to focus on writing, without format cluttering the text.</p>
+<p>LaTeX is very descriptive language, that allows authors substantial freedom for customization. Markdown <span class="citation" data-cites="markdown">(<a href="#ref-markdown" role="doc-biblioref">Gruber 2002</a>)</span>, on which R Markdown is based, is more restrictive and was born to make it easier to create web pages without the distraction of a gazillion HTML tags. The beauty of Markdown is that it allows the author to focus on writing, without format cluttering the text. The drawback is that it is simple typesetting, optimized for web delivery.</p>
 <p>While pandoc can do most of the heavy-lifting, it cannot cope with all the freedom with which LaTeX documents are written. An example of this is with formatting of code. Pandoc only handles the <code>verbatim</code> environment, but there are many ways to format code in LaTeX, and the R Journal template has a special <code>\code{}</code> command. If the code environment is not verbatim, then pandoc will also try to process the actual code content as LaTeX commands and will likely lose details. It is better to convert these synonyms into <code>verbatim</code> environments this prior to passing the document to pandoc.</p>
 <p>The functions in <a href="https://cran.r-project.org/package=texor">texor</a> that handle the pre-processing using regular expressions are:</p>
 <ul>
@@ -2586,14 +2587,14 @@ Describe changes in templates, and web site. Desirability to convert the legacy 
 <!-- A limitation of pandoc is that it only works with a "verbatim" environment. However, in "RJournal",  we have multiple custom code environments which are not supported or defined due to lower-level tex limitations in pandoc. So the code  environments are eliminated during the conversion process. Including a Lua filter to find these elements and redefine them as verbatim environments would also be  ineffective. If the code environment is not verbatim, then pandoc will also try to process the actual code content as LaTeX commands and will lose out on details in some cases.-->
 <!--**Be sure to mention the hard parts**-->
 <h2 class="unnumbered" id="post-processing-using-lua-filters">Post-processing using Lua filters</h2>
-<p>This was one of the earliest and most basic Lua filters, and it was part of the <a href="https://cran.r-project.org/package=texor">texor</a> package:</p>
+<p>Lua <span class="citation" data-cites="lua">(<a href="#ref-lua" role="doc-biblioref">Ierusalimschy et al. 1996</a>)</span> is a programming language, that is light-weight, fast, ideal for procedural operations. It is embedded in many other applications to allow custom scripting for extensibility. Pandoc allows users to provide custom lua filters to produce custom output formats. The <a href="https://cran.r-project.org/package=texor">texor</a> package handles post-processing of the R Markdown document into the special format for the R Journal using a suite of Lua filters.</p>
+<p>Here is an example of a Lua filter in <a href="https://cran.r-project.org/package=texor">texor</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode lua"><code class="sourceCode lua"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> Div<span class="op">(</span><span class="va">el</span><span class="op">)</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="va">el</span><span class="op">.</span><span class="va">classes</span><span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">==</span> <span class="st">&#39;thebibliography&#39;</span> <span class="cf">then</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">{</span> <span class="op">}</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
-<p>Above filter reads the abstract syntax tree and filters out all the Div elements. Then it looks for the class “thebibliography.” It turns out that this Div element contains the LaTeX bibliographic records, which usually appear at the very end
-of papers. We don’t need this portion in the article with the “RJ-web-article” layout, given its inclusion as meta-data in the footer.</p>
+<p>This filter reads the abstract syntax tree and filters out all the Div elements. Then it looks for the class “thebibliography.” It turns out that this Div element contains the LaTeX bibliographic records, which usually appear at the very end of papers. We don’t need this portion in the article with the “RJ-web-article” layout, given its inclusion as meta-data in the footer.</p>
 <h1 data-number="3" id="structure-of-the-package"><span class="header-section-number">3</span> Structure of the <a href="https://cran.r-project.org/package=texor">texor</a> package</h1>
 <p><strong>DC: List the main functions in an organised way, could be the pre-processing functions, the post-processing functions, utility functions. This can be also be summarized in a table, but there needs to be text explanations of the main functionality.</strong></p>
 <h1 data-number="4" id="using"><span class="header-section-number">4</span> Using <a href="https://cran.r-project.org/package=texor">texor</a></h1>
@@ -2626,6 +2627,9 @@ C. Dervieux, J. Allaire, R. Iannone, A. Presmanes Hill and Y. Xie. <em>Distill: 
 </div>
 <div id="ref-markdown" class="csl-entry" role="listitem">
 J. Gruber. Markdown. 2002.
+</div>
+<div id="ref-lua" class="csl-entry" role="listitem">
+R. Ierusalimschy, L. H. de Figueiredo and W. C. Filho. Lua—an extensible extension language. <em>Software: Practice and Experience</em>, 26(6): 635–652, 1996.
 </div>
 <div id="ref-pandoc" class="csl-entry" role="listitem">
 J. MacFarlane. Pandoc: A universal document converter. 2023.
