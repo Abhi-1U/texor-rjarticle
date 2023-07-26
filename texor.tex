@@ -89,10 +89,17 @@ end
 
 This filter reads the abstract syntax tree and filters out all the Div elements. Then it looks for the class ``thebibliography.'' It turns out that this Div element contains the LaTeX bibliographic records, which usually appear at the very end of papers. We don't need this portion in the article with the ``RJ-web-article'' layout, given its inclusion as meta-data in the footer.
 
-\hypertarget{structure-of-the-package}{%
-\section{\texorpdfstring{Structure of the \CRANpkg{texor} package}{Structure of the  package}}\label{structure-of-the-package}}
+\hypertarget{conversion}{%
+\subsection{Conversion}\label{conversion}}
 
-\textbf{DC: List the main functions in an organised way, could be the pre-processing functions, the post-processing functions, utility functions. This can be also be summarized in a table, but there needs to be text explanations of the main functionality.}
+The only function that a user necessarily needs is \texttt{latex\_to\_web()}. This creates the R Journal style R Markdown file from a given R Journal style LaTeX file.
+This is achieved in several conversion steps, \texttt{convert\_to\_markdown()}, \texttt{generate\_rmd()} and \texttt{produce\_html()}.
+
+\hypertarget{handling-figures}{%
+\subsection{Handling figures}\label{handling-figures}}
+
+\hypertarget{logging-the-conversion}{%
+\subsection{Logging the conversion}\label{logging-the-conversion}}
 
 \hypertarget{using}{%
 \section{\texorpdfstring{Using \CRANpkg{texor}}{Using }}\label{using}}
@@ -100,6 +107,10 @@ This filter reads the abstract syntax tree and filters out all the Div elements.
 \textbf{Install instructions}
 
 \textbf{Examples / getting started / usage and so on}
+
+Run through the different examples in supplementary here
+
+\textbf{From general LaTeX to generic R Markdown}
 
 \hypertarget{managing-the-bibliography-using}{%
 \section{\texorpdfstring{Managing the bibliography using \CRANpkg{rebib}}{Managing the bibliography using }}\label{managing-the-bibliography-using}}
@@ -134,7 +145,26 @@ pandoc
 \hypertarget{supplementary-materials}{%
 \section{Supplementary materials}\label{supplementary-materials}}
 
-github repos for the packages, texor, rebib, rjtools
+Several supplementary example documents are provided which illustrate how different elements of LaTeX-authored papers are handled. These are:
+
+\begin{itemize}
+\tightlist
+\item
+\end{itemize}
+
+The GitHub repos supporting this work are:
+
+\begin{itemize}
+\tightlist
+\item
+  \CRANpkg{texor}: \url{https://abhi-1u.github.io/texor}
+\item
+  \CRANpkg{rebib}: \url{https://abhi-1u.github.io/rebib/}
+\item
+  This paper: \url{https://github.com/Abhi-1U/texor-rjarticle}
+\item
+  More details on \CRANpkg{rjtools} are at \url{https://rjournal.github.io/rjtools/}
+\end{itemize}
 
 \hypertarget{references}{%
 \section*{References}\label{references}}

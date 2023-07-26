@@ -135,9 +135,14 @@ end
 
 This filter reads the abstract syntax tree and filters out all the Div elements. Then it looks for the class "thebibliography." It turns out that this Div element  contains the LaTeX bibliographic records, which usually appear at the very end of papers. We don't need this portion in the article with the "RJ-web-article" layout,  given its inclusion as meta-data in the footer.
 
-# Structure of the \CRANpkg{texor} package
+## Conversion
 
-**DC: List the main functions in an organised way, could be the pre-processing functions, the post-processing functions, utility functions. This can be also be summarized in a table, but there needs to be text explanations of the main functionality.**
+The only function that a user necessarily needs is `latex_to_web()`. This creates the R Journal style R Markdown file from a given R Journal style LaTeX file. 
+This is achieved in several conversion steps, `convert_to_markdown()`, `generate_rmd()` and `produce_html()`. 
+
+## Handling figures
+
+## Logging the conversion
 
 # Using \CRANpkg{texor}
 
@@ -145,6 +150,9 @@ This filter reads the abstract syntax tree and filters out all the Div elements.
 
 **Examples / getting started / usage and so on**
 
+Run through the different examples in supplementary here
+
+**From general LaTeX to generic R Markdown**
 
 # Managing the bibliography using \CRANpkg{rebib}
 
@@ -172,7 +180,16 @@ pandoc
  
 # Supplementary materials
 
- github repos for the packages, texor, rebib, rjtools
+Several supplementary example documents are provided which illustrate how different elements of LaTeX-authored papers are handled. These are:
+
+- 
+
+The GitHub repos supporting this work are:
+
+- \CRANpkg{texor}: https://abhi-1u.github.io/texor
+- \CRANpkg{rebib}: https://abhi-1u.github.io/rebib/
+- This paper: https://github.com/Abhi-1U/texor-rjarticle
+- More details on \CRANpkg{rjtools} are at https://rjournal.github.io/rjtools/
 
 
 
