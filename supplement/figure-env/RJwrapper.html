@@ -2736,7 +2736,29 @@ initialization
 Algorithm 1: How to write algorithms
 </figcaption>
 </figure>
-<h1 data-number="7" id="summary"><span class="header-section-number">7</span> Summary</h1>
+<h1 data-number="7" id="other-elements-in-figure-objects"><span class="header-section-number">7</span> Other elements in figure objects</h1>
+<p>Figures can also house non-image environments like CodeBlocks and Para.
+This also creates an opportunity to add support for CodeBlock numbering
+with some lua filter trickery.</p>
+<figure id="code:example">
+<div class="center">
+<div id="cb1" class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>code_in_figure <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (pandoc_version <span class="sc">&gt;=</span> <span class="dv">3</span>) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">&quot;Code in Figure Supported&quot;</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">&quot;code in Figure not supported&quot;</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre>
+</div>
+</div>
+<figcaption>
+CodeBlock 1: Example Code inside Figure
+environment
+</figcaption>
+</figure>
+<h1 data-number="8" id="summary"><span class="header-section-number">8</span> Summary</h1>
 <p>In summary the <a href="https://CRAN.R-project.org/package=texor"><em>texor</em></a>
 package supports:</p>
 <ul>

@@ -233,7 +233,26 @@ go back to the beginning of current section\;
   \label{alg:how}
 \end{algorithm}
 
-
+\section{Other elements in figure objects}
+Figures can also house non-image environments like CodeBlocks and Para. This 
+also creates an opportunity to add support for CodeBlock numbering with some
+lua filter trickery.
+\begin{figure}[htbp]
+\begin{center}
+\begin{verbatim}
+code_in_figure <- function() {
+  if (pandoc_version >= 3) {
+    print("Code in Figure Supported")
+  }
+  else {
+    print("code in Figure not supported")
+  }
+}
+\end{verbatim}
+\caption{ Example Code inside Figure environment}
+\label{code:example}
+\end{center}
+\end{figure}
 \section{Summary}
 
 In summary the \CRANpkg{texor} package supports:

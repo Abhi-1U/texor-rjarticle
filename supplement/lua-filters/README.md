@@ -1,4 +1,4 @@
-# A sample to demonstrate usage of code inside of an article.
+# A sample to demonstrate usage of pandoc lua filters.
 
 
 ## Dependencies
