@@ -146,10 +146,11 @@ margin-left: 2em;
   <!--/radix_placeholder_meta_tags-->
   
   <meta name="citation_reference" content="citation_title=Mathjax website;citation_publisher=#features;citation_author=Mathjax website" />
+  <meta name="citation_reference" content="citation_title=bookdown: Authoring Books and Technical Documents with R Markdown;citation_publisher=#equations;citation_author=bookdown: Authoring Books and Technical Documents with R Markdown" />
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","date_received","journal","volume","issue","slug","packages","preview","bibliography","CTV","output","pdf_url","creative_commons","csl"]}},"value":[{"type":"character","attributes":{},"value":["Working with Math environments in texor"]},{"type":"character","attributes":{},"value":["This is a small sample article to demonstrate usage of texor to convert math environments."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","orcid_id","address"]}},"value":[{"type":"character","attributes":{},"value":["Abhishek Ulayil"]},{"type":"character","attributes":{},"value":["Student, Institute of Actuaries of India"]},{"type":"character","attributes":{},"value":["0009-0000-6935-8690"]},{"type":"character","attributes":{},"value":["Mumbai, India"]}]}]},{"type":"character","attributes":{},"value":["2023-06-01"]},{"type":"NULL"},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","issn","firstpage","lastpage"]}},"value":[{"type":"character","attributes":{},"value":["The R Journal"]},{"type":"character","attributes":{},"value":["2073-4859"]},{"type":"double","attributes":{},"value":[1]},{"type":"NULL"}]},{"type":"integer","attributes":{},"value":[15]},{"type":"integer","attributes":{},"value":[2]},{"type":"character","attributes":{},"value":["~"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["cran","bioc"]}},"value":[{"type":"character","attributes":{},"value":["texor","rmarkdown"]},{"type":"list","attributes":{},"value":[]}]},{"type":"character","attributes":{},"value":["preview.png"]},{"type":"character","attributes":{},"value":["math-example.bib"]},{"type":"character","attributes":{},"value":["ReproducibleResearch"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","legacy_pdf","web_only","mathjax","md_extension"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"]},{"type":"character","attributes":{},"value":["-tex_math_single_backslash"]}]}]},{"type":"character","attributes":{},"value":["~.pdf"]},{"type":"character","attributes":{},"value":["CC BY"]},{"type":"character","attributes":{},"value":["/home/abhi/R/x86_64-pc-linux-gnu-library/4.3/rjtools/rjournal.csl"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","date_received","journal","volume","issue","slug","packages","preview","bibliography","CTV","output","pdf_url","creative_commons","csl"]}},"value":[{"type":"character","attributes":{},"value":["Working with Math environments in texor"]},{"type":"character","attributes":{},"value":["This is a small sample article to demonstrate usage of texor to convert math environments."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","orcid_id","address"]}},"value":[{"type":"character","attributes":{},"value":["Abhishek Ulayil"]},{"type":"character","attributes":{},"value":["Student, Institute of Actuaries of India"]},{"type":"character","attributes":{},"value":["0009-0000-6935-8690"]},{"type":"character","attributes":{},"value":["Mumbai, India"]}]}]},{"type":"character","attributes":{},"value":["2023-06-01"]},{"type":"NULL"},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","issn","firstpage","lastpage"]}},"value":[{"type":"character","attributes":{},"value":["The R Journal"]},{"type":"character","attributes":{},"value":["2073-4859"]},{"type":"double","attributes":{},"value":[1]},{"type":"NULL"}]},{"type":"integer","attributes":{},"value":[15]},{"type":"integer","attributes":{},"value":[2]},{"type":"character","attributes":{},"value":["~"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["cran","bioc"]}},"value":[{"type":"character","attributes":{},"value":["texor","rmarkdown","bookdown"]},{"type":"list","attributes":{},"value":[]}]},{"type":"character","attributes":{},"value":["preview.png"]},{"type":"character","attributes":{},"value":["math-example.bib"]},{"type":"character","attributes":{},"value":["ReproducibleResearch"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","legacy_pdf","web_only","mathjax","md_extension"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"]},{"type":"character","attributes":{},"value":["-tex_math_single_backslash"]}]}]},{"type":"character","attributes":{},"value":["~.pdf"]},{"type":"character","attributes":{},"value":["CC BY"]},{"type":"character","attributes":{},"value":["/home/abhi/R/x86_64-pc-linux-gnu-library/4.3/rjtools/rjournal.csl"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -2583,20 +2584,45 @@ It is also possible to use inline math within captions and</p>
 </table>
 </div>
 <h1 data-number="3" id="display-math"><span class="header-section-number">3</span> Display Math</h1>
-<p><span class="math display" id="eq:2">\[\begin{aligned}
+<p>Display Math refers to equations, almost all LaTeX equations can be
+rendered by MathJax.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>\begin{align}</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(x) <span class="ot">=</span> \frac{<span class="dv">1</span>}{\sigma\sqrt{<span class="dv">2</span>\pi}} </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  \exp\<span class="fu">left</span>( <span class="sc">-</span>\frac{<span class="dv">1</span>}{<span class="dv">2</span>}\<span class="fu">left</span>(\frac{x<span class="sc">-</span>\mu}{\sigma}\right)<span class="sc">^</span>{\<span class="sc">!</span><span class="dv">2</span>}\,\right)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  \label{eq<span class="sc">:</span><span class="dv">1</span>}</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>\end{align}</span></code></pre></div>
+<p>This will render as <a href="#eq:1">(1)</a>.
+<span class="math display" id="eq:1">\[\begin{aligned}
 f(x) = \frac{1}{\sigma\sqrt{2\pi}}
   \exp\left( -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)
-  \label{eq:2}
+  \label{eq:1}
 \end{aligned}  \tag{1}  \]</span></p>
 <h1 data-number="4" id="equation-numbering"><span class="header-section-number">4</span> Equation Numbering</h1>
-<p><span class="math display" id="eq:tvpols">\[\begin{aligned}
-S_{T, s}(z_t) = &amp; X^{\top} K_{b,t}^* X (Z - z_t)^s \nonumber\\
-T_{T, s}(z_t) = &amp;X^{\top} K_{b,t}^* Y (Z - z_t)^s,
-\label{eq:tvpols}
+<p>In LaTeX your equations get numbered automatically unless you are using
+<code>\[..\]</code> to describe math. Equation numbering works a bit differently in
+<a href="https://CRAN.R-project.org/package=bookdown"><em>bookdown</em></a> (the base of
+RJ web article format) where it is mandatory to have a <code>(\#eq:xx)</code> which
+is described in more detail in <span class="citation" data-cites="bookdown">(<a href="#ref-bookdown" role="doc-biblioref">Yihui Xie 2023</a>)</span>.</p>
+<p>The <a href="https://CRAN.R-project.org/package=texor"><em>texor</em></a> package eases
+authors from manually adding <code>(\#eq:xx)</code> to equations in Rmarkdown by
+using pandoc Lua filter to convert existing <code>\label{..}</code> in the
+equations to <code>(\#eq:xx)</code> during conversion. Equation <a href="#eq:xe">(2)</a> shows
+such a use case of equation being numbered by its label in Rmakrdown as
+well as LaTeX.</p>
+<p><span class="math display" id="eq:xe">\[\begin{aligned}
+S_{T, s}(z_t) = &amp; X^{\top} K_{b,t}^* X (Z - z_t)^s
+\label{eq:xe}
 \end{aligned}  \tag{2}  \]</span></p>
+<p>Equation labels must start with the prefix <code>eq:</code> in bookdown. All labels
+in bookdown must only contain alphanumeric characters, <code>:</code>, <code>-</code>, and/or
+<code>/</code> as suggested in <span class="citation" data-cites="bookdown">(<a href="#ref-bookdown" role="doc-biblioref">Yihui Xie 2023</a>)</span>.</p>
 <h1 data-number="5" id="unsupported-latex-commands"><span class="header-section-number">5</span> Unsupported LaTeX Commands</h1>
-<p>like instead of <code>\bm</code> <code>\boldmath</code> use <code>\mathbb</code> avoid custom math
-commands MathJaX will never be able to parse it</p>
+<p>Altough MathJax does a good job of supporting most LaTeX math functions,
+some functions do not work like <code>\bm</code> <code>\boldmath</code>, instead use
+<code>\mathbb</code>. Also avoid custom math commands MathJaX will never be able to
+parse it. The reason being MathJax renders math case by case and custom
+commands will already be removed by pandoc during the conversion, hence
+MathJax will not be aware of such redefinations.</p>
 <h1 data-number="6" id="summary"><span class="header-section-number">6</span> Summary</h1>
 <p>In summary the <a href="https://CRAN.R-project.org/package=texor"><em>texor</em></a>
 package with the help of pandoc and MathJax supports:</p>
@@ -2605,9 +2631,9 @@ package with the help of pandoc and MathJax supports:</p>
 <li><p>Equation Numbering</p></li>
 </ul>
 </div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <h2 class="appendix unnumbered" id="cran-packages-used">CRAN packages used</h2>
-<p><a href="https://cran.r-project.org/package=texor">texor</a>, <a href="https://cran.r-project.org/package=rmarkdown">rmarkdown</a></p>
+<p><a href="https://cran.r-project.org/package=texor">texor</a>, <a href="https://cran.r-project.org/package=rmarkdown">rmarkdown</a>, <a href="https://cran.r-project.org/package=bookdown">bookdown</a></p>
 <h2 class="appendix unnumbered" id="cran-task-views-implied-by-cited-packages">CRAN Task Views implied by cited packages</h2>
 <p><a href="https://cran.r-project.org/view=ReproducibleResearch">ReproducibleResearch</a></p>
 <h2 class="appendix unnumbered" id="note">Note</h2>
@@ -2618,6 +2644,9 @@ refer to CONTRIBUTE on the R Journal homepage.</p>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-mathjax" class="csl-entry" role="listitem">
 MathJax authors. <em><span class="nocase">Mathjax website</span>.</em> #features, 2021. URL <a href="https://www.mathjax.org/">https://www.mathjax.org/</a>.
+</div>
+<div id="ref-bookdown" class="csl-entry" role="listitem">
+Yihui Xie. <em><span class="nocase">bookdown: Authoring Books and Technical Documents with R Markdown</span>.</em> #equations, 2023. URL <a href="https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html">https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html</a>.
 </div>
 </div>
 <!--radix_placeholder_article_footer-->

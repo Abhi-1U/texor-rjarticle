@@ -71,25 +71,48 @@ $\mu = (0,0,0)^\top $
 
 \section{Display Math}
 
+Display Math refers to equations, almost all LaTeX equations can be rendered by
+MathJax.
 
-
+\begin{verbatim}
 \begin{align}
 f(x) = \frac{1}{\sigma\sqrt{2\pi}} 
   \exp\left( -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)
-  \label{eq:2}
+  \label{eq:1}
+\end{align}
+\end{verbatim}
+This will render as \ref{eq:1}.
+\begin{align}
+f(x) = \frac{1}{\sigma\sqrt{2\pi}} 
+  \exp\left( -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)
+  \label{eq:1}
 \end{align}
 
 \section{Equation Numbering}
+In LaTeX your equations get numbered automatically unless you are using \verb|\[..\]| to describe
+math. Equation numbering works a bit differently in \CRANpkg{bookdown} (the base of RJ web article format) where
+it is mandatory to have a \verb|(\#eq:xx)| which is described in more detail in \citep{bookdown}.
+
+The \CRANpkg{texor} package eases authors from manually adding \verb|(\#eq:xx)| to equations in Rmarkdown
+by using pandoc Lua filter to convert existing \verb|\label{..}| in the equations to \verb|(\#eq:xx)|
+during conversion. Equation \ref{eq:xe} shows such a use case of equation being numbered by its label in Rmakrdown
+as well as LaTeX.
+
 \begin{align}
-S_{T, s}(z_t) = & X^{\top} K_{b,t}^* X (Z - z_t)^s \nonumber\\
-T_{T, s}(z_t) = &X^{\top} K_{b,t}^* Y (Z - z_t)^s,
-\label{eq:tvpols}
+S_{T, s}(z_t) = & X^{\top} K_{b,t}^* X (Z - z_t)^s 
+\label{eq:xe}
 \end{align}
+
+Equation labels must start with the prefix \verb|eq:| in bookdown. All labels in bookdown must only contain alphanumeric characters, \verb|:|, \verb|-|, and/or \verb|/| as suggested in \citep{bookdown}. 
+
 
 \section{Unsupported LaTeX Commands}
 
-like instead of \verb|\bm| \verb|\boldmath| use \verb|\mathbb|
-avoid custom math commands MathJaX will never be able to parse it
+Altough MathJax does a good job of supporting most LaTeX math functions,
+some functions do not work like \verb|\bm| \verb|\boldmath|, instead use \verb|\mathbb|.
+Also avoid custom math commands MathJaX will never be able to parse it. The reason being
+MathJax renders math case by case and custom commands will already be removed by pandoc
+during the conversion, hence MathJax will not be aware of such redefinations.
 
 
 \section{Summary}
@@ -119,6 +142,12 @@ MathJax authors
 \newblock Mathjax website
 \newblock  \penalty0 2021
 \newblock URL \url{https://www.mathjax.org/#features}
+
+\bibitem[Yihui (2023)]{bookdown}
+Yihui Xie
+\newblock bookdown: Authoring Books and Technical Documents with R Markdown
+\newblock \penalty0 2023
+\newblock URL \url{https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html#equations}
 
 \end{thebibliography}
 
