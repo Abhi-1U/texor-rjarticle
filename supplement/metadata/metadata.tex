@@ -1,0 +1,171 @@
+% !TeX root = RJwrapper.tex
+\title{Metadata and Other Structures in texor}
+\author{by Abhishek Ulayil}
+
+\maketitle
+
+\abstract{
+This is a small sample article to demonstrate handling of metadata and other structures during conversion in texor package.
+}
+
+\section{Introduction}
+There is a difference in the structure of metadata and generally Rmarkdown has more
+meta-data entries than its LaTeX counterpart. So for the conversion, main task is to 
+transform the meta data and include it in the generated Rmarkdown file, matching the
+LaTeX data as closely as possible.
+
+Pandoc when used with \verb|-s| or \verb|standalone| mode reads out some of the existing
+meta data. The extracted author meta-data are listed below
+
+\subsubsection{Metadata Read from LaTeX file}
+
+\begin{itemize}
+  \item Author Names 
+  \item Author address(affiliation)
+  \item ORCID number
+  \item Title
+  \item Bibliography
+  \item Abstract
+  \item CRAN/BIO packages
+\end{itemize}
+
+The \verb|\address{..}| section must be typeset in this manner for the most 
+effective conversion.
+\begin{verbatim}
+\address{
+Abhishek Ulayil\\ % Your Name in the first Line
+Student, Institute of Actuaries of India\\% Your affiliation which includes post and/or org
+Mumbai, India\\ % Your City/Country
+ORCiD: 0009-0000-6935-8690\\% ORCID number with prefix ORCiD: 
+}
+\end{verbatim}
+
+\subsubsection{Metadata Read from DESCRIPTION file}
+
+\begin{itemize}
+  \item Date
+  \item Slug
+  \item Volume and Issue
+\end{itemize}
+
+Some details like the Volume and Issue were picked up from folder structure as well
+in some legacy articles where DESCRIPTION file was not available.
+
+\subsubsection{Other supported commands in conversion}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{| c | c |}
+ \hline
+ Command & Render \\
+ \hline
+ \verb|\acronym{A}| & \acronym{A} \\ \hline
+\verb|\R| & \R  \\ \hline
+ \verb|\pkg{texor}|& \pkg{texor} \\ \hline
+ \verb|\CRANpkg{texor}|& \CRANpkg{texor} \\ \hline
+ \verb|\BIOpkg{Biobase}|      & \BIOpkg{Biobase}  \\ \hline
+ \verb|\ctv{ReproducibleResearch}| & \ctv{ReproducibleResearch}  \\ \hline
+\verb|\command{help}| & \command{help} \\
+\hline
+\end{tabular}
+\caption{Other commands supported by \CRANpkg{texor} and Pandoc}
+\label{table:1}
+\end{table}
+
+\section{Miscallaneous}
+
+\subsubsection{Citations}
+
+As we know about citations (using \verb|\citet{..}| command here) [\citet{moreverb}]. We could also use \verb|\citep{..}| command in real \citep{pandoc}.
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{| c | c |}
+ \hline
+ Command & Render \\
+ \hline
+ \verb|\citet{pandoc}| & \citet{pandoc} \\ \hline
+\verb|\citep{pandoc}| & \citep{pandoc} \\ \hline
+ \verb|\citet*{pandoc}| & \citet*{pandoc} \\ \hline
+\verb|\citep*{pandoc}| & \citep*{pandoc} \\ \hline
+ \verb|\citeyear{pandoc}| & \citeyear{pandoc} \\ \hline
+\verb|\citeauthor{pandoc}| & \citeauthor{pandoc} \\ \hline
+ \verb|\cite{pandoc}| & \cite{pandoc} \\ \hline
+\end{tabular}
+\caption{Different citations in LaTeX}
+\label{table:3}
+\end{table}
+
+\subsubsection{Footnotes}
+\begin{table}[htbp]
+\centering
+\begin{tabular}{| c | c |}
+ \hline
+ Command & Render \\
+ \hline
+ \verb|\acronym{A}\footnote{This works in Web article}| & \acronym{A}\footnote{This works in Web article} \\ \hline
+\verb|\R\footnote[21]{Its 2 not 21 :(}| & \R\footnote[21]{Its 2 not 21 :(}  \\ \hline
+\end{tabular}
+\caption{Demo of footnotes}
+\label{table:3}
+\end{table}
+
+Footnotes do not work in \verb|tabular| environment in LaTeX but it does work in Rmarkdown\footnote{This works in LaTeX and  Web article}.
+Custom Footnote number works in LaTeX but does not work in web articles\footnote[21]{Forever 21 :)}.
+
+\subsubsection{BlockQuotes}
+\begin{quote}
+This BlockQuote should Justify an example.
+\end{quote}
+
+\subsubsection{Links}
+Most links work just fine using \verb|\href| and \verb|\url| command will work flawlessly.
+\begin{table}[htbp]
+\centering
+\begin{tabular}{| c | c |}
+ \hline
+ Command & Render \\
+ \hline
+ \verb|\href{www.google.com}{Google}| & \href{www.google.com}{Google} \\ \hline
+\verb|\url{www.google.com}| & \url{www.google.com}  \\ \hline
+\verb|Table \ref{table:3}| & Table \ref{table:3}  \\ \hline
+\end{tabular}
+\caption{Links}
+\label{table:4}
+\end{table}
+
+\section{Summary}
+In summary the \CRANpkg{texor} package alongside pandoc supports:
+\begin{itemize}
+\item Extracting Metadata and putting it together well.
+\item Handling Links, BlockQuotes, Citations and Footnotes.
+\end{itemize}
+
+\begin{thebibliography}{2}
+    \providecommand{\natexlab}[1]{#1}
+    \providecommand{\url}[1]{\texttt{#1}}
+    \expandafter\ifx\csname urlstyle\endcsname\relax
+      \providecommand{\doi}[1]{doi: #1}\else
+      \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Krewinkel, Lucero (2023)]{pandoc}
+A.~ Krewinkel and A.~ Lucero
+\newblock pandoc 3.0 Release notes
+\newblock \emph{pandoc} \penalty0 2023
+\newblock URL \url{https://pandoc.org/releases.html}
+
+\bibitem[Fairbairns, Duggan, Schöpf, Eijkhout (2011)]{moreverb}
+R.~ Fairbairns, A.~ Duggan, R.~ Schöpf and V.~ Eijkhout
+\newblock The moreverb package documentation
+\newblock \emph{CTAN} \penalty0 2011
+\newblock URL \url{https://mirror.niser.ac.in/ctan/macros/latex/contrib/moreverb/moreverb.pdf}
+
+\end{thebibliography}
+
+
+\address{%
+Abhishek Ulayil\\
+Student, Institute of Actuaries of India\\%
+Mumbai, India\\
+ORCiD: 0009-0000-6935-8690\\
+}
