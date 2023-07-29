@@ -1,0 +1,191 @@
+% !TeX root = RJwrapper.tex
+\title{Working with table environments in texor}
+\author{by Abhishek Ulayil}
+
+\maketitle
+
+\abstract{
+This is a small sample article to demonstrate usage of \CRANpkg{texor} to convert table environments.
+}
+
+\section{Introduction}
+Tables are commonly used in RJ articles to display data in a tabular format. However, there are differences in the way tables are handled by LaTeX and HTML.
+LaTeX tables have more customization and are usually optimized for printing, whereas the web articles need tables optimized for varying sizes of media.
+Pandoc converts most of the tables somewhat easily, but is unable to do well with table customization packages and complex tables.
+Some pandoc extensions are used in order to tackle them, they are : \verb|simple_tables|,\verb|pipe_tables|
+\section{Generic tables}
+Normal LaTeX tables will be converted just fine, even if they include a bit of math and other elements.
+However do note that the conversion will be done to traditional or pandoc style markdown instead of Rmarkdown
+specific using \verb|knitr::kable(..)| function. Also any custom LaTeX commands or specific font charactars would
+not be supported.
+\begin{table}[htbp]
+\centering
+\begin{tabular}{l | llll }
+ \hline
+ Graphics Format & LaTeX & Markdown & Rmarkdown & HTML \\
+ \hline
+ PNG       & Yes & Yes & Yes & Yes \\
+ JPG       & Yes & Yes & Yes & Yes \\
+ PDF       & Yes & No & No & No \\
+ SVG       & No & Yes & Yes & Yes \\
+ Tikz      & Yes & No & Yes & No \\
+ Algorithm & Yes & No & No & No \\
+\hline
+\end{tabular}
+\caption{Image Format support in various Markup/Typesetting Languages}
+\label{table:1}
+\end{table}
+
+\section{Multicolumn tables}
+\begin{table*}[htbp]
+\begin{center}
+\begin{tabular}{l | llll }
+ \hline
+ \multicolumn{1}{c |}{EXAMPLE} & \multicolumn{2}{c}{$X$} &
+\multicolumn{2}{c}{$Y$} \\
+ \hline
+  & 1 & 2 & 1 & 2 \\
+ EX1  & X11 & X12 &  Y11  & Y12 \\
+ EX2  & X21 & X22 &  Y21  & Y22 \\
+ EX3  & X31 & X32 &  Y31  & Y32 \\
+ EX4  & X41 & X42 &  Y41  & Y42\\
+ EX5  & X51 & X52 &  Y51  & Y52 \\
+\hline
+\end{tabular}
+\caption{An Example Table with Multicolumn}
+\label{table:2}
+\end{center}
+\end{table*}
+
+The above example illustrates a multicolumn table \ref{table:2}, which the \CRANpkg{texor} package can handle through subroutines and pre-processing step to transform the LaTeX code. 
+
+\begin{itemize}
+    \item The Stream Editor modifies the \verb|\multicolumn{..}| to \verb|\multicolumnx{..}|
+    \item Then a LaTeX macro redefines the \verb|\multicolumnx{..}| to \verb|\multicolumn{---}|, which is accepted by pandoc.
+    \item Finally pandoc reads the table and transforms it to markdown.
+\end{itemize}
+
+Also note that the stream editor is used to rename \verb|table*| environment to \verb|table| environment because the markdown/HTML will not support the specific changes table* environment will bring.
+
+\section{Complex tables}
+A complex table with various other elements like figures, math , code and so on, are also supported
+by \CRANpkg{texor}.  
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l | lll |}
+ \hline
+ Inline Format & LaTeX Support & Web Support &  Rendering \\
+ \hline
+ Text       & Yes & Yes  & \emph{Hello} \\ \hline
+ Image       & Yes & Yes & \begin{minipage}{0.25\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{Rlogo-5.png}
+    \end{minipage} \\ \hline
+ CodeBlock      & Yes & Yes & \begin{minipage}{0.45\textwidth}
+\vspace{1mm}
+\begin{example}
+x <- 1:100
+y <- dbinom(x,100,prob = 0.5)
+plot(x,y)
+\end{example}
+    \end{minipage} \\ \hline
+ Math      & Yes & Yes & $e = m c^2 $ \\ \hline
+ Link      & Yes & Yes &  \href{www.google.com}{Google} \\ \hline
+ Nested Table & Yes & No & NaN \\
+\hline
+\end{tabular}
+\caption{Image Format support in various Markup/Typesetting Languages}
+\label{table:3}
+\end{table}
+
+\section{Wide tables}
+
+\begin{widetable}
+\centering
+\begin{tabular}{lllllllll}
+\toprule
+index  &  A  &  B     & C   &  D  &  E  &  F  &  G  & H  \\
+\midrule
+1 & 359.00 & NaN & 5796.00 & 0.00 & 16.14 & 1.00 & NaN & 0.00\\
+2 & 25.73 & 0.00 & 1029.20 & NaN & 40.00 & 0.68 & 0.00 & 0.00\\
+2.1 & 26.26 & 0.00 & 13.40 & 0.00 & 2.14 & 0.68 & 0.00 & NaN\\
+2.2 & 32.06 & 20.06 & 47.64 & 0.04 & 1.80 & 0.68 & 0.01 & NaN\\
+2.3 & 51.94 & 420.27 & 21.17 & 0.20 & 1.77 & 0.74 & 0.05 & NaN\\
+2.4 & 40.62 & 30.44 & \phantom{000}0.90 & 0.57 & 1.44 & 1.31 & 0.24 & NaN\\
+ & \ldots & \ldots&  \ldots& \ldots &  \ldots& \ldots& \ldots & \ldots \\
+\bottomrule
+\end{tabular}
+\begin{tabular}{llllllll}
+\toprule
+index &    I  &  J  &  K  &  L  &  M  &  N & O \\
+\midrule
+1 & 0.00 & $-$1.73 & 0.00 & 0.00 & 0.00 & 0.00 & NaN\\
+2 & 0.21 & $-$33.41 & 0.00 & 0.11 & 0.00 & NaN & $-$197.85\\
+2.1 & 0.24 & $-$24.00 & 0.00 & 0.15 & NaN & 0.06 & $-$70.46\\
+2.2 & 0.6 & $-$19.42 & 0.00 & 0.15 & 0.00 & 0.11 & $-$16.48\\
+2.3 & 0.75 & $-$ 31.77 & 0.00 & 0.18 & 0.01 & 0.37 & $-$0.82\\
+2.4 & 0.26 & $-$1.89 & 0.1 & 0.55 & 0.70 & 0.22 & $-$6.55 \\
+  &\ldots &  \ldots&  \ldots& \ldots & \ldots & \ldots & \ldots \\
+\bottomrule
+\end{tabular}
+\caption{\code{A dummy research data}}
+\label{table:4}
+
+\end{widetable}
+
+Widetable environments also gets some perks when converted by \CRANpkg{texor} package. 
+They get their own block and seperate numbering (although references are shared by figures).
+
+\begin{widetable}
+\centering %
+\begin{tabular}{llrr}
+\toprule 
+Package  & Commits  & Version  & Last Updated \tabularnewline
+\toprule 
+\CRANpkg{texor} & 260 & 1.1.0  & 28-Jul-2023 \tabularnewline
+\CRANpkg{rebib} & 76 & 0.2.4  & 29-Jul-2023 \tabularnewline
+\CRANpkg{rjtools}  & 314 & 1.0.11  & 30-Jul-2023 \tabularnewline
+\CRANpkg{rmarkdown} & 3189 & 2.23  & 31-Jul-2023 \tabularnewline
+\toprule 
+\end{tabular}
+\caption{A dummy summary of a few CRAN packages}
+\label{table:5}
+
+\end{widetable}
+
+
+Here is a reference to the table \ref{table:4} and table \ref{table:5}.
+\section{Summary}
+
+In summary the \CRANpkg{texor} package supports:
+\begin{itemize}
+\item some common table environments.
+\item wide tables.
+\item some multicolumn tables.
+\item inclusion of different environments like figure/code in tables.
+\end{itemize}
+
+
+
+\begin{thebibliography}{2}
+    \providecommand{\natexlab}[1]{#1}
+    \providecommand{\url}[1]{\texttt{#1}}
+    \expandafter\ifx\csname urlstyle\endcsname\relax
+      \providecommand{\doi}[1]{doi: #1}\else
+      \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Krewinkel, Lucero (2023)]{pandoc}
+A.~ Krewinkel and A.~ Lucero
+\newblock pandoc 3.0 Release notes
+\newblock \emph{pandoc} \penalty0 2023
+\newblock URL \url{https://pandoc.org/releases.html}
+
+\end{thebibliography}
+
+
+\address{%
+Abhishek Ulayil\\
+Student, Institute of Actuaries of India\\%
+Mumbai, India\\
+ORCiD: 0009-0000-6935-8690\\
+}
