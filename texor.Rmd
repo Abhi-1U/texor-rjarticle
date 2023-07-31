@@ -1,5 +1,5 @@
 ---
-title: "Converting LaTeX R Journal Articles into Rmarkdown using texor and rebib"
+title: "Converting LaTeX Legacy R Journal Articles into R Markdown Articles using texor and rebib"
 date: "2022-11-09"
 abstract: >
   An abstract of less than 150 words.
@@ -7,7 +7,7 @@ draft: true
 author:  
   # see ?rjournal_article for more information
   - name: Abhishek Ulayil
-    affiliation: Student, Institute of Actuaries of India
+    affiliation: Institute of Actuaries of India (student)
     address:
     - Mumbai, India
     orcid: 0009-0000-6935-8690
@@ -82,7 +82,7 @@ Describe changes in templates, and web site. Desirability to convert the legacy 
 - Quirks of the legacy articles
 -->
 
-# Converting from LaTeX to R Markdown
+# The internals of converting from LaTeX to R Markdown
 
 The decision to convert to R Markdown format means that the final output to pdf and HTML will depend on Pandoc [@pandoc].  Pandoc is a versatile document conversion program written in Haskell that is core to numerous documentation systems, including R Markdown and Quarto. Pandoc first converts a document into an abstract syntax tree. From this, it can convert to a different format, including custom ones. <!-- Although creating bespoke writers/readers in `Lua` can be challenging, pandoc includes filters that allow users to customize the output generated based on matching patterns plus some logic to modify them. -->
 
@@ -92,7 +92,17 @@ Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, 
 
 **DC: Add a diagram here showing flow of work, just pre-process .tex -> pandoc -> lua ; rebib operations???**
 
+The supplementary materials has example LaTeX documents that allow the reader to see how different common patterns in the legacy documents are handled with the conversion. These include:
 
+- `code-env`: Explains how different code environments defined by the R Journal style are handled, and additional details such as code in figure environments, and code in table environments. 
+- `math-env`: Examples of inline math, display math, how equation numbering is handled by a Lua filter to convert from LaTeX labelling to R Markdown labelling. 
+- `figure-env`: Explains how the variety of figure definitions are handled in the conversion, including different image formats, numbering, captions, labelling, multiple images, and `tikz` [@casflow] images.
+- `table-env`: Examples of how a variety of table types are converted, including multicolumn, complex and wide tables.
+- `lua-filters`: Overview and lots of small examples of Lua filters to handle the custom output needed for the R Markdown format.
+- `metadata`: This has a collection of additional format handling including extracting metadata like author names and affiliations, article identifiers used in the review process, and handling citations, footnotes and links.
+- `bibliography`: The bibliography was handled differently over the years of the journal, and this details how to use the `rebib` functionality to handle `bbl` files, embedded `bbl`, to convert into the standard `.bib` format.
+
+The explanations in the next sections are extracted from these examples. In each of these folders there is a `RJwrapper.tex`, and `.tex` file, with the extra template files `RJournal.sty` and `Rlogo-5.png`. These match the legacy template file structure, from which the `RJwrapper.pdf` file is created. If you follow the instructions in the `README.md` you can create the R Markdown and HTML versions of the document.
 
 <!-- **Maybe more details on the supporting packages here: LaTeX, Regex, pandoc building blocks of the packages, methods used in them [MOW]**-->
 
@@ -123,7 +133,7 @@ These functions are verbose and describe all the changes being made. They also c
 
 Lua [@lua] is a programming language, that is light-weight, fast, ideal for procedural operations.  It is embedded in many other applications to allow custom scripting for extensibility. Pandoc allows users to provide custom lua filters to produce custom output formats. The \CRANpkg{texor} package handles post-processing of the R Markdown document into the special format for the R Journal using a suite of Lua filters. 
 
-Here is an example of a Lua filter in \CRANpkg{texor}:
+Here is an example of a Lua filter available in \CRANpkg{texor}:
 
 ```Lua
 function Div(el)
@@ -133,20 +143,30 @@ function Div(el)
 end
 ```
 
-This filter reads the abstract syntax tree and filters out all the Div elements. Then it looks for the class "thebibliography." It turns out that this Div element  contains the LaTeX bibliographic records, which usually appear at the very end of papers. We don't need this portion in the article with the "RJ-web-article" layout,  given its inclusion as meta-data in the footer.
+This filter reads the abstract syntax tree, selecting all the Div elements. Then it looks for the class "thebibliography." This Div element contains the LaTeX bibliographic records, that appear at the very end of papers. It should not be in the document when using the "RJ-web-article" layout, because it is added from meta-data when the R Markdown is knitted. So the Lua filter removes this section.
 
-## Conversion
+## Handling figures
+
+## Handling equations
+
+## Handling the bibliography 
+
+## Logging the conversion
+
+## One-step user-facing conversion
 
 The only function that a user necessarily needs is `latex_to_web()`. This creates the R Journal style R Markdown file from a given R Journal style LaTeX file. 
 This is achieved in several conversion steps, `convert_to_markdown()`, `generate_rmd()` and `produce_html()`. 
 
-## Handling figures
-
-## Logging the conversion
-
 # Using \CRANpkg{texor}
 
-**Install instructions**
+The package `texor` can be installed from CRAN using:
+
+```
+install.packages("texor")
+```
+
+and the development version from https://abhi-1u.github.io/texor. 
 
 **Examples / getting started / usage and so on**
 

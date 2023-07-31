@@ -1,5 +1,5 @@
 % !TeX root = RJwrapper.tex
-\title{Converting LaTeX R Journal Articles into Rmarkdown using texor and rebib}
+\title{Converting LaTeX Legacy R Journal Articles into R Markdown Articles using texor and rebib}
 
 
 \author{by Abhishek Ulayil, Mitch O'Hara-Wild, Christophe Dervieux, Heather Turner, and Dianne Cook}
@@ -38,14 +38,36 @@ The \CRANpkg{rjtools} was developed to create articles using R Markdown for the 
 
 The paper is organised as follows. Section XXX gives an overview of the conversion process. Section XXX describes examples of pre-processing using regular expressions, and section XXX provides examples of post-processing using lua filters. Section XXX describes tools to do special handling of bibliography files. Section XXX runs through an example conversion process.
 
-\hypertarget{converting-from-latex-to-r-markdown}{%
-\section{Converting from LaTeX to R Markdown}\label{converting-from-latex-to-r-markdown}}
+\hypertarget{the-internals-of-converting-from-latex-to-r-markdown}{%
+\section{The internals of converting from LaTeX to R Markdown}\label{the-internals-of-converting-from-latex-to-r-markdown}}
 
 The decision to convert to R Markdown format means that the final output to pdf and HTML will depend on Pandoc (MacFarlane 2023). Pandoc is a versatile document conversion program written in Haskell that is core to numerous documentation systems, including R Markdown and Quarto. Pandoc first converts a document into an abstract syntax tree. From this, it can convert to a different format, including custom ones.
 
 Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, additional pre-processing needs to be done to handle special R Journal LaTeX styling. And further post-processing needs to be done to handle specific R Journal R Markdown styling. The \CRANpkg{texor} package contains functionality to handle this pre- and postprocessing of the document.
 
 \textbf{DC: Add a diagram here showing flow of work, just pre-process .tex -\textgreater{} pandoc -\textgreater{} lua ; rebib operations???}
+
+The supplementary materials has example LaTeX documents that allow the reader to see how different common patterns in the legacy documents are handled with the conversion. These include:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{code-env}: Explains how different code environments defined by the R Journal style are handled, and additional details such as code in figure environments, and code in table environments.
+\item
+  \texttt{math-env}: Examples of inline math, display math, how equation numbering is handled by a Lua filter to convert from LaTeX labelling to R Markdown labelling.
+\item
+  \texttt{figure-env}: Explains how the variety of figure definitions are handled in the conversion, including different image formats, numbering, captions, labelling, multiple images, and \texttt{tikz} (Josh Cassidy 2013) images.
+\item
+  \texttt{table-env}: Examples of how a variety of table types are converted, including multicolumn, complex and wide tables.
+\item
+  \texttt{lua-filters}: Overview and lots of small examples of Lua filters to handle the custom output needed for the R Markdown format.
+\item
+  \texttt{metadata}: This has a collection of additional format handling including extracting metadata like author names and affiliations, article identifiers used in the review process, and handling citations, footnotes and links.
+\item
+  \texttt{bibliography}: The bibliography was handled differently over the years of the journal, and this details how to use the \texttt{rebib} functionality to handle \texttt{bbl} files, embedded \texttt{bbl}, to convert into the standard \texttt{.bib} format.
+\end{itemize}
+
+The explanations in the next sections are extracted from these examples. In each of these folders there is a \texttt{RJwrapper.tex}, and \texttt{.tex} file, with the extra template files \texttt{RJournal.sty} and \texttt{Rlogo-5.png}. These match the legacy template file structure, from which the \texttt{RJwrapper.pdf} file is created. If you follow the instructions in the \texttt{README.md} you can create the R Markdown and HTML versions of the document.
 
 \hypertarget{pre-processing-using-regular-expressions}{%
 \subsection{Pre-processing using regular expressions}\label{pre-processing-using-regular-expressions}}
@@ -77,7 +99,7 @@ These functions are verbose and describe all the changes being made. They also c
 
 Lua (Ierusalimschy, Figueiredo, and Filho 1996) is a programming language, that is light-weight, fast, ideal for procedural operations. It is embedded in many other applications to allow custom scripting for extensibility. Pandoc allows users to provide custom lua filters to produce custom output formats. The \CRANpkg{texor} package handles post-processing of the R Markdown document into the special format for the R Journal using a suite of Lua filters.
 
-Here is an example of a Lua filter in \CRANpkg{texor}:
+Here is an example of a Lua filter available in \CRANpkg{texor}:
 
 \begin{verbatim}
 function Div(el)
@@ -87,24 +109,36 @@ function Div(el)
 end
 \end{verbatim}
 
-This filter reads the abstract syntax tree and filters out all the Div elements. Then it looks for the class ``thebibliography.'' It turns out that this Div element contains the LaTeX bibliographic records, which usually appear at the very end of papers. We don't need this portion in the article with the ``RJ-web-article'' layout, given its inclusion as meta-data in the footer.
-
-\hypertarget{conversion}{%
-\subsection{Conversion}\label{conversion}}
-
-The only function that a user necessarily needs is \texttt{latex\_to\_web()}. This creates the R Journal style R Markdown file from a given R Journal style LaTeX file.
-This is achieved in several conversion steps, \texttt{convert\_to\_markdown()}, \texttt{generate\_rmd()} and \texttt{produce\_html()}.
+This filter reads the abstract syntax tree, selecting all the Div elements. Then it looks for the class ``thebibliography.'' This Div element contains the LaTeX bibliographic records, that appear at the very end of papers. It should not be in the document when using the ``RJ-web-article'' layout, because it is added from meta-data when the R Markdown is knitted. So the Lua filter removes this section.
 
 \hypertarget{handling-figures}{%
 \subsection{Handling figures}\label{handling-figures}}
 
+\hypertarget{handling-equations}{%
+\subsection{Handling equations}\label{handling-equations}}
+
+\hypertarget{handling-the-bibliography}{%
+\subsection{Handling the bibliography}\label{handling-the-bibliography}}
+
 \hypertarget{logging-the-conversion}{%
 \subsection{Logging the conversion}\label{logging-the-conversion}}
+
+\hypertarget{one-step-user-facing-conversion}{%
+\subsection{One-step user-facing conversion}\label{one-step-user-facing-conversion}}
+
+The only function that a user necessarily needs is \texttt{latex\_to\_web()}. This creates the R Journal style R Markdown file from a given R Journal style LaTeX file.
+This is achieved in several conversion steps, \texttt{convert\_to\_markdown()}, \texttt{generate\_rmd()} and \texttt{produce\_html()}.
 
 \hypertarget{using}{%
 \section{\texorpdfstring{Using \CRANpkg{texor}}{Using }}\label{using}}
 
-\textbf{Install instructions}
+The package \texttt{texor} can be installed from CRAN using:
+
+\begin{verbatim}
+install.packages("texor")
+\end{verbatim}
+
+and the development version from \url{https://abhi-1u.github.io/texor}.
 
 \textbf{Examples / getting started / usage and so on}
 
@@ -181,6 +215,9 @@ Gruber, John. 2002. {``Markdown.''} https://daringfireball.net/projects/markdown
 \leavevmode\vadjust pre{\hypertarget{ref-lua}{}}%
 Ierusalimschy, Roberto, Luiz Henrique de Figueiredo, and Waldemar Celes Filho. 1996. {``Lua---an Extensible Extension Language.''} \emph{Software: Practice and Experience} 26 (6): 635--52.
 
+\leavevmode\vadjust pre{\hypertarget{ref-casflow}{}}%
+Josh Cassidy. 2013. \emph{{LaTeX Graphics using TikZ: A Tutorial for Beginners (Part 3)---Creating Flowcharts}}. Overleaf tutorials. \url{https://www.overleaf.com/learn/latex/}.
+
 \leavevmode\vadjust pre{\hypertarget{ref-pandoc}{}}%
 MacFarlane, John. 2023. {``Pandoc: A Universal Document Converter.''} https://pandoc.org.
 
@@ -202,7 +239,7 @@ Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. \emph{R Markdown: The De
 
 \address{%
 Abhishek Ulayil\\
-Student, Institute of Actuaries of India\\%
+Institute of Actuaries of India (student)\\%
 Mumbai, India\\
 %
 %
