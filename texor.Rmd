@@ -92,7 +92,7 @@ Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, 
 
 **DC: Add a diagram here showing flow of work, just pre-process .tex -> pandoc -> lua ; rebib operations???**
 
-The supplementary materials has example LaTeX documents that allow the reader to see how different common patterns in the legacy documents are handled with the conversion. These include:
+The supplementary materials has example folders containing LaTeX documents that allow the reader to see how different common patterns in the legacy documents are handled with the conversion. These include:
 
 - `code-env`: Explains how different code environments defined by the R Journal style are handled, and additional details such as code in figure environments, and code in table environments. 
 - `math-env`: Examples of inline math, display math, how equation numbering is handled by a Lua filter to convert from LaTeX labelling to R Markdown labelling. 
@@ -147,6 +147,100 @@ This filter reads the abstract syntax tree, selecting all the Div elements. Then
 
 ## Handling figures
 
+Figure definitions in LaTeX are many and varied! The standard, single figure definition with the `figure` environment is handled by pandoc, which converts:
+
+```
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.35\textwidth]{Rlogo-5.png}
+  \caption{The logo of R.}
+  \label{figure:rlogo}
+\end{figure}
+```
+
+to 
+
+```
+<figure id="figure:rlogo">
+<img src="Rlogo-5.png" style="width:35.0%" />
+<figcaption>Figure 1: The logo of R.</figcaption>
+</figure>
+```
+
+PDF figures cause a problem for HTML display, so the image is first converted to PNG, in the pre-processing of the LaTeX document. Then the figure environment would be post-processed using pandoc, as described above. 
+
+Multiple figures are supported with the latest versions of pandoc, so definitions like:
+
+```
+\begin{figure*}[htbp]
+  \centering
+  \includegraphics[width=0.45\textwidth]{Rlogo-5.png}\includegraphics[width=0.45\textwidth]{normal}
+  \caption{Images side by side}
+  \label{fig:twoimages}
+\end{figure*}
+```
+
+will be converted to:
+
+```
+<figure id="fig:twoimages">
+<p><img src="Rlogo-5.png" style="width:45.0%" alt="image" /><img
+src="normal.png" style="width:45.0%" alt="image" /></p>
+<figcaption>Figure 3: Images side by side</figcaption>
+</figure>
+```
+
+Some legacy articles defined images using `tikz` commands, such as:
+
+```
+\begin{figure}
+
+%% Generated Image will included as a PNG above automatically
+  \centering
+\tikzstyle{process} = [rectangle, rounded corners,
+minimum width=3cm, 
+minimum height=1cm,
+text centered, 
+draw=black]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+\begin{tikzpicture}[node distance=4cm]
+%Nodes
+...
+
+```
+
+This is handled by pre-rpocessing the LaTeX to create the image, as both PDF, and them PNG, for inclusion in the R Markdown document using:
+
+```
+<figure id="fig:tikz">
+<img src="tikz/figtikz.png" style="width:100.0%" />
+
+<figcaption>Figure 5: Tikz Image example</figcaption>
+</figure>
+```
+
+Interestingly, some legacy articles have algorithms are defined in the figure environment:
+
+```
+\begin{algorithm}[htbp]
+\SetAlgoLined
+\KwData{this text}
+\KwResult{how to write algorithm with \LaTeX2e }
+initialization\;
+\While{not at end of this document}{
+read current\;
+\eIf{understand}{
+go to next section\;
+current section becomes this one\;
+}{
+go back to the beginning of current section\;
+}
+}
+\caption{How to write algorithms}
+  \label{alg:how}
+\end{algorithm}
+```
+
 ## Handling equations
 
 ## Handling the bibliography 
@@ -192,7 +286,14 @@ the usage of \CRANpkg{rebib} and its stability with various formats. However, th
  
 # Summary
 
+Only handling to html format, especially relevant for figures, because the legacy pdf will remain the same. If using for converting work from LaTeX to Rmd then this will need manual changing by author. See rjtools guide.
+
 Where this might be useful in the future, other applications.
+
+No shift to quarto yet.
+
+
+Known problems that need manual fixes.
 
 # Acknowledgments
 pandoc

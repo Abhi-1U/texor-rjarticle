@@ -2571,7 +2571,7 @@ Describe changes in templates, and web site. Desirability to convert the legacy 
 <p>Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, additional pre-processing needs to be done to handle special R Journal LaTeX styling. And further post-processing needs to be done to handle specific R Journal R Markdown styling. The <a href="https://cran.r-project.org/package=texor">texor</a> package contains functionality to handle this pre- and postprocessing of the document.</p>
 <!-- uses these filters heavily, even for simple tasks like choosing which supporting figures to copy. A `Lua` filter constructs a list of image paths, stores them momentarily and the package uses this data to copy images. However, \CRANpkg{texor} also includes many pre-processing functions that employ regular expressions. This is needed to convert some text and LaTeX commands that are not recognized or handled by Pandoc. -->
 <p><strong>DC: Add a diagram here showing flow of work, just pre-process .tex -&gt; pandoc -&gt; lua ; rebib operations???</strong></p>
-<p>The supplementary materials has example LaTeX documents that allow the reader to see how different common patterns in the legacy documents are handled with the conversion. These include:</p>
+<p>The supplementary materials has example folders containing LaTeX documents that allow the reader to see how different common patterns in the legacy documents are handled with the conversion. These include:</p>
 <ul>
 <li><code>code-env</code>: Explains how different code environments defined by the R Journal style are handled, and additional details such as code in figure environments, and code in table environments.</li>
 <li><code>math-env</code>: Examples of inline math, display math, how equation numbering is handled by a Lua filter to convert from LaTeX labelling to R Markdown labelling.</li>
@@ -2608,6 +2608,71 @@ Describe changes in templates, and web site. Desirability to convert the legacy 
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
 <p>This filter reads the abstract syntax tree, selecting all the Div elements. Then it looks for the class “thebibliography.” This Div element contains the LaTeX bibliographic records, that appear at the very end of papers. It should not be in the document when using the “RJ-web-article” layout, because it is added from meta-data when the R Markdown is knitted. So the Lua filter removes this section.</p>
 <h2 class="unnumbered" id="handling-figures">Handling figures</h2>
+<p>Figure definitions in LaTeX are many and varied! The standard, single figure definition with the <code>figure</code> environment is handled by pandoc, which converts:</p>
+<pre><code>\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.35\textwidth]{Rlogo-5.png}
+  \caption{The logo of R.}
+  \label{figure:rlogo}
+\end{figure}</code></pre>
+<p>to</p>
+<pre><code>&lt;figure id=&quot;figure:rlogo&quot;&gt;
+&lt;img src=&quot;Rlogo-5.png&quot; style=&quot;width:35.0%&quot; /&gt;
+&lt;figcaption&gt;Figure 1: The logo of R.&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+<p>PDF figures cause a problem for HTML display, so the image is first converted to PNG, in the pre-processing of the LaTeX document. Then the figure environment would be post-processed using pandoc, as described above.</p>
+<p>Multiple figures are supported with the latest versions of pandoc, so definitions like:</p>
+<pre><code>\begin{figure*}[htbp]
+  \centering
+  \includegraphics[width=0.45\textwidth]{Rlogo-5.png}\includegraphics[width=0.45\textwidth]{normal}
+  \caption{Images side by side}
+  \label{fig:twoimages}
+\end{figure*}</code></pre>
+<p>will be converted to:</p>
+<pre><code>&lt;figure id=&quot;fig:twoimages&quot;&gt;
+&lt;p&gt;&lt;img src=&quot;Rlogo-5.png&quot; style=&quot;width:45.0%&quot; alt=&quot;image&quot; /&gt;&lt;img
+src=&quot;normal.png&quot; style=&quot;width:45.0%&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+&lt;figcaption&gt;Figure 3: Images side by side&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+<p>Some legacy articles defined images using <code>tikz</code> commands, such as:</p>
+<pre><code>\begin{figure}
+
+%% Generated Image will included as a PNG above automatically
+  \centering
+\tikzstyle{process} = [rectangle, rounded corners,
+minimum width=3cm, 
+minimum height=1cm,
+text centered, 
+draw=black]
+\tikzstyle{arrow} = [thick,-&gt;,&gt;=stealth]
+\begin{tikzpicture}[node distance=4cm]
+%Nodes
+...
+</code></pre>
+<p>This is handled by pre-rpocessing the LaTeX to create the image, as both PDF, and them PNG, for inclusion in the R Markdown document using:</p>
+<pre><code>&lt;figure id=&quot;fig:tikz&quot;&gt;
+&lt;img src=&quot;tikz/figtikz.png&quot; style=&quot;width:100.0%&quot; /&gt;
+
+&lt;figcaption&gt;Figure 5: Tikz Image example&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+<p>Interestingly, some legacy articles have algorithms are defined in the figure environment:</p>
+<pre><code>\begin{algorithm}[htbp]
+\SetAlgoLined
+\KwData{this text}
+\KwResult{how to write algorithm with \LaTeX2e }
+initialization\;
+\While{not at end of this document}{
+read current\;
+\eIf{understand}{
+go to next section\;
+current section becomes this one\;
+}{
+go back to the beginning of current section\;
+}
+}
+\caption{How to write algorithms}
+  \label{alg:how}
+\end{algorithm}</code></pre>
 <h2 class="unnumbered" id="handling-equations">Handling equations</h2>
 <h2 class="unnumbered" id="handling-the-bibliography">Handling the bibliography</h2>
 <h2 class="unnumbered" id="logging-the-conversion">Logging the conversion</h2>
@@ -2631,7 +2696,10 @@ the usage of <a href="https://cran.r-project.org/package=rebib">rebib</a> and it
 <p><strong>Install instructions</strong></p>
 <p><strong>Examples / getting started / usage and so on</strong></p>
 <h1 data-number="5" id="summary"><span class="header-section-number">5</span> Summary</h1>
+<p>Only handling to html format, especially relevant for figures, because the legacy pdf will remain the same. If using for converting work from LaTeX to Rmd then this will need manual changing by author. See rjtools guide.</p>
 <p>Where this might be useful in the future, other applications.</p>
+<p>No shift to quarto yet.</p>
+<p>Known problems that need manual fixes.</p>
 <h1 data-number="6" id="acknowledgments"><span class="header-section-number">6</span> Acknowledgments</h1>
 <p>pandoc
 “TODO : Later”</p>
@@ -2647,7 +2715,7 @@ the usage of <a href="https://cran.r-project.org/package=rebib">rebib</a> and it
 <li>This paper: <a href="https://github.com/Abhi-1U/texor-rjarticle" class="uri">https://github.com/Abhi-1U/texor-rjarticle</a></li>
 <li>More details on <a href="https://cran.r-project.org/package=rjtools">rjtools</a> are at <a href="https://rjournal.github.io/rjtools/" class="uri">https://rjournal.github.io/rjtools/</a></li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <h2 class="appendix unnumbered" id="cran-packages-used">CRAN packages used</h2>
 <p><a href="https://cran.r-project.org/package=knitr">knitr</a>, <a href="https://cran.r-project.org/package=distill">distill</a>, <a href="https://cran.r-project.org/package=rjtools">rjtools</a>, <a href="https://cran.r-project.org/package=texor">texor</a>, <a href="https://cran.r-project.org/package=rebib">rebib</a></p>
 <h2 class="appendix unnumbered" id="cran-task-views-implied-by-cited-packages">CRAN Task Views implied by cited packages</h2>
