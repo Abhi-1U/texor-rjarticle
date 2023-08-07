@@ -56,7 +56,7 @@ library(ggplot2)
 
 The R Journal is the primary open-access outlet for publications produced by the R community. It was born in 2008, evolving from a newsletter, that ran from 2001, into a more formal article publication to encourage documenting statistical computing research. 
 
-The format is constantly evolving. Early articles were typeset using LateX [@latex], from a specific, but changing, template. This requires that code is separated from the documentation, and there is a chance that code chunks in the paper don't reproduce the results reported. With the emergence of dynamic document systems like R Markdown [@rmarkdown] a tight-coupling of code and documentation is possible. Code chunks are dynamically executed when the document is typeset using a system like \CRANpkg{knitr} [@knitr], making reporting of computing research more reproducible. 
+The format is regularly updated. Early articles were typeset using LateX [@latex], from a specific, but changing, template. This requires that code is separated from the documentation, and there is a chance that code chunks in the paper don't reproduce the results reported. With the emergence of dynamic document systems like R Markdown [@rmarkdown] a tight-coupling of code and documentation is possible. Code chunks are dynamically executed when the document is typeset using a system like \CRANpkg{knitr} [@knitr], making reporting of computing research more reproducible. 
 
 In 2019, with the help of funding from the R Consortium it was decided that it was time to update operations. One aspect of this was to change from LaTeX paper submissions to a more reproducible format, where code was embedded in the document, and the output could be both HTML and pdf. There are numerous benefits of HTML format: 
 
@@ -86,11 +86,13 @@ Describe changes in templates, and web site. Desirability to convert the legacy 
 
 The decision to convert to R Markdown format means that the final output to pdf and HTML will depend on Pandoc [@pandoc].  Pandoc is a versatile document conversion program written in Haskell that is core to numerous documentation systems, including R Markdown and Quarto. Pandoc first converts a document into an abstract syntax tree. From this, it can convert to a different format, including custom ones. <!-- Although creating bespoke writers/readers in `Lua` can be challenging, pandoc includes filters that allow users to customize the output generated based on matching patterns plus some logic to modify them. -->
 
-Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, additional pre-processing needs to be done to handle special R Journal LaTeX styling. And further post-processing needs to be done to handle specific R Journal R Markdown styling. The \CRANpkg{texor} package contains functionality to handle this pre- and postprocessing of the document. 
+Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, additional pre-processing needs to be done to handle special R Journal LaTeX styling. And further post-processing needs to be done to handle specific R Journal R Markdown styling. The \CRANpkg{texor} package contains functionality to handle this pre- and post-processing of the document, in a workflow illustrated in Figure \@ref(fig:workflow). 
 
 <!-- uses these filters heavily, even for simple tasks like choosing which supporting figures to copy. A `Lua` filter constructs a list of image paths, stores them momentarily and the package uses this data to copy images. However, \CRANpkg{texor} also includes many pre-processing functions that employ regular expressions. This is needed to convert some text and LaTeX commands that are not recognized or handled by Pandoc. -->
 
-**DC: Add a diagram here showing flow of work, just pre-process .tex -> pandoc -> lua ; rebib operations???**
+```{r workflow, fig.cap="Workflow of the document conversion conducted by texor."}
+knitr::include_graphics("workflow.png")
+```
 
 The supplementary materials has example folders containing LaTeX documents that allow the reader to see how different common patterns in the legacy documents are handled with the conversion. These include:
 
@@ -209,7 +211,7 @@ draw=black]
 
 ```
 
-This is handled by pre-rpocessing the LaTeX to create the image, as both PDF, and them PNG, for inclusion in the R Markdown document using:
+This is handled by pre-processing the LaTeX to create the image, as both PDF, and them PNG, for inclusion in the R Markdown document using:
 
 ```
 <figure id="fig:tikz">
@@ -219,7 +221,7 @@ This is handled by pre-rpocessing the LaTeX to create the image, as both PDF, an
 </figure>
 ```
 
-Interestingly, some legacy articles have algorithms are defined in the figure environment:
+Algorithms as figures is supported, and the following description will yield the result in Algorithm \@ref(alg:how).
 
 ```
 \begin{algorithm}[htbp]
@@ -241,7 +243,22 @@ go back to the beginning of current section\;
 \end{algorithm}
 ```
 
+<figure id="alg:how">
+<img src="alghow.png" style="width:100.0%" />
+<p>initialization</p>
+<figcaption>Algorithm 1: How to write algorithms</figcaption>
+</figure>
+
+**DC: Don't really understand this example, why would html figure definition also create pdf?**
+
 ## Handling equations
+
+Math is handled primarily by pandoc. The inline math and equation descriptions are unchanged between LaTeX and R Markdown. 
+
+The HTML output renders math using MathJax. This does mean that some functionality, like `\bm`, `\boldmath` and `mathbb` not supported, and special definitions cannot be handled. 
+
+The numbering of equations is a bit trickier. LaTeX automatically numbers equations, unless specifically instructed not to. Equation numbering in R Markdown requires specific labelling using `(\#eq:xx)` as described in @bookdown. The \CRANpkg{texor} helps by adding the labelling using a Lua filter to convert the existing `\label{..}` to `(\#eq:xx)`.
+
 
 ## Handling the bibliography 
 
@@ -286,11 +303,14 @@ the usage of \CRANpkg{rebib} and its stability with various formats. However, th
  
 # Summary
 
-Only handling to html format, especially relevant for figures, because the legacy pdf will remain the same. If using for converting work from LaTeX to Rmd then this will need manual changing by author. See rjtools guide.
+Remember only the HTML is rendered, and the original PDF is not re-generated.
+
+Only handling to HTML format, especially relevant for figures, because the legacy pdf will remain the same. If using for converting work from LaTeX to Rmd then this will need manual changing by author. See rjtools guide.
 
 Where this might be useful in the future, other applications.
 
 No shift to quarto yet.
+
 
 
 Known problems that need manual fixes.

@@ -15,7 +15,7 @@ An abstract of less than 150 words.
 
 The R Journal is the primary open-access outlet for publications produced by the R community. It was born in 2008, evolving from a newsletter, that ran from 2001, into a more formal article publication to encourage documenting statistical computing research.
 
-The format is constantly evolving. Early articles were typeset using LateX (The LaTeX Project 2023), from a specific, but changing, template. This requires that code is separated from the documentation, and there is a chance that code chunks in the paper don't reproduce the results reported. With the emergence of dynamic document systems like R Markdown (Xie, Allaire, and Grolemund 2018) a tight-coupling of code and documentation is possible. Code chunks are dynamically executed when the document is typeset using a system like \CRANpkg{knitr} (Xie 2015), making reporting of computing research more reproducible.
+The format is regularly updated. Early articles were typeset using LateX (The LaTeX Project 2023), from a specific, but changing, template. This requires that code is separated from the documentation, and there is a chance that code chunks in the paper don't reproduce the results reported. With the emergence of dynamic document systems like R Markdown (Xie, Allaire, and Grolemund 2018) a tight-coupling of code and documentation is possible. Code chunks are dynamically executed when the document is typeset using a system like \CRANpkg{knitr} (Xie 2015), making reporting of computing research more reproducible.
 
 In 2019, with the help of funding from the R Consortium it was decided that it was time to update operations. One aspect of this was to change from LaTeX paper submissions to a more reproducible format, where code was embedded in the document, and the output could be both HTML and pdf. There are numerous benefits of HTML format:
 
@@ -43,9 +43,11 @@ The paper is organised as follows. Section XXX gives an overview of the conversi
 
 The decision to convert to R Markdown format means that the final output to pdf and HTML will depend on Pandoc (MacFarlane 2023). Pandoc is a versatile document conversion program written in Haskell that is core to numerous documentation systems, including R Markdown and Quarto. Pandoc first converts a document into an abstract syntax tree. From this, it can convert to a different format, including custom ones.
 
-Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, additional pre-processing needs to be done to handle special R Journal LaTeX styling. And further post-processing needs to be done to handle specific R Journal R Markdown styling. The \CRANpkg{texor} package contains functionality to handle this pre- and postprocessing of the document.
+Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, additional pre-processing needs to be done to handle special R Journal LaTeX styling. And further post-processing needs to be done to handle specific R Journal R Markdown styling. The \CRANpkg{texor} package contains functionality to handle this pre- and post-processing of the document, in a workflow illustrated in Figure \ref{fig:workflow}.
 
-\textbf{DC: Add a diagram here showing flow of work, just pre-process .tex -\textgreater{} pandoc -\textgreater{} lua ; rebib operations???}
+\begin{figure}
+\includegraphics[width=15.5in]{workflow} \caption{Workflow of the document conversion conducted by texor.}\label{fig:workflow}
+\end{figure}
 
 The supplementary materials has example folders containing LaTeX documents that allow the reader to see how different common patterns in the legacy documents are handled with the conversion. These include:
 
@@ -175,7 +177,7 @@ draw=black]
 ...
 \end{verbatim}
 
-This is handled by pre-rpocessing the LaTeX to create the image, as both PDF, and them PNG, for inclusion in the R Markdown document using:
+This is handled by pre-processing the LaTeX to create the image, as both PDF, and them PNG, for inclusion in the R Markdown document using:
 
 \begin{verbatim}
 <figure id="fig:tikz">
@@ -185,7 +187,7 @@ This is handled by pre-rpocessing the LaTeX to create the image, as both PDF, an
 </figure>
 \end{verbatim}
 
-Interestingly, some legacy articles have algorithms are defined in the figure environment:
+Algorithms as figures is supported, and the following description will yield the result in Algorithm \ref{alg:how}.
 
 \begin{verbatim}
 \begin{algorithm}[htbp]
@@ -207,8 +209,20 @@ go back to the beginning of current section\;
 \end{algorithm}
 \end{verbatim}
 
+initialization
+
+Algorithm 1: How to write algorithms
+
+\textbf{DC: Don't really understand this example, why would html figure definition also create pdf?}
+
 \hypertarget{handling-equations}{%
 \subsection{Handling equations}\label{handling-equations}}
+
+Math is handled primarily by pandoc. The inline math and equation descriptions are unchanged between LaTeX and R Markdown.
+
+The HTML output renders math using MathJax. This does mean that some functionality, like \texttt{\textbackslash{}bm}, \texttt{\textbackslash{}boldmath} and \texttt{mathbb} not supported, and special definitions cannot be handled.
+
+The numbering of equations is a bit trickier. LaTeX automatically numbers equations, unless specifically instructed not to. Equation numbering in R Markdown requires specific labelling using \texttt{(\textbackslash{}\#eq:xx)} as described in Yihui Xie (2023). The \CRANpkg{texor} helps by adding the labelling using a Lua filter to convert the existing \texttt{\textbackslash{}label\{..\}} to \texttt{(\textbackslash{}\#eq:xx)}.
 
 \hypertarget{handling-the-bibliography}{%
 \subsection{Handling the bibliography}\label{handling-the-bibliography}}
@@ -261,7 +275,9 @@ the usage of \CRANpkg{rebib} and its stability with various formats. However, th
 \hypertarget{summary}{%
 \section{Summary}\label{summary}}
 
-Only handling to html format, especially relevant for figures, because the legacy pdf will remain the same. If using for converting work from LaTeX to Rmd then this will need manual changing by author. See rjtools guide.
+Remember only the HTML is rendered, and the original PDF is not re-generated.
+
+Only handling to HTML format, especially relevant for figures, because the legacy pdf will remain the same. If using for converting work from LaTeX to Rmd then this will need manual changing by author. See rjtools guide.
 
 Where this might be useful in the future, other applications.
 
@@ -331,6 +347,9 @@ Xie, Yihui. 2015. \emph{Dynamic Documents with {R} and Knitr}. 2nd ed. Boca Rato
 
 \leavevmode\vadjust pre{\hypertarget{ref-rmarkdown}{}}%
 Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. \emph{R Markdown: The Definitive Guide}. Boca Raton, Florida: Chapman; Hall/CRC. \url{https://bookdown.org/yihui/rmarkdown}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-bookdown}{}}%
+Yihui Xie. 2023. \emph{{bookdown: Authoring Books and Technical Documents with R Markdown}}. \#equations. \url{https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html}.
 
 \end{CSLReferences}
 

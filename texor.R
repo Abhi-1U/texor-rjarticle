@@ -6,3 +6,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 library(plotly)
 library(ggplot2)
 
+
+## ----workflow, fig.cap="Workflow of the document conversion conducted by texor."----
+knitr::include_graphics("workflow.png")
+
