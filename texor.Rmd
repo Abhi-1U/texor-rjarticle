@@ -56,7 +56,7 @@ library(ggplot2)
 
 The R Journal is the primary open-access outlet for publications produced by the R community. It was born in 2008, evolving from a newsletter, that ran from 2001, into a more formal article publication to encourage documenting statistical computing research. 
 
-The format is regularly updated. Early articles were typeset using LateX [@latex], from a specific, but changing, template. This requires that code is separated from the documentation, and there is a chance that code chunks in the paper don't reproduce the results reported. With the emergence of dynamic document systems like R Markdown [@rmarkdown] a tight-coupling of code and documentation is possible. Code chunks are dynamically executed when the document is typeset using a system like \CRANpkg{knitr} [@knitr], making reporting of computing research more reproducible. 
+The format is regularly updated. Early articles were typeset using LaTeX [@latex], from a specific, but changing, template. This requires that code is separated from the documentation, and there is a chance that code chunks in the paper don't reproduce the results reported. With the emergence of dynamic document systems like R Markdown [@rmarkdown] a tight-coupling of code and documentation is possible. Code chunks are dynamically executed when the document is typeset using a system like \CRANpkg{knitr} [@knitr], making reporting of computing research more reproducible. 
 
 In 2019, with the help of funding from the R Consortium it was decided that it was time to update operations. One aspect of this was to change from LaTeX paper submissions to a more reproducible format, where code was embedded in the document, and the output could be both HTML and pdf. There are numerous benefits of HTML format: 
 
@@ -73,7 +73,7 @@ In addition to article format, changes to the web site structure were important 
 
 The \CRANpkg{rjtools} was developed to create articles using R Markdown for the R Journal, and to embed them into the journal web site. The packages described here, \CRANpkg{texor} and \CRANpkg{rebib} describes software to convert legacy LaTeX format articles into Rmarkdown, so that they can be rendered in HTML in the new web site. 
 
-The paper is organised as follows. Section 2 gives an overview of the conversion process, that includes pre-processing using regular expressions, post-processing using lua filters, and handling of figures, tables and equations. Section 3 describes the \CRANpkg{texor} that handles most of the conversion. Section 4 describes tools to do special handling of bibliography files. The supplementary materials have folders containing specific examples that can be used for understanding how the conversions are done.
+The paper is organised as follows. Section 2 gives an overview of the conversion process, that includes pre-processing using regular expressions, post-processing using Lua filters, and handling of figures, tables and equations. Section 3 describes the \CRANpkg{texor} that handles most of the conversion. Section 4 describes tools to do special handling of bibliography files. The supplementary materials have folders containing specific examples that can be used for understanding how the conversions are done.
 
 <!--
 Describe changes in templates, and web site. Desirability to convert the legacy articles. Decided to convert latex input to Rmd, rather than directly html and why.
@@ -120,7 +120,7 @@ These functions are verbose and describe all the changes being made. They also c
 
 ## Post-processing using Lua filters
 
-Lua [@lua] is a programming language, that is light-weight, fast, ideal for procedural operations.  It is embedded in many other applications to allow custom scripting for extensibility. Pandoc allows users to provide custom lua filters to produce custom output formats. The \CRANpkg{texor} package handles post-processing of the R Markdown document into the special format for the R Journal using a suite of Lua filters. 
+Lua [@lua] is a programming language, that is light-weight, fast, ideal for procedural operations.  It is embedded in many other applications to allow custom scripting for extensibility. Pandoc allows users to provide custom Lua filters to produce custom output formats. The \CRANpkg{texor} package handles post-processing of the R Markdown document into the special format for the R Journal using a suite of Lua filters. 
 
 Here is an example of a Lua filter available in \CRANpkg{texor}:
 
@@ -259,7 +259,7 @@ Math is handled primarily by Pandoc. The inline math and equation descriptions a
 
 The HTML output renders math using MathJax. This does mean that some functionality, like `\bm`, `\boldmath` and `mathbb` not supported, and special definitions cannot be handled. 
 
-The numbering of equations is a bit trickier. LaTeX automatically numbers equations, unless specifically instructed not to. Equation numbering in R Markdown requires specific labelling using `(\#eq:xx)` as described in @bookdown. The \CRANpkg{texor} helps by adding the labelling using a Lua filter to convert the existing `\label{..}` to `(\#eq:xx)`.
+The numbering of equations is a bit trickier. LaTeX automatically numbers equations, unless specifically instructed not to. Equation numbering in R Markdown requires specific labeling using `(\#eq:xx)` as described in @bookdown. The \CRANpkg{texor} helps by adding the labeling using a Lua filter to convert the existing `\label{..}` to `(\#eq:xx)`.
 
 ## Tables
 
@@ -415,20 +415,34 @@ For individuals who are interested in submitting their paper to the R Journal bu
 
 # Managing the bibliography using \CRANpkg{rebib} {#rebib}
 
-## Overview
+Typically bibliographies are generated during the processing of a LaTeX article using the BibTeX software [@bibtex] operating on a `.bib` list of references. The R Journal template requires the inclusion of the `.bib` file. But LaTeX actually uses a `.bbl` format for references, which is what BibTeX generates as an intermediate format during the article processing. 
 
-The \CRANpkg{rebib} package addresses the issue with LaTeX articles using  built-in bibliography options with or without BibTeX files. While this works  well with LaTeX, it won't work with Rmarkdown. Initially the goal was to use external software like Biber to convert the embedded bibliography to BibTeX. 
-However the integration of external software was not viable, hence the experimental idea of a bibliography parser gained momentum. 
+During the conversion of legacy articles, especially in the earliest published articles, it was discovered that some papers were only accompanied by the intermediate `.bbl` formatted references and often these were included directly in the `.tex` file. Sometimes articles had both references in the `.tex` and separate `.bbl` or `.bib` files. While LaTeX can technically handle either `.bbl` or `.bib` formatted references R Markdown can only handle `.bib`. 
 
-It was initially a part of the \CRANpkg{texor} package, as those functions grew in features and became more involved; at that point, it made sense to move those functions as a separate package. Initially, there were some reservations about 
-the usage of \CRANpkg{rebib} and its stability with various formats. However, the package has improved over time and proven to be a good performer.
+The \CRANpkg{rebib} package was developed to handle these tricky situations. It converts embedded LaTeX bibliographies into a close BibTeX equivalent. The features of the package are:
 
-## Using \CRANpkg{rebib}
+- reading `bbl` chunks to produce a very close BibTeX equivalent.
+- title and author are usually mandatory fields.
+- URL, ISBN, publisher, pages and year are optional fields and will be enabled when available.
+- remaining data is stored in `"journal"` (internally) and `"publisher"` (when writing BibTeX file).
+- ignores commented LaTeX code.
+- provides a citation tracker
+- does bibliography aggregation XXX what is this?
+
+<!-- The \CRANpkg{rebib} package addresses the issue with LaTeX articles using built-in bibliography options with or without BibTeX files. While this works  well with LaTeX, it won't work with Rmarkdown. Initially the goal was to use external software like Biber to convert the embedded bibliography to BibTeX. However the integration of external software was not viable, hence the experimental idea of a bibliography parser gained momentum. 
+
+It was initially a part of the \CRANpkg{texor} package, as those functions grew in features and became more involved; at that point, it made sense to move those functions as a separate package. Initially, there were some reservations about the usage of \CRANpkg{rebib} and its stability with various formats. However, the package has improved over time and proven to be a good performer.-->
+
+<!-- ## Using \CRANpkg{rebib}-->
  
-**Install instructions**
+The package `rebib` can be installed from CRAN using:
 
-**Examples / getting started / usage and so on**
- 
+```
+install.packages("rebib")
+```
+
+and the development version from https://github.com/Abhi-1U/rebib. The website for the package, https://abhi-1u.github.io/rebib, has vignettes documenting usage.  
+
 # Summary
 
 Remember only the HTML is rendered, and the original PDF is not re-generated.
@@ -452,8 +466,8 @@ The authors wish to thank the [Google Summer of Code](https://summerofcode.withg
 The supplementary materials has example folders containing LaTeX documents that allow the reader to see how different common patterns in the legacy documents are handled with the conversion. These include:
 
 - `code-env`: Explains how different code environments defined by the R Journal style are handled, and additional details such as code in figure environments, and code in table environments. 
-- `math-env`: Examples of inline math, display math, how equation numbering is handled by a Lua filter to convert from LaTeX labelling to R Markdown labelling. 
-- `figure-env`: Explains how the variety of figure definitions are handled in the conversion, including different image formats, numbering, captions, labelling, multiple images, and `tikz` [@casflow] images.
+- `math-env`: Examples of inline math, display math, how equation numbering is handled by a Lua filter to convert from LaTeX labeling to R Markdown labeling. 
+- `figure-env`: Explains how the variety of figure definitions are handled in the conversion, including different image formats, numbering, captions, labeling, multiple images, and `tikz` [@casflow] images.
 - `table-env`: Examples of how a variety of table types are converted, including multicolumn, complex and wide tables.
 - `lua-filters`: Overview and lots of small examples of Lua filters to handle the custom output needed for the R Markdown format.
 - `metadata`: This has a collection of additional format handling including extracting metadata like author names and affiliations, article identifiers used in the review process, and handling citations, footnotes and links.
@@ -473,7 +487,7 @@ You'll need to ensure that you have the latest versions of \CRANpkg{texor} and \
 
 ## Source materials {-}
 
-The \CRANpkg{texor} and \CRANpkg{rebib} source codem and materials to reproduce this paper are available at:
+The \CRANpkg{texor} and \CRANpkg{rebib} source code and materials to reproduce this paper are available at:
 
 - \CRANpkg{texor}: https://abhi-1u.github.io/texor
 - \CRANpkg{rebib}: https://abhi-1u.github.io/rebib/
