@@ -7,7 +7,7 @@
 \maketitle
 
 \abstract{%
-An abstract of less than 150 words.
+In 2021 the R Journal made a change of templates for article writing to R Markdown instead of LaTeX. The reasons were to encourage better reproducibility of articles using dynamic documents, enable interactivity in articles, and to make the articles more accessible for vision-impaired readers. A resulting challenge was to explore whether legacy articles might be suitably converted into R Markdown before converting into HTML output. This paper describes the process to convert an R Journal LaTeX template article into an R Markdown article, and the two new R packages, \CRANpkg{texor} and \CRANpkg{rebib}, that can be used to achieve the conversion.
 }
 
 \hypertarget{introduction}{%
@@ -36,47 +36,30 @@ In addition to article format, changes to the web site structure were important 
 
 The \CRANpkg{rjtools} was developed to create articles using R Markdown for the R Journal, and to embed them into the journal web site. The packages described here, \CRANpkg{texor} and \CRANpkg{rebib} describes software to convert legacy LaTeX format articles into Rmarkdown, so that they can be rendered in HTML in the new web site.
 
-The paper is organised as follows. Section XXX gives an overview of the conversion process. Section XXX describes examples of pre-processing using regular expressions, and section XXX provides examples of post-processing using lua filters. Section XXX describes tools to do special handling of bibliography files. Section XXX runs through an example conversion process.
+The paper is organised as follows. Section 2 gives an overview of the conversion process, that includes pre-processing using regular expressions, post-processing using lua filters, and handling of figures, tables and equations. Section 3 describes the \CRANpkg{texor} that handles most of the conversion. Section 4 describes tools to do special handling of bibliography files. The supplementary materials have folders containing specific examples that can be used for understanding how the conversions are done.
 
-\hypertarget{the-internals-of-converting-from-latex-to-r-markdown}{%
-\section{The internals of converting from LaTeX to R Markdown}\label{the-internals-of-converting-from-latex-to-r-markdown}}
+\hypertarget{internals}{%
+\section{The internals of converting from LaTeX to R Markdown}\label{internals}}
 
 The decision to convert to R Markdown format means that the final output to pdf and HTML will depend on Pandoc (MacFarlane 2023). Pandoc is a versatile document conversion program written in Haskell that is core to numerous documentation systems, including R Markdown and Quarto. Pandoc first converts a document into an abstract syntax tree. From this, it can convert to a different format, including custom ones.
 
 Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, additional pre-processing needs to be done to handle special R Journal LaTeX styling. And further post-processing needs to be done to handle specific R Journal R Markdown styling. The \CRANpkg{texor} package contains functionality to handle this pre- and post-processing of the document, in a workflow illustrated in Figure \ref{fig:workflow}.
 
 \begin{figure}
-\includegraphics[width=15.5in]{workflow} \caption{Workflow of the document conversion conducted by texor.}\label{fig:workflow}
+
+{\centering \includegraphics[width=0.7\linewidth]{workflow} 
+
+}
+
+\caption{Workflow of the document conversion conducted by texor.}\label{fig:workflow}
 \end{figure}
-
-The supplementary materials has example folders containing LaTeX documents that allow the reader to see how different common patterns in the legacy documents are handled with the conversion. These include:
-
-\begin{itemize}
-\tightlist
-\item
-  \texttt{code-env}: Explains how different code environments defined by the R Journal style are handled, and additional details such as code in figure environments, and code in table environments.
-\item
-  \texttt{math-env}: Examples of inline math, display math, how equation numbering is handled by a Lua filter to convert from LaTeX labelling to R Markdown labelling.
-\item
-  \texttt{figure-env}: Explains how the variety of figure definitions are handled in the conversion, including different image formats, numbering, captions, labelling, multiple images, and \texttt{tikz} (Josh Cassidy 2013) images.
-\item
-  \texttt{table-env}: Examples of how a variety of table types are converted, including multicolumn, complex and wide tables.
-\item
-  \texttt{lua-filters}: Overview and lots of small examples of Lua filters to handle the custom output needed for the R Markdown format.
-\item
-  \texttt{metadata}: This has a collection of additional format handling including extracting metadata like author names and affiliations, article identifiers used in the review process, and handling citations, footnotes and links.
-\item
-  \texttt{bibliography}: The bibliography was handled differently over the years of the journal, and this details how to use the \texttt{rebib} functionality to handle \texttt{bbl} files, embedded \texttt{bbl}, to convert into the standard \texttt{.bib} format.
-\end{itemize}
-
-The explanations in the next sections are extracted from these examples. In each of these folders there is a \texttt{RJwrapper.tex}, and \texttt{.tex} file, with the extra template files \texttt{RJournal.sty} and \texttt{Rlogo-5.png}. These match the legacy template file structure, from which the \texttt{RJwrapper.pdf} file is created. If you follow the instructions in the \texttt{README.md} you can create the R Markdown and HTML versions of the document.
 
 \hypertarget{pre-processing-using-regular-expressions}{%
 \subsection{Pre-processing using regular expressions}\label{pre-processing-using-regular-expressions}}
 
 LaTeX is very descriptive language, that allows authors substantial freedom for customization. Markdown (Gruber 2002), on which R Markdown is based, is more restrictive and was born to make it easier to create web pages without the distraction of a gazillion HTML tags. The beauty of Markdown is that it allows the author to focus on writing, without format cluttering the text. The drawback is that it is simple typesetting, optimized for web delivery.
 
-While pandoc can do most of the heavy-lifting, it cannot cope with all the freedom with which LaTeX documents are written. An example of this is with formatting of code. Pandoc only handles the \texttt{verbatim} environment, but there are many ways to format code in LaTeX, and the R Journal template has a special \texttt{\textbackslash{}code\{\}} command. If the code environment is not verbatim, then pandoc will also try to process the actual code content as LaTeX commands and will likely lose details. It is better to convert these synonyms into \texttt{verbatim} environments this prior to passing the document to pandoc.
+While Pandoc can do most of the heavy-lifting, it cannot cope with all the freedom with which LaTeX documents are written. An example of this is with formatting of code. Pandoc only handles the \texttt{verbatim} environment, but there are many ways to format code in LaTeX, and the R Journal template has a special \texttt{\textbackslash{}code\{\}} command. If the code environment is not verbatim, then Pandoc will also try to process the actual code content as LaTeX commands and will likely lose details. It is better to convert these synonyms into \texttt{verbatim} environments this prior to passing the document to Pandoc.
 
 The functions in \CRANpkg{texor} that handle the pre-processing using regular expressions are:
 
@@ -113,10 +96,13 @@ end
 
 This filter reads the abstract syntax tree, selecting all the Div elements. Then it looks for the class ``thebibliography.'' This Div element contains the LaTeX bibliographic records, that appear at the very end of papers. It should not be in the document when using the ``RJ-web-article'' layout, because it is added from meta-data when the R Markdown is knitted. So the Lua filter removes this section.
 
-\hypertarget{handling-figures}{%
-\subsection{Handling figures}\label{handling-figures}}
+\hypertarget{figures}{%
+\subsection{Figures}\label{figures}}
 
-Figure definitions in LaTeX are many and varied! The standard, single figure definition with the \texttt{figure} environment is handled by pandoc, which converts:
+\hypertarget{standard-single-figure}{%
+\subsubsection{Standard, single figure}\label{standard-single-figure}}
+
+Figure definitions in LaTeX are many and varied! The standard, single figure definition with the \texttt{figure} environment and raster image format such as PNG or JPG, is handled by Pandoc. It will convert:
 
 \begin{verbatim}
 \begin{figure}[htbp]
@@ -136,14 +122,21 @@ to
 </figure>
 \end{verbatim}
 
-PDF figures cause a problem for HTML display, so the image is first converted to PNG, in the pre-processing of the LaTeX document. Then the figure environment would be post-processed using pandoc, as described above.
+\hypertarget{pdf-format-images}{%
+\subsubsection{PDF format images}\label{pdf-format-images}}
 
-Multiple figures are supported with the latest versions of pandoc, so definitions like:
+Images in PDF format are converted to PNG, in the pre-processing of the LaTeX document, and then post-processed using Pandoc as described above.
+
+\hypertarget{multiple-figures}{%
+\subsubsection{Multiple figures}\label{multiple-figures}}
+
+Multiple figures are supported with the latest versions of Pandoc, so definitions like:
 
 \begin{verbatim}
 \begin{figure*}[htbp]
   \centering
-  \includegraphics[width=0.45\textwidth]{Rlogo-5.png}\includegraphics[width=0.45\textwidth]{normal}
+  \includegraphics[width=0.45\textwidth]{Rlogo-5.png}
+  \includegraphics[width=0.45\textwidth]{normal}
   \caption{Images side by side}
   \label{fig:twoimages}
 \end{figure*}
@@ -159,7 +152,10 @@ src="normal.png" style="width:45.0%" alt="image" /></p>
 </figure>
 \end{verbatim}
 
-Some legacy articles defined images using \texttt{tikz} commands, such as:
+\hypertarget{tikz-format-images}{%
+\subsubsection{\texorpdfstring{\texttt{tikz} format images}{tikz format images}}\label{tikz-format-images}}
+
+Some legacy articles define images using \texttt{tikz} commands, such as:
 
 \begin{verbatim}
 \begin{figure}
@@ -177,7 +173,7 @@ draw=black]
 ...
 \end{verbatim}
 
-This is handled by pre-processing the LaTeX to create the image, as both PDF, and them PNG, for inclusion in the R Markdown document using:
+This is handled by pre-processing the LaTeX to create the image, as both PDF, and then PNG, for inclusion in the R Markdown document using:
 
 \begin{verbatim}
 <figure id="fig:tikz">
@@ -187,7 +183,10 @@ This is handled by pre-processing the LaTeX to create the image, as both PDF, an
 </figure>
 \end{verbatim}
 
-Algorithms as figures is supported, and the following description will yield the result in Algorithm \ref{alg:how}.
+\hypertarget{algorithms-as-figures}{%
+\subsubsection{Algorithms as figures}\label{algorithms-as-figures}}
+
+Algorithms as figures is supported, and the following description will yield the result in Figure \ref{fig:alghow}.
 
 \begin{verbatim}
 \begin{algorithm}[htbp]
@@ -209,35 +208,143 @@ go back to the beginning of current section\;
 \end{algorithm}
 \end{verbatim}
 
-initialization
+\begin{verbatim}
+<figure id="alg:how">
+<img src="alghow.png" style="width:100.0%" />
+<p>initialization</p>
+<figcaption>Algorithm 1: How to write algorithms</figcaption>
+</figure>
+\end{verbatim}
 
-Algorithm 1: How to write algorithms
+\begin{figure}
 
-\textbf{DC: Don't really understand this example, why would html figure definition also create pdf?}
+{\centering \includegraphics[width=0.6\linewidth]{alghow} 
 
-\hypertarget{handling-equations}{%
-\subsection{Handling equations}\label{handling-equations}}
+}
 
-Math is handled primarily by pandoc. The inline math and equation descriptions are unchanged between LaTeX and R Markdown.
+\caption{How to write algorithms.}\label{fig:alghow}
+\end{figure}
+
+\hypertarget{equations}{%
+\subsection{Equations}\label{equations}}
+
+Math is handled primarily by Pandoc. The inline math and equation descriptions are unchanged between LaTeX and R Markdown.
 
 The HTML output renders math using MathJax. This does mean that some functionality, like \texttt{\textbackslash{}bm}, \texttt{\textbackslash{}boldmath} and \texttt{mathbb} not supported, and special definitions cannot be handled.
 
 The numbering of equations is a bit trickier. LaTeX automatically numbers equations, unless specifically instructed not to. Equation numbering in R Markdown requires specific labelling using \texttt{(\textbackslash{}\#eq:xx)} as described in Yihui Xie (2023). The \CRANpkg{texor} helps by adding the labelling using a Lua filter to convert the existing \texttt{\textbackslash{}label\{..\}} to \texttt{(\textbackslash{}\#eq:xx)}.
 
-\hypertarget{handling-the-bibliography}{%
-\subsection{Handling the bibliography}\label{handling-the-bibliography}}
+\hypertarget{tables}{%
+\subsection{Tables}\label{tables}}
+
+Tables form one of the biggest challenges in migrating from LaTeX to R Markdown, because the sophistication is not completely replicated. However, there have been many improvements in table definitions for R Markdown that are increasing producing the beautifully crafted tables possible in LaTeX. The conversion in \CRANpkg{texor} can mostly handle the simple tables, and for producing more complex tables it may be necessary to manually edit the resulting \texttt{Rmd} file to make conditional tables, one to render specifically for HTML output using packages such as \CRANpkg{kableExtra} (Zhu 2021), \CRANpkg{gt} (Iannone et al. 2023), \CRANpkg{htmlTable} (Gordon, Gragg, and Konings 2022), \CRANpkg{tableHTML} (Boutaris, Zauchner, and Jomar 2023), \CRANpkg{tables} (Murdoch 2023) or \CRANpkg{DT} (Xie, Cheng, and Tan 2023). A benefit of special HTML table output is interactivity, that would allow the table to be sorted in different ways.
+
+\hypertarget{generic-tables}{%
+\subsubsection{Generic tables}\label{generic-tables}}
+
+Simple LaTeX tables are converted into traditional markdown format tables, by Pandoc. So this table definition:
+
+\begin{verbatim}
+\begin{table}[htbp]
+\centering
+\begin{tabular}{l | llll }
+ \hline
+ Graphics Format & LaTeX & Markdown & Rmarkdown & HTML \\
+ \hline
+ PNG       & Yes & Yes & Yes & Yes \\
+ JPG       & Yes & Yes & Yes & Yes \\
+ PDF       & Yes & No & No & No \\
+ SVG       & No & Yes & Yes & Yes \\
+ Tikz      & Yes & No & Yes & No \\
+ Algorithm & Yes & No & No & No \\
+\hline
+\end{tabular}
+\caption{Image Format support in various Markup/Typesetting Languages}
+\label{table:1}
+\end{table}
+\end{verbatim}
+
+will be converted to:
+
+\begin{verbatim}
+::: {#table:1}
+  -------------------------------------------------------
+  Graphics Format   LaTeX   Markdown   Rmarkdown   HTML
+  ----------------- ------- ---------- ----------- ------
+  PNG               Yes     Yes        Yes         Yes
+
+  JPG               Yes     Yes        Yes         Yes
+
+  PDF               Yes     No         No          No
+
+  SVG               No      Yes        Yes         Yes
+
+  Tikz              Yes     No         Yes         No
+
+  Algorithm         Yes     No         No          No
+  -------------------------------------------------------
+
+  : Table 1: Image Format support in various Markup/Typesetting
+  Languages
+:::
+\end{verbatim}
+
+\hypertarget{multicolumn-tables}{%
+\subsubsection{Multicolumn tables}\label{multicolumn-tables}}
+
+A multicolumn table requires:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  The stream editor modifies the \texttt{\textbackslash{}multicolumnx\{..\}} to
+  \texttt{\textbackslash{}multicolumnxx\{..\}}.
+\item
+  A LaTeX macro is used to redefine the \texttt{\textbackslash{}multicolumnxx\{..\}} to
+  \texttt{\textbackslash{}multicolumnx\{-\/-\/-\}}.
+\item
+  Pandoc reads the table and transforms it to markdown.
+\end{enumerate}
+
+\begin{table*}[htbp]
+\begin{center}
+\begin{tabular}{l | llll }
+ \hline
+ \multicolumn{1}{c |}{EXAMPLE} & \multicolumn{2}{c}{$X$} &
+\multicolumn{2}{c}{$Y$} \\
+ \hline
+  & 1 & 2 & 1 & 2 \\
+ EX1  & X11 & X12 &  Y11  & Y12 \\
+ EX2  & X21 & X22 &  Y21  & Y22 \\
+ EX3  & X31 & X32 &  Y31  & Y32 \\
+ EX4  & X41 & X42 &  Y41  & Y42\\
+ EX5  & X51 & X52 &  Y51  & Y52 \\
+\hline
+\end{tabular}
+\caption{An example multicolumn table.}
+\label{table:2}
+\end{center}
+\end{table*}
+
+Also note that the stream editor is used to rename \texttt{table*} environment to \texttt{table} environment because the markdown/HTML will not support the specific changes table* environment will bring.
+
+\hypertarget{other-tables}{%
+\subsubsection{Other tables}\label{other-tables}}
+
+Tables with images, math, code or links in the cells are generally handled. Also \texttt{widetable} tables that allow for specific width or wrapping of tables into blocks are also partially handled.
+
+\hypertarget{animation}{%
+\subsection{Animation}\label{animation}}
+
+XXX Shall we describe the one pdf paper that has animation and how this is handled - could be cool to include
 
 \hypertarget{logging-the-conversion}{%
 \subsection{Logging the conversion}\label{logging-the-conversion}}
 
-\hypertarget{one-step-user-facing-conversion}{%
-\subsection{One-step user-facing conversion}\label{one-step-user-facing-conversion}}
+XXX what should go here?
 
-The only function that a user necessarily needs is \texttt{latex\_to\_web()}. This creates the R Journal style R Markdown file from a given R Journal style LaTeX file.
-This is achieved in several conversion steps, \texttt{convert\_to\_markdown()}, \texttt{generate\_rmd()} and \texttt{produce\_html()}.
-
-\hypertarget{using}{%
-\section{\texorpdfstring{Using \CRANpkg{texor}}{Using }}\label{using}}
+\hypertarget{texor}{%
+\section{\texorpdfstring{Using \CRANpkg{texor}}{Using }}\label{texor}}
 
 The package \texttt{texor} can be installed from CRAN using:
 
@@ -245,16 +352,27 @@ The package \texttt{texor} can be installed from CRAN using:
 install.packages("texor")
 \end{verbatim}
 
-and the development version from \url{https://abhi-1u.github.io/texor}.
+and the development version from \url{https://github.com/Abhi-1U/texor}. The website for the package, \url{https://abhi-1u.github.io/texor}, has vignettes documenting usage.
 
-\textbf{Examples / getting started / usage and so on}
+Note that you will need to use \href{(https://pandoc.org/installing.html)}{Pandoc Version \textgreater{} 3.0.0 (if possible latest)} for the best results. You can check your version with:
 
-Run through the different examples in supplementary here
+\begin{verbatim}
+rmarkdown::pandoc_version()
+\end{verbatim}
 
-\textbf{From general LaTeX to generic R Markdown}
+The only function that a user necessarily needs is \texttt{latex\_to\_web()}. This creates the R Journal style R Markdown file from a given R Journal style LaTeX file.
+This is achieved by several sequential steps, \texttt{convert\_to\_markdown()}, \texttt{generate\_rmd()} and \texttt{produce\_html()}.
 
-\hypertarget{managing-the-bibliography-using}{%
-\section{\texorpdfstring{Managing the bibliography using \CRANpkg{rebib}}{Managing the bibliography using }}\label{managing-the-bibliography-using}}
+The supplementary materials have several folders with specific examples of figures, tables, equations that can be used to understand how the conversion operates.
+
+For converting the 14 years of legacy R Journal articles, batch processing of issues was conducted. This can be achieved using:
+
+XXX
+
+For individuals who are interested in submitting their paper to the R Journal but have written their article using the legacy LaTeX format and wish to convert it to the new format, you can use the \texttt{latex\_to\_web()} function on your paper directory.
+
+\hypertarget{rebib}{%
+\section{\texorpdfstring{Managing the bibliography using \CRANpkg{rebib}}{Managing the bibliography using }}\label{rebib}}
 
 \hypertarget{overview}{%
 \subsection{Overview}\label{overview}}
@@ -265,8 +383,8 @@ However the integration of external software was not viable, hence the experimen
 It was initially a part of the \CRANpkg{texor} package, as those functions grew in features and became more involved; at that point, it made sense to move those functions as a separate package. Initially, there were some reservations about
 the usage of \CRANpkg{rebib} and its stability with various formats. However, the package has improved over time and proven to be a good performer.
 
-\hypertarget{using-1}{%
-\subsection{\texorpdfstring{Using \CRANpkg{rebib}}{Using }}\label{using-1}}
+\hypertarget{using}{%
+\subsection{\texorpdfstring{Using \CRANpkg{rebib}}{Using }}\label{using}}
 
 \textbf{Install instructions}
 
@@ -286,22 +404,51 @@ No shift to quarto yet.
 Known problems that need manual fixes.
 
 \hypertarget{acknowledgments}{%
-\section{Acknowledgments}\label{acknowledgments}}
+\section*{Acknowledgments}\label{acknowledgments}}
+\addcontentsline{toc}{section}{Acknowledgments}
 
-pandoc
-``TODO : Later''
+The authors wish to thank the \href{https://summerofcode.withgoogle.com}{Google Summer of Code} program for financially supporting Abhishek's work on this project, and the R Project Organization for their support.
 
 \hypertarget{supplementary-materials}{%
-\section{Supplementary materials}\label{supplementary-materials}}
+\section*{Supplementary materials}\label{supplementary-materials}}
+\addcontentsline{toc}{section}{Supplementary materials}
 
-Several supplementary example documents are provided which illustrate how different elements of LaTeX-authored papers are handled. These are:
+The supplementary materials has example folders containing LaTeX documents that allow the reader to see how different common patterns in the legacy documents are handled with the conversion. These include:
 
 \begin{itemize}
 \tightlist
 \item
+  \texttt{code-env}: Explains how different code environments defined by the R Journal style are handled, and additional details such as code in figure environments, and code in table environments.
+\item
+  \texttt{math-env}: Examples of inline math, display math, how equation numbering is handled by a Lua filter to convert from LaTeX labelling to R Markdown labelling.
+\item
+  \texttt{figure-env}: Explains how the variety of figure definitions are handled in the conversion, including different image formats, numbering, captions, labelling, multiple images, and \texttt{tikz} (Josh Cassidy 2013) images.
+\item
+  \texttt{table-env}: Examples of how a variety of table types are converted, including multicolumn, complex and wide tables.
+\item
+  \texttt{lua-filters}: Overview and lots of small examples of Lua filters to handle the custom output needed for the R Markdown format.
+\item
+  \texttt{metadata}: This has a collection of additional format handling including extracting metadata like author names and affiliations, article identifiers used in the review process, and handling citations, footnotes and links.
+\item
+  \texttt{bibliography}: The bibliography was handled differently over the years of the journal, and this details how to use the \texttt{rebib} functionality to handle \texttt{bbl} files, embedded \texttt{bbl}, to convert into the standard \texttt{.bib} format.
 \end{itemize}
 
-The GitHub repos supporting this work are:
+In each of these folders there is a \texttt{RJwrapper.tex}, and \texttt{.tex} file, with the extra template files \texttt{RJournal.sty} and \texttt{Rlogo-5.png} and \texttt{.bib} files. These match the legacy template file structure, from which the \texttt{RJwrapper.pdf} file is created. To test the conversion for each of these examples, set the path directory to one of the folders and use the \texttt{latex\_to\_web()} function as follows:
+
+\begin{verbatim}
+article_dir <- "path-to-this supplementary folder"
+texor::latex_to_web(article_dir)
+\end{verbatim}
+
+This will create an \texttt{.Rmd} and \texttt{.html} files in the same directory, that demonstrate the converted R Markdown version and the HTML output format.
+
+You'll need to ensure that you have the latest versions of \CRANpkg{texor} and \CRANpkg{rebib}, and Pandoc (at least later than version 3.0.0).
+
+\hypertarget{source-materials}{%
+\subsection*{Source materials}\label{source-materials}}
+\addcontentsline{toc}{subsection}{Source materials}
+
+The \CRANpkg{texor} and \CRANpkg{rebib} source codem and materials to reproduce this paper are available at:
 
 \begin{itemize}
 \tightlist
@@ -321,11 +468,20 @@ The GitHub repos supporting this work are:
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-tableHTML}{}}%
+Boutaris, Theo, Clemens Zauchner, and Dana Jomar. 2023. \emph{tableHTML: A Tool to Create HTML Tables}. \url{https://CRAN.R-project.org/package=tableHTML}.
+
 \leavevmode\vadjust pre{\hypertarget{ref-distill}{}}%
 Dervieux, Christophe, JJ Allaire, Rich Iannone, Alison Presmanes Hill, and Yihui Xie. 2022. \emph{Distill: 'R Markdown' Format for Scientific and Technical Writing}. \url{https://CRAN.R-project.org/package=distill}.
 
+\leavevmode\vadjust pre{\hypertarget{ref-htmlTable}{}}%
+Gordon, Max, Stephen Gragg, and Peter Konings. 2022. \emph{htmlTable: Advanced Tables for Markdown/HTML}. \url{https://CRAN.R-project.org/package=htmlTable}.
+
 \leavevmode\vadjust pre{\hypertarget{ref-markdown}{}}%
 Gruber, John. 2002. {``Markdown.''} https://daringfireball.net/projects/markdown/.
+
+\leavevmode\vadjust pre{\hypertarget{ref-gt}{}}%
+Iannone, Richard, Joe Cheng, Barret Schloerke, Ellis Hughes, Alexandra Lauer, and JooYoung Seo. 2023. \emph{Gt: Easily Create Presentation-Ready Display Tables}. \url{https://CRAN.R-project.org/package=gt}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-lua}{}}%
 Ierusalimschy, Roberto, Luiz Henrique de Figueiredo, and Waldemar Celes Filho. 1996. {``Lua---an Extensible Extension Language.''} \emph{Software: Practice and Experience} 26 (6): 635--52.
@@ -335,6 +491,9 @@ Josh Cassidy. 2013. \emph{{LaTeX Graphics using TikZ: A Tutorial for Beginners (
 
 \leavevmode\vadjust pre{\hypertarget{ref-pandoc}{}}%
 MacFarlane, John. 2023. {``Pandoc: A Universal Document Converter.''} https://pandoc.org.
+
+\leavevmode\vadjust pre{\hypertarget{ref-tables}{}}%
+Murdoch, Duncan. 2023. \emph{Tables: Formula-Driven Table Generation}. \url{https://CRAN.R-project.org/package=tables}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-unix}{}}%
 Ritchie, O. M., and K. Thompson. 1978. {``The UNIX Time-Sharing System.''} \emph{The Bell System Technical Journal} 57 (6): 1905--29. \url{https://doi.org/10.1002/j.1538-7305.1978.tb02136.x}.
@@ -348,8 +507,14 @@ Xie, Yihui. 2015. \emph{Dynamic Documents with {R} and Knitr}. 2nd ed. Boca Rato
 \leavevmode\vadjust pre{\hypertarget{ref-rmarkdown}{}}%
 Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. \emph{R Markdown: The Definitive Guide}. Boca Raton, Florida: Chapman; Hall/CRC. \url{https://bookdown.org/yihui/rmarkdown}.
 
+\leavevmode\vadjust pre{\hypertarget{ref-DT}{}}%
+Xie, Yihui, Joe Cheng, and Xianying Tan. 2023. \emph{DT: A Wrapper of the JavaScript Library 'DataTables'}. \url{https://CRAN.R-project.org/package=DT}.
+
 \leavevmode\vadjust pre{\hypertarget{ref-bookdown}{}}%
 Yihui Xie. 2023. \emph{{bookdown: Authoring Books and Technical Documents with R Markdown}}. \#equations. \url{https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-kableExtra}{}}%
+Zhu, Hao. 2021. \emph{kableExtra: Construct Complex Table with 'Kable' and Pipe Syntax}. \url{https://CRAN.R-project.org/package=kableExtra}.
 
 \end{CSLReferences}
 

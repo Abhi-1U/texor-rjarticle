@@ -2,7 +2,7 @@
 title: "Converting LaTeX Legacy R Journal Articles into R Markdown Articles using texor and rebib"
 date: "2022-11-09"
 abstract: >
-  An abstract of less than 150 words.
+  In 2021 the R Journal made a change of templates for article writing to R Markdown instead of LaTeX. The reasons were to encourage better reproducibility of articles using dynamic documents, enable interactivity in articles, and to make the articles more accessible for vision-impaired readers. A resulting challenge was to explore whether legacy articles might be suitably converted into R Markdown before converting into HTML output. This paper describes the process to convert an R Journal LaTeX template article into an R Markdown article, and the two new R packages, \CRANpkg{texor} and \CRANpkg{rebib}, that can be used to achieve the conversion.
 draft: true
 author:  
   # see ?rjournal_article for more information
@@ -73,7 +73,7 @@ In addition to article format, changes to the web site structure were important 
 
 The \CRANpkg{rjtools} was developed to create articles using R Markdown for the R Journal, and to embed them into the journal web site. The packages described here, \CRANpkg{texor} and \CRANpkg{rebib} describes software to convert legacy LaTeX format articles into Rmarkdown, so that they can be rendered in HTML in the new web site. 
 
-The paper is organised as follows. Section XXX gives an overview of the conversion process. Section XXX describes examples of pre-processing using regular expressions, and section XXX provides examples of post-processing using lua filters. Section XXX describes tools to do special handling of bibliography files. Section XXX runs through an example conversion process. 
+The paper is organised as follows. Section 2 gives an overview of the conversion process, that includes pre-processing using regular expressions, post-processing using lua filters, and handling of figures, tables and equations. Section 3 describes the \CRANpkg{texor} that handles most of the conversion. Section 4 describes tools to do special handling of bibliography files. The supplementary materials have folders containing specific examples that can be used for understanding how the conversions are done.
 
 <!--
 Describe changes in templates, and web site. Desirability to convert the legacy articles. Decided to convert latex input to Rmd, rather than directly html and why.
@@ -82,7 +82,7 @@ Describe changes in templates, and web site. Desirability to convert the legacy 
 - Quirks of the legacy articles
 -->
 
-# The internals of converting from LaTeX to R Markdown
+# The internals of converting from LaTeX to R Markdown {#internals}
 
 The decision to convert to R Markdown format means that the final output to pdf and HTML will depend on Pandoc [@pandoc].  Pandoc is a versatile document conversion program written in Haskell that is core to numerous documentation systems, including R Markdown and Quarto. Pandoc first converts a document into an abstract syntax tree. From this, it can convert to a different format, including custom ones. <!-- Although creating bespoke writers/readers in `Lua` can be challenging, pandoc includes filters that allow users to customize the output generated based on matching patterns plus some logic to modify them. -->
 
@@ -90,29 +90,16 @@ Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, 
 
 <!-- uses these filters heavily, even for simple tasks like choosing which supporting figures to copy. A `Lua` filter constructs a list of image paths, stores them momentarily and the package uses this data to copy images. However, \CRANpkg{texor} also includes many pre-processing functions that employ regular expressions. This is needed to convert some text and LaTeX commands that are not recognized or handled by Pandoc. -->
 
-```{r workflow, fig.cap="Workflow of the document conversion conducted by texor."}
+```{r workflow, fig.cap="Workflow of the document conversion conducted by texor.", out.width="70%", fig.align='center'}
 knitr::include_graphics("workflow.png")
 ```
 
-The supplementary materials has example folders containing LaTeX documents that allow the reader to see how different common patterns in the legacy documents are handled with the conversion. These include:
-
-- `code-env`: Explains how different code environments defined by the R Journal style are handled, and additional details such as code in figure environments, and code in table environments. 
-- `math-env`: Examples of inline math, display math, how equation numbering is handled by a Lua filter to convert from LaTeX labelling to R Markdown labelling. 
-- `figure-env`: Explains how the variety of figure definitions are handled in the conversion, including different image formats, numbering, captions, labelling, multiple images, and `tikz` [@casflow] images.
-- `table-env`: Examples of how a variety of table types are converted, including multicolumn, complex and wide tables.
-- `lua-filters`: Overview and lots of small examples of Lua filters to handle the custom output needed for the R Markdown format.
-- `metadata`: This has a collection of additional format handling including extracting metadata like author names and affiliations, article identifiers used in the review process, and handling citations, footnotes and links.
-- `bibliography`: The bibliography was handled differently over the years of the journal, and this details how to use the `rebib` functionality to handle `bbl` files, embedded `bbl`, to convert into the standard `.bib` format.
-
-The explanations in the next sections are extracted from these examples. In each of these folders there is a `RJwrapper.tex`, and `.tex` file, with the extra template files `RJournal.sty` and `Rlogo-5.png`. These match the legacy template file structure, from which the `RJwrapper.pdf` file is created. If you follow the instructions in the `README.md` you can create the R Markdown and HTML versions of the document.
-
-<!-- **Maybe more details on the supporting packages here: LaTeX, Regex, pandoc building blocks of the packages, methods used in them [MOW]**-->
 
 ## Pre-processing using regular expressions 
 
 LaTeX is very descriptive language, that allows authors substantial freedom for customization. Markdown [@markdown], on which R Markdown is based, is more restrictive and was born to make it easier to create web pages without the distraction of a gazillion HTML tags. The beauty of Markdown is that it allows the author to focus on writing, without format cluttering the text. The drawback is that it is simple typesetting, optimized for web delivery.
 
-While pandoc can do most of the heavy-lifting, it cannot cope with all the freedom with which LaTeX documents are written. An example of this is with formatting of code. Pandoc only handles the `verbatim` environment, but there are many ways to format code in LaTeX, and the R Journal template has a special `\code{}` command. If the code environment is not verbatim, then pandoc will also try to process the actual code content as LaTeX commands and will likely lose details. It is better to convert these synonyms into `verbatim` environments this prior to passing the document to pandoc.
+While Pandoc can do most of the heavy-lifting, it cannot cope with all the freedom with which LaTeX documents are written. An example of this is with formatting of code. Pandoc only handles the `verbatim` environment, but there are many ways to format code in LaTeX, and the R Journal template has a special `\code{}` command. If the code environment is not verbatim, then Pandoc will also try to process the actual code content as LaTeX commands and will likely lose details. It is better to convert these synonyms into `verbatim` environments this prior to passing the document to Pandoc.
 
 The functions in \CRANpkg{texor} that handle the pre-processing using regular expressions are:
 
@@ -124,9 +111,9 @@ The functions in \CRANpkg{texor} that handle the pre-processing using regular ex
 
 These functions are verbose and describe all the changes being made. They also create a backup of the original file before making the changes. 
 
-<!-- by syntax though you can always embed HTML to expand the feature set. Although pandoc does most of the heavy lifting, there are some instances where even  filters cannot assist. A good demonstration of the issue in hand is code environments.-->
+<!-- by syntax though you can always embed HTML to expand the feature set. Although Pandoc does most of the heavy lifting, there are some instances where even  filters cannot assist. A good demonstration of the issue in hand is code environments.-->
 
-<!-- A limitation of pandoc is that it only works with a "verbatim" environment. However, in "RJournal",  we have multiple custom code environments which are not supported or defined due to lower-level tex limitations in pandoc. So the code  environments are eliminated during the conversion process. Including a Lua filter to find these elements and redefine them as verbatim environments would also be  ineffective. If the code environment is not verbatim, then pandoc will also try to process the actual code content as LaTeX commands and will lose out on details in some cases.-->
+<!-- A limitation of Pandoc is that it only works with a "verbatim" environment. However, in "RJournal",  we have multiple custom code environments which are not supported or defined due to lower-level tex limitations in Pandoc. So the code  environments are eliminated during the conversion process. Including a Lua filter to find these elements and redefine them as verbatim environments would also be  ineffective. If the code environment is not verbatim, then Pandoc will also try to process the actual code content as LaTeX commands and will lose out on details in some cases.-->
 
 <!--**Be sure to mention the hard parts**-->
 
@@ -147,9 +134,11 @@ end
 
 This filter reads the abstract syntax tree, selecting all the Div elements. Then it looks for the class "thebibliography." This Div element contains the LaTeX bibliographic records, that appear at the very end of papers. It should not be in the document when using the "RJ-web-article" layout, because it is added from meta-data when the R Markdown is knitted. So the Lua filter removes this section.
 
-## Handling figures
+## Figures
 
-Figure definitions in LaTeX are many and varied! The standard, single figure definition with the `figure` environment is handled by pandoc, which converts:
+### Standard, single figure
+
+Figure definitions in LaTeX are many and varied! The standard, single figure definition with the `figure` environment and raster image format such as PNG or JPG, is handled by Pandoc. It will convert:
 
 ```
 \begin{figure}[htbp]
@@ -169,14 +158,19 @@ to
 </figure>
 ```
 
-PDF figures cause a problem for HTML display, so the image is first converted to PNG, in the pre-processing of the LaTeX document. Then the figure environment would be post-processed using pandoc, as described above. 
+### PDF format images
 
-Multiple figures are supported with the latest versions of pandoc, so definitions like:
+Images in PDF format are converted to PNG, in the pre-processing of the LaTeX document, and then post-processed using Pandoc as described above. 
+
+### Multiple figures
+
+Multiple figures are supported with the latest versions of Pandoc, so definitions like:
 
 ```
 \begin{figure*}[htbp]
   \centering
-  \includegraphics[width=0.45\textwidth]{Rlogo-5.png}\includegraphics[width=0.45\textwidth]{normal}
+  \includegraphics[width=0.45\textwidth]{Rlogo-5.png}
+  \includegraphics[width=0.45\textwidth]{normal}
   \caption{Images side by side}
   \label{fig:twoimages}
 \end{figure*}
@@ -192,7 +186,9 @@ src="normal.png" style="width:45.0%" alt="image" /></p>
 </figure>
 ```
 
-Some legacy articles defined images using `tikz` commands, such as:
+### `tikz` format images
+
+Some legacy articles define images using `tikz` commands, such as:
 
 ```
 \begin{figure}
@@ -211,7 +207,7 @@ draw=black]
 
 ```
 
-This is handled by pre-processing the LaTeX to create the image, as both PDF, and them PNG, for inclusion in the R Markdown document using:
+This is handled by pre-processing the LaTeX to create the image, as both PDF, and then PNG, for inclusion in the R Markdown document using:
 
 ```
 <figure id="fig:tikz">
@@ -221,7 +217,9 @@ This is handled by pre-processing the LaTeX to create the image, as both PDF, an
 </figure>
 ```
 
-Algorithms as figures is supported, and the following description will yield the result in Algorithm \@ref(alg:how).
+### Algorithms as figures
+
+Algorithms as figures is supported, and the following description will yield the result in Figure \@ref(fig:alghow).
 
 ```
 \begin{algorithm}[htbp]
@@ -243,33 +241,152 @@ go back to the beginning of current section\;
 \end{algorithm}
 ```
 
+```
 <figure id="alg:how">
 <img src="alghow.png" style="width:100.0%" />
 <p>initialization</p>
 <figcaption>Algorithm 1: How to write algorithms</figcaption>
 </figure>
+```
 
-**DC: Don't really understand this example, why would html figure definition also create pdf?**
+```{r alghow, fig.cap="How to write algorithms.", out.width="60%", fig.align='center'}
+knitr::include_graphics("alghow.png")
+```
 
-## Handling equations
+## Equations
 
-Math is handled primarily by pandoc. The inline math and equation descriptions are unchanged between LaTeX and R Markdown. 
+Math is handled primarily by Pandoc. The inline math and equation descriptions are unchanged between LaTeX and R Markdown. 
 
 The HTML output renders math using MathJax. This does mean that some functionality, like `\bm`, `\boldmath` and `mathbb` not supported, and special definitions cannot be handled. 
 
 The numbering of equations is a bit trickier. LaTeX automatically numbers equations, unless specifically instructed not to. Equation numbering in R Markdown requires specific labelling using `(\#eq:xx)` as described in @bookdown. The \CRANpkg{texor} helps by adding the labelling using a Lua filter to convert the existing `\label{..}` to `(\#eq:xx)`.
 
+## Tables
 
-## Handling the bibliography 
+Tables form one of the biggest challenges in migrating from LaTeX to R Markdown, because the sophistication is not completely replicated. However, there have been many improvements in table definitions for R Markdown that are increasing producing the beautifully crafted tables possible in LaTeX. The conversion in \CRANpkg{texor} can mostly handle the simple tables, and for producing more complex tables it may be necessary to manually edit the resulting `Rmd` file to make conditional tables, one to render specifically for HTML output using packages such as \CRANpkg{kableExtra} [@kableExtra], \CRANpkg{gt} [@gt], \CRANpkg{htmlTable} [@htmlTable], \CRANpkg{tableHTML} [@tableHTML], \CRANpkg{tables} [@tables] or \CRANpkg{DT} [@DT]. A benefit of special HTML table output is interactivity, that would allow the table to be sorted in different ways.
+
+### Generic tables
+
+Simple LaTeX tables are converted into traditional markdown format tables, by Pandoc. So this table definition:
+
+```
+\begin{table}[htbp]
+\centering
+\begin{tabular}{l | llll }
+ \hline
+ Graphics Format & LaTeX & Markdown & Rmarkdown & HTML \\
+ \hline
+ PNG       & Yes & Yes & Yes & Yes \\
+ JPG       & Yes & Yes & Yes & Yes \\
+ PDF       & Yes & No & No & No \\
+ SVG       & No & Yes & Yes & Yes \\
+ Tikz      & Yes & No & Yes & No \\
+ Algorithm & Yes & No & No & No \\
+\hline
+\end{tabular}
+\caption{Image Format support in various Markup/Typesetting Languages}
+\label{table:1}
+\end{table}
+```
+
+will be converted to:
+
+```
+::: {#table:1}
+  -------------------------------------------------------
+  Graphics Format   LaTeX   Markdown   Rmarkdown   HTML
+  ----------------- ------- ---------- ----------- ------
+  PNG               Yes     Yes        Yes         Yes
+
+  JPG               Yes     Yes        Yes         Yes
+
+  PDF               Yes     No         No          No
+
+  SVG               No      Yes        Yes         Yes
+
+  Tikz              Yes     No         Yes         No
+
+  Algorithm         Yes     No         No          No
+  -------------------------------------------------------
+
+  : Table 1: Image Format support in various Markup/Typesetting
+  Languages
+:::
+```
+
+### Multicolumn tables
+
+A multicolumn table requires:
+
+1. The stream editor modifies the `\multicolumnx{..}` to
+    `\multicolumnxx{..}`.
+
+2. A LaTeX macro is used to redefine the `\multicolumnxx{..}` to
+    `\multicolumnx{---}`.
+
+3. Pandoc reads the table and transforms it to markdown.
+
+```{asis echo=knitr::is_latex_output()}
+\begin{table*}[htbp]
+\begin{center}
+\begin{tabular}{l | llll }
+ \hline
+ \multicolumn{1}{c |}{EXAMPLE} & \multicolumn{2}{c}{$X$} &
+\multicolumn{2}{c}{$Y$} \\
+ \hline
+  & 1 & 2 & 1 & 2 \\
+ EX1  & X11 & X12 &  Y11  & Y12 \\
+ EX2  & X21 & X22 &  Y21  & Y22 \\
+ EX3  & X31 & X32 &  Y31  & Y32 \\
+ EX4  & X41 & X42 &  Y41  & Y42\\
+ EX5  & X51 & X52 &  Y51  & Y52 \\
+\hline
+\end{tabular}
+\caption{An example multicolumn table.}
+\label{table:2}
+\end{center}
+\end{table*}
+```
+
+```{asis echo=knitr::is_html_output()}
+::: center
+::: {#table:2}
+  -------------------------------------
+  EXAMPLE   \(X\)         \(Y\)   
+  --------- ------- ----- ------- -----
+            1       2     1       2
+
+  EX1       X11     X12   Y11     Y12
+
+  EX2       X21     X22   Y21     Y22
+
+  EX3       X31     X32   Y31     Y32
+
+  EX4       X41     X42   Y41     Y42
+
+  EX5       X51     X52   Y51     Y52
+  -------------------------------------
+
+  : Table 2: An Example Table with Multicolumn
+:::
+:::
+```
+
+Also note that the stream editor is used to rename `table*` environment to `table` environment because the markdown/HTML will not support the specific changes table\* environment will bring.
+
+### Other tables
+
+Tables with images, math, code or links in the cells are generally handled. Also `widetable` tables that allow for specific width or wrapping of tables into blocks are also partially handled.
+
+## Animation
+
+XXX Shall we describe the one pdf paper that has animation and how this is handled - could be cool to include
 
 ## Logging the conversion
 
-## One-step user-facing conversion
+XXX what should go here?
 
-The only function that a user necessarily needs is `latex_to_web()`. This creates the R Journal style R Markdown file from a given R Journal style LaTeX file. 
-This is achieved in several conversion steps, `convert_to_markdown()`, `generate_rmd()` and `produce_html()`. 
-
-# Using \CRANpkg{texor}
+# Using \CRANpkg{texor} {#texor}
 
 The package `texor` can be installed from CRAN using:
 
@@ -277,15 +394,26 @@ The package `texor` can be installed from CRAN using:
 install.packages("texor")
 ```
 
-and the development version from https://abhi-1u.github.io/texor. 
+and the development version from https://github.com/Abhi-1U/texor. The website for the package, https://abhi-1u.github.io/texor, has vignettes documenting usage. 
 
-**Examples / getting started / usage and so on**
+Note that you will need to use [Pandoc Version > 3.0.0 (if possible latest)]((https://pandoc.org/installing.html)) for the best results. You can check your version with:
 
-Run through the different examples in supplementary here
+```
+rmarkdown::pandoc_version()
+```
 
-**From general LaTeX to generic R Markdown**
+The only function that a user necessarily needs is `latex_to_web()`. This creates the R Journal style R Markdown file from a given R Journal style LaTeX file. 
+This is achieved by several sequential steps, `convert_to_markdown()`, `generate_rmd()` and `produce_html()`. 
 
-# Managing the bibliography using \CRANpkg{rebib}
+The supplementary materials have several folders with specific examples of figures, tables, equations that can be used to understand how the conversion operates.
+
+For converting the 14 years of legacy R Journal articles, batch processing of issues was conducted. This can be achieved using:
+
+XXX
+
+For individuals who are interested in submitting their paper to the R Journal but have written their article using the legacy LaTeX format and wish to convert it to the new format, you can use the `latex_to_web()` function on your paper directory.
+
+# Managing the bibliography using \CRANpkg{rebib} {#rebib}
 
 ## Overview
 
@@ -315,17 +443,37 @@ No shift to quarto yet.
 
 Known problems that need manual fixes.
 
-# Acknowledgments
-pandoc
- "TODO : Later"
+# Acknowledgments {-}
+
+The authors wish to thank the [Google Summer of Code](https://summerofcode.withgoogle.com) program for financially supporting Abhishek's work on this project, and the R Project Organization for their support. 
  
-# Supplementary materials
+# Supplementary materials {-}
 
-Several supplementary example documents are provided which illustrate how different elements of LaTeX-authored papers are handled. These are:
+The supplementary materials has example folders containing LaTeX documents that allow the reader to see how different common patterns in the legacy documents are handled with the conversion. These include:
 
-- 
+- `code-env`: Explains how different code environments defined by the R Journal style are handled, and additional details such as code in figure environments, and code in table environments. 
+- `math-env`: Examples of inline math, display math, how equation numbering is handled by a Lua filter to convert from LaTeX labelling to R Markdown labelling. 
+- `figure-env`: Explains how the variety of figure definitions are handled in the conversion, including different image formats, numbering, captions, labelling, multiple images, and `tikz` [@casflow] images.
+- `table-env`: Examples of how a variety of table types are converted, including multicolumn, complex and wide tables.
+- `lua-filters`: Overview and lots of small examples of Lua filters to handle the custom output needed for the R Markdown format.
+- `metadata`: This has a collection of additional format handling including extracting metadata like author names and affiliations, article identifiers used in the review process, and handling citations, footnotes and links.
+- `bibliography`: The bibliography was handled differently over the years of the journal, and this details how to use the `rebib` functionality to handle `bbl` files, embedded `bbl`, to convert into the standard `.bib` format.
 
-The GitHub repos supporting this work are:
+
+In each of these folders there is a `RJwrapper.tex`, and `.tex` file, with the extra template files `RJournal.sty` and `Rlogo-5.png` and `.bib` files. These match the legacy template file structure, from which the `RJwrapper.pdf` file is created. To test the conversion for each of these examples, set the path directory to one of the folders and use the `latex_to_web()` function as follows:
+
+```
+article_dir <- "path-to-this supplementary folder"
+texor::latex_to_web(article_dir)
+```
+
+This will create an `.Rmd` and `.html` files in the same directory, that demonstrate the converted R Markdown version and the HTML output format.
+
+You'll need to ensure that you have the latest versions of \CRANpkg{texor} and \CRANpkg{rebib}, and Pandoc (at least later than version 3.0.0).
+
+## Source materials {-}
+
+The \CRANpkg{texor} and \CRANpkg{rebib} source codem and materials to reproduce this paper are available at:
 
 - \CRANpkg{texor}: https://abhi-1u.github.io/texor
 - \CRANpkg{rebib}: https://abhi-1u.github.io/rebib/

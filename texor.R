@@ -7,6 +7,92 @@ library(plotly)
 library(ggplot2)
 
 
-## ----workflow, fig.cap="Workflow of the document conversion conducted by texor."----
+## ----workflow, fig.cap="Workflow of the document conversion conducted by texor.", out.width="70%", fig.align='center'----
 knitr::include_graphics("workflow.png")
+
+
+## ----alghow, fig.cap="How to write algorithms.", out.width="60%", fig.align='center'----
+knitr::include_graphics("alghow.png")
+
+
+## \begin{table*}[htbp]
+
+## \begin{center}
+
+## \begin{tabular}{l | llll }
+
+##  \hline
+
+##  \multicolumn{1}{c |}{EXAMPLE} & \multicolumn{2}{c}{$X$} &
+
+## \multicolumn{2}{c}{$Y$} \\
+
+##  \hline
+
+##   & 1 & 2 & 1 & 2 \\
+
+##  EX1  & X11 & X12 &  Y11  & Y12 \\
+
+##  EX2  & X21 & X22 &  Y21  & Y22 \\
+
+##  EX3  & X31 & X32 &  Y31  & Y32 \\
+
+##  EX4  & X41 & X42 &  Y41  & Y42\\
+
+##  EX5  & X51 & X52 &  Y51  & Y52 \\
+
+## \hline
+
+## \end{tabular}
+
+## \caption{An example multicolumn table.}
+
+## \label{table:2}
+
+## \end{center}
+
+## \end{table*}
+
+
+## ::: center
+
+## ::: {#table:2}
+
+##   -------------------------------------
+
+##   EXAMPLE   \(X\)         \(Y\)
+
+##   --------- ------- ----- ------- -----
+
+##             1       2     1       2
+
+## 
+
+##   EX1       X11     X12   Y11     Y12
+
+## 
+
+##   EX2       X21     X22   Y21     Y22
+
+## 
+
+##   EX3       X31     X32   Y31     Y32
+
+## 
+
+##   EX4       X41     X42   Y41     Y42
+
+## 
+
+##   EX5       X51     X52   Y51     Y52
+
+##   -------------------------------------
+
+## 
+
+##   : Table 2: An Example Table with Multicolumn
+
+## :::
+
+## :::
 
