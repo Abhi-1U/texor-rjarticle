@@ -140,7 +140,7 @@ This filter reads the abstract syntax tree, selecting all the Div elements. Then
 
 Figure definitions in LaTeX are many and varied! The standard, single figure definition with the `figure` environment and raster image format such as PNG or JPG, is handled by Pandoc. It will convert:
 
-```
+```latex
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.35\textwidth]{Rlogo-5.png}
@@ -151,7 +151,7 @@ Figure definitions in LaTeX are many and varied! The standard, single figure def
 
 to 
 
-```
+```html
 <figure id="figure:rlogo">
 <img src="Rlogo-5.png" style="width:35.0%" />
 <figcaption>Figure 1: The logo of R.</figcaption>
@@ -166,7 +166,7 @@ Images in PDF format are converted to PNG, in the pre-processing of the LaTeX do
 
 Multiple figures are supported with the latest versions of Pandoc, so definitions like:
 
-```
+```latex
 \begin{figure*}[htbp]
   \centering
   \includegraphics[width=0.45\textwidth]{Rlogo-5.png}
@@ -178,7 +178,7 @@ Multiple figures are supported with the latest versions of Pandoc, so definition
 
 will be converted to:
 
-```
+```html
 <figure id="fig:twoimages">
 <p><img src="Rlogo-5.png" style="width:45.0%" alt="image" /><img
 src="normal.png" style="width:45.0%" alt="image" /></p>
@@ -190,7 +190,7 @@ src="normal.png" style="width:45.0%" alt="image" /></p>
 
 Some legacy articles define images using `tikz` commands, such as:
 
-```
+```latex
 \begin{figure}
 
 %% Generated Image will included as a PNG above automatically
@@ -209,7 +209,7 @@ draw=black]
 
 This is handled by pre-processing the LaTeX to create the image, as both PDF, and then PNG, for inclusion in the R Markdown document using:
 
-```
+```html
 <figure id="fig:tikz">
 <img src="tikz/figtikz.png" style="width:100.0%" />
 
@@ -221,7 +221,7 @@ This is handled by pre-processing the LaTeX to create the image, as both PDF, an
 
 Algorithms as figures is supported, and the following description will yield the result in Figure \@ref(fig:alghow).
 
-```
+```latex
 \begin{algorithm}[htbp]
 \SetAlgoLined
 \KwData{this text}
@@ -241,7 +241,7 @@ go back to the beginning of current section\;
 \end{algorithm}
 ```
 
-```
+```html
 <figure id="alg:how">
 <img src="alghow.png" style="width:100.0%" />
 <p>initialization</p>
@@ -269,7 +269,7 @@ Tables form one of the biggest challenges in migrating from LaTeX to R Markdown,
 
 Simple LaTeX tables are converted into traditional markdown format tables, by Pandoc. So this table definition:
 
-```
+```latex
 \begin{table}[htbp]
 \centering
 \begin{tabular}{l | llll }
@@ -291,7 +291,7 @@ Simple LaTeX tables are converted into traditional markdown format tables, by Pa
 
 will be converted to:
 
-```
+```markdown
 ::: {#table:1}
   -------------------------------------------------------
   Graphics Format   LaTeX   Markdown   Rmarkdown   HTML
@@ -390,7 +390,7 @@ XXX what should go here?
 
 The package `texor` can be installed from CRAN using:
 
-```
+```r
 install.packages("texor")
 ```
 
@@ -398,7 +398,7 @@ and the development version from https://github.com/Abhi-1U/texor. The website f
 
 Note that you will need to use [Pandoc Version > 3.0.0 (if possible latest)]((https://pandoc.org/installing.html)) for the best results. You can check your version with:
 
-```
+```r
 rmarkdown::pandoc_version()
 ```
 
@@ -409,7 +409,7 @@ The supplementary materials have several folders with specific examples of figur
 
 For converting the 14 years of legacy R Journal articles, batch processing of issues was conducted. This can be achieved using:
 
-XXX
+XXX ??? warn authors about the conversion not being 1:1 with rmarkdown and might need further edits in with tables and figures. 
 
 For individuals who are interested in submitting their paper to the R Journal but have written their article using the legacy LaTeX format and wish to convert it to the new format, you can use the `latex_to_web()` function on your paper directory.
 
@@ -439,7 +439,7 @@ It was initially a part of the \CRANpkg{texor} package, as those functions grew 
  
 The package `rebib` can be installed from CRAN using:
 
-```
+```r
 install.packages("rebib")
 ```
 
@@ -478,7 +478,7 @@ The supplementary materials has example folders containing LaTeX documents that 
 
 In each of these folders there is a `RJwrapper.tex`, and `.tex` file, with the extra template files `RJournal.sty` and `Rlogo-5.png` and `.bib` files. These match the legacy template file structure, from which the `RJwrapper.pdf` file is created. To test the conversion for each of these examples, set the path directory to one of the folders and use the `latex_to_web()` function as follows:
 
-```
+```r
 article_dir <- "path-to-this supplementary folder"
 texor::latex_to_web(article_dir)
 ```
