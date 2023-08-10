@@ -7,7 +7,7 @@ library(plotly)
 library(ggplot2)
 
 
-## ----workflow, fig.cap="Workflow of the document conversion conducted by texor.", out.width="70%", fig.align='center'----
+## ----workflow, fig.cap="Workflow of the document conversion conducted by texor.", out.width="90%", fig.align='center'----
 knitr::include_graphics("workflow.png")
 
 

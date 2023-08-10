@@ -47,7 +47,7 @@ Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, 
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.7\linewidth]{workflow} 
+{\centering \includegraphics[width=0.9\linewidth]{workflow} 
 
 }
 
@@ -230,7 +230,7 @@ go back to the beginning of current section\;
 
 Math is handled primarily by Pandoc. The inline math and equation descriptions are unchanged between LaTeX and R Markdown.
 
-The HTML output renders math using MathJax. This does mean that some functionality, like \texttt{\textbackslash{}bm}, \texttt{\textbackslash{}boldmath} and \texttt{mathbb} not supported, and special definitions cannot be handled.
+The HTML output renders math using MathJax. This does mean that some functionality, like \texttt{\textbackslash{}bm}, \texttt{\textbackslash{}boldmath} and \texttt{\textbackslash{}mathbbm} not supported, and special definitions can be handled albeit in a limited capacity.
 
 The numbering of equations is a bit trickier. LaTeX automatically numbers equations, unless specifically instructed not to. Equation numbering in R Markdown requires specific labeling using \texttt{(\textbackslash{}\#eq:xx)} as described in Yihui Xie (2023). The \CRANpkg{texor} helps by adding the labeling using a Lua filter to convert the existing \texttt{\textbackslash{}label\{..\}} to \texttt{(\textbackslash{}\#eq:xx)}.
 
@@ -297,11 +297,11 @@ A multicolumn table requires:
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  The stream editor modifies the \texttt{\textbackslash{}multicolumnx\{..\}} to
-  \texttt{\textbackslash{}multicolumnxx\{..\}}.
+  The stream editor modifies the \texttt{\textbackslash{}multicolumn\{..\}} to
+  \texttt{\textbackslash{}multicolumnx\{..\}}.
 \item
   A LaTeX macro is used to redefine the \texttt{\textbackslash{}multicolumnxx\{..\}} to
-  \texttt{\textbackslash{}multicolumnx\{-\/-\/-\}}.
+  \texttt{\textbackslash{}multicolumn\{-\/-\/-\}} (which is accepted by pandoc).
 \item
   Pandoc reads the table and transforms it to markdown.
 \end{enumerate}
@@ -370,6 +370,8 @@ For converting the 14 years of legacy R Journal articles, batch processing of is
 XXX
 
 For individuals who are interested in submitting their paper to the R Journal but have written their article using the legacy LaTeX format and wish to convert it to the new format, you can use the \texttt{latex\_to\_web()} function on your paper directory.
+
+XXX - Should we include various options/params for the function here ?
 
 \hypertarget{rebib}{%
 \section{\texorpdfstring{Managing the bibliography using \CRANpkg{rebib}}{Managing the bibliography using }}\label{rebib}}
