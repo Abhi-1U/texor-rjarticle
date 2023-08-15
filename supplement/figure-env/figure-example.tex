@@ -126,39 +126,21 @@ source and re-convert without making any other changes. Figure will get updated
 in the generated html article.
 
 \subsubsection{Tikz Code:}
-\begin{verbatim}
-\begin{figure}
+The figure  \ref{fig:tikz} is an example of how \pkg{texor} handles tikz images,
 
-%% Generated Image will included as a PNG above automatically
-  \centering
-\tikzstyle{process} = [rectangle, rounded corners,
-minimum width=3cm, 
-minimum height=1cm,
-text centered, 
-draw=black]
-\tikzstyle{arrow} = [thick,->,>=stealth]
-\begin{tikzpicture}[node distance=4cm]
-%Nodes
-\node (start) [process] {LaTeX Source with Tikz Image};
-\node (isolate) [process, below right of=start] {Isolated tikz env};
-\node (pro1) [process, below left of=isolate] {Standalone PDF file};
-\node (pro2) [process, below right of=pro1, yshift=-0.5cm] {PNG file};
-\node (link) [process, below left of=pro2] {Include PNG in article};
-\node (stop) [process, below right of=link] {Convert To RJ-web-article};
-% arrows
-\draw [arrow] (start) -- node[anchor=east] {Extract Figure Block} (isolate);
-\draw [arrow] (isolate) -- node[anchor=east] {Compile} (pro1);
-\draw [arrow] (pro1) -- node[anchor=east] {Convert to raster} (pro2);
-\draw [arrow] (pro2) -- node[anchor=east] {Include back to source as image} (link);
-\draw [arrow] (link) -- node[anchor=east] {Using Pandoc} (stop);
-\end{tikzpicture}
-\caption{Tikz Image example}
-  \label{fig:tikz}
-\end{figure}
+\begin{itemize}
+\item First figures containing tikz images are isolated.
+\item Tikz libraries are fetched from the wrapper file,
+\item Tikz Code section is isolated into a standalone LaTeX file and compiled.
+\item The Compiled LaTeX file generates a PDF Image.
+\item This is then Converted again to PNG format as PDFs embedded in HTML wont look good.
+\item In the figure environment a line is added \verb|\includegraphics{tikz/somefigure.png}|
+\item During the conversion in pandoc, a lua filter removes extra/unncessary text from the rest of the figure
+environemnt.
+\end{itemize}
 
-\end{verbatim}
+If You use \pkg{texor} to convert your articles using \verb|texor::latex_to_web()| with \verb|temp_mode=TRUE|(it is TRUE by default). The resultant Rmarkdown/HTML file will not modify the contents of your LaTeX file. In this case you can keep reloading the article after making changes to the tikz images, without having to do the above steps manually in case you are converting the article by hand.
 
-\subsubsection{Resultant Figure :}
 \begin{figure*}
 
 %% Generated Image will included as a PNG above
@@ -169,20 +151,17 @@ minimum height=1cm,
 text centered, 
 draw=black]
 \tikzstyle{arrow} = [thick,->,>=stealth]
-\begin{tikzpicture}[node distance=4cm]
+\begin{tikzpicture}[node distance=2cm]
 %Nodes
-\node (start) [process] {LaTeX Source with Tikz Image};
-\node (isolate) [process, below right of=start] {Isolated tikz env};
-\node (pro1) [process, below left of=isolate] {Standalone PDF file};
-\node (pro2) [process, below right of=pro1, yshift=-0.5cm] {PNG file};
-\node (link) [process, below left of=pro2] {Include PNG in article};
-\node (stop) [process, below right of=link] {Convert To RJ-web-article};
+\node (start) [process] {Tikz};
+\node (isolate) [process, below right of=start] {Isolated LaTeX};
+\node (pro1) [process, below right of=isolate] {PDF};
+\node (pro2) [process, below right of=pro1, yshift=-0.5cm] {PNG};
 % arrows
-\draw [arrow] (start) -- node[anchor=east] {Extract Figure Block} (isolate);
+\draw [arrow] (start) -- node[anchor=east] {Extract} (isolate);
 \draw [arrow] (isolate) -- node[anchor=east] {Compile} (pro1);
-\draw [arrow] (pro1) -- node[anchor=east] {Convert to raster} (pro2);
-\draw [arrow] (pro2) -- node[anchor=east] {Include back to source as image} (link);
-\draw [arrow] (link) -- node[anchor=east] {Using Pandoc} (stop);
+\draw [arrow] (pro1) -- node[anchor=east] {Rasterize} (pro2);
+
 \end{tikzpicture}
 \caption{Tikz Image example}
   \label{fig:tikz}
@@ -195,25 +174,6 @@ we do support algorithm2e diagrams and images, these will be numbered differentl
 and we strongly suggest to use "alg:" in labels for best results. 
 Here is an example of algorithm \ref{alg:how}, referenced from \cite{algoexample}
 
-\begin{verbatim}
-\begin{algorithm}[htbp]
-\SetAlgoLined
-\KwData{this text}
-\KwResult{how to write algorithm with \LaTeX2e }
-initialization\;
-\While{not at end of this document}{
-read current\;
-\eIf{understand}{
-go to next section\;
-current section becomes this one\;
-}{
-go back to the beginning of current section\;
-}
-}
-\caption{How to write algorithms}
-  \label{alg:how}
-\end{algorithm}
-\end{verbatim}
 
 \begin{algorithm}[htbp]
 \SetAlgoLined
@@ -234,9 +194,19 @@ go back to the beginning of current section\;
 \end{algorithm}
 
 \section{Other elements in figure objects}
-Figures can also house non-image environments like CodeBlocks and Para. This 
-also creates an opportunity to add support for CodeBlock numbering with some
-lua filter trickery.
+
+Figures can also house non-image environments like CodeBlocks and WideTables. This is 
+the part where things start to look a bit different in the converted articles, CodeBlocks 
+in figure environments would have numbering and caption that goes "Figure x:". However, 
+when the same CodeBlock is converted to Rmarkdown, they are numbered as "CodeBlock x:".
+This distinguishes them from normal Images and matches with authors vision more appropriately. 
+
+As for Inclusion of widetables, since it houses two different tabular environments with the same caption,
+it would be treated as two different tables by pandoc sharing the same caption. This would not be the best solution hence, \pkg{texor} package uses Figure enviornment to house the widetables.
+This way they are distinguished well from normal tables, also the numbering scheme is seperated from figures "WideTable x:".
+
+However one important thing to note is, the reference links and reference numbering would be shared with ones of the figures. So the changes that the package makes are cosmetic to captions. Like CodeBlock 1 below refers to \ref{code:example}. The number should have been 1 but instead it is 7.
+
 \begin{figure}[htbp]
 \begin{center}
 \begin{verbatim}
