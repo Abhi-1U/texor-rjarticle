@@ -378,10 +378,6 @@ Also note that the stream editor is used to rename `table*` environment to `tabl
 
 Tables with images, math, code or links in the cells are generally handled. Also `widetable` tables that allow for specific width or wrapping of tables into blocks are also partially handled.
 
-## Animation
-
-XXX Shall we describe the one pdf paper that has animation and how this is handled - could be cool to include
-
 ## Logging the conversion
 
 XXX what should go here?
@@ -405,13 +401,15 @@ rmarkdown::pandoc_version()
 The only function that a user necessarily needs is `latex_to_web()`. This creates the R Journal style R Markdown file from a given R Journal style LaTeX file. 
 This is achieved by several sequential steps, `convert_to_markdown()`, `generate_rmd()` and `produce_html()`. 
 
-The supplementary materials have several folders with specific examples of figures, tables, equations that can be used to understand how the conversion operates.
+For converting the 14 years of legacy R Journal articles, batch processing of issues was conducted. 
 
-For converting the 14 years of legacy R Journal articles, batch processing of issues was conducted. This can be achieved using:
+<!--XXX ??? warn authors about the conversion not being 1:1 with rmarkdown and might need further edits in with tables and figures.--> 
 
-XXX ??? warn authors about the conversion not being 1:1 with rmarkdown and might need further edits in with tables and figures. 
+For individuals who are interested in submitting their paper to the R Journal but have written their article using the legacy LaTeX format and wish to convert it to the new format, you can use the `latex_to_web()` function on your paper directory. This will get you about 80% of the way to an R Markdown version of your paper. You will then want to 
 
-For individuals who are interested in submitting their paper to the R Journal but have written their article using the legacy LaTeX format and wish to convert it to the new format, you can use the `latex_to_web()` function on your paper directory.
+- Edit the lines where figures are included. 
+- Edit the tables. 
+- Include your R code, to dynamically do the computing described in your article. 
 
 XXX - Should we include various options/params for the function here ?
 
@@ -447,11 +445,15 @@ and the development version from https://github.com/Abhi-1U/rebib. The website f
 
 # Summary
 
-Remember only the HTML is rendered, and the original PDF is not re-generated.
+The original motivation for the \CRANpkg{texor} and \CRANpkg{rebib} packages was to convert legacy LaTeX articles into HTML format to accessibility. Thus it only creates the R Markdown and an HTML version leaving the original PDF as published. This will also be used to produce HTML versions of newly accepted papers only submitted as LaTeX.
+
+However, it could be useful to help authors convert to dynamic documents, by providing an initial R Markdown version of their LaTeX, that with some modification, such as including their R code for computations directly in the document, will produce both PDF nd HTML versions of their submitted paper. 
+
+<!--Remember only the HTML is rendered, and the original PDF is not re-generated.
 
 Only handling to HTML format, especially relevant for figures, because the legacy pdf will remain the same. If using for converting work from LaTeX to Rmd then this will need manual changing by author. See rjtools guide.
 
-Where this might be useful in the future, other applications.
+Where this might be useful in the future, other applications.-->
 
 No shift to quarto yet.
 
