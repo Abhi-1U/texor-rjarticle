@@ -83,13 +83,13 @@ function Figure(el)
 	        figures = figures + 1
 	        label = "Figure " .. tostring(figures) .. ":"
       end
-	    local caption = pandoc.utils.stringify(el.caption)
+	    local caption = el.caption
 	    if not caption then
-          caption = label
+          caption = {pandoc.Str(label)}
     	else
-          caption = label .. " " .. caption
+          caption = {pandoc.Str(label),pandoc.Space()}
     	end
-    	el.caption.long[1] = caption
+    	el.caption.long[1].content = caption .. el.caption.long[1].content
     	is_fig = 0
     	return el
 end
@@ -133,9 +133,41 @@ pandoc example.md --from markdown --to html5 --output filtered-example.html
 \end{figure}
 
 \section{Usage of pandoc lua filters in texor package}
+Pandoc Lua filters are used in texor package to modify the AST for various markups.
+ Table \ref{tab:filters} summarizes the use of each filter.
+\begin{table}
+\begin{tabular}{|l|p{10cm}|}
+\hline
+File Name & Description\\
+\hline
+\verb|abs_filter.lua| & {Filters out unicode \verb|182| character.}\\
+\hline
+\verb|bib_filter.lua| & Clears out bibliography from the article itself as it will added to metadata\\
+\hline
+\verb|R_code.lua| & Adds a class component \verb|'r'| to CodeBlocks for code highlight \\
+\hline
+\verb|image_filter.lua| & Fixes extensions for image paths without extension or \verb|.pdf| extension \\
+\hline
+\verb|table_caption.lua| & Adds Table numbering in the captions similar to the ones found in Rmarkdown and kable based tables. \\
+\hline
+\verb|image_caption.lua| & Adds Figure/Algorithm/CodeBlock/WideTable numbering as well as clears out residuals of tikz/algorithm images \\
+\hline
+\verb|conversion_compat_check.lua| & This filter keeps a count all Inline and Block elements and writes it to a yaml file. \\
+\hline
+\verb|equation_filter.lua| & Adds Bookdown style equation numbering to LaTeX equation/math environments.\\
+\hline
+\verb|bookdown_ref.lua| & Changes the format of Links to bookdown (markdown) style of links\\
+\hline
+\verb|issue_checker.lua| & Searches and notifies any occourence of unrecognized math commands.\\
+\hline
+\verb|find_pdf_files.lua| & This filter creates a list for all Image PDF files included in the article.\\
+\hline
+\end{tabular}
+\caption{A summary of all Lua filters used in texor package (available in \href{https://github.com/Abhi-1U/texor/tree/master/inst}{/inst} folder of package).}
+\label{tab:filters}
+\end{table}
 
 
-\section{Summary}
 
 \section{Supplementary materials}
 The example conversion files described here are included as supplementary materials

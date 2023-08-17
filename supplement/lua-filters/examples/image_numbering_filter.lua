@@ -19,15 +19,15 @@ function Figure(el)
 		label = "Figure " .. tostring(figures) .. ":"
 	end
 	-- read the existing caption
-	local caption = pandoc.utils.stringify(el.caption)
+	local caption = el.caption
 	if not caption then
       		-- Figure has no caption, just add the label
-      		caption = label
+      		caption = {pandoc.Str(label)}
     	else
-      		caption = label .. " " .. caption
+      		caption = {pandoc.Str(label),pandoc.Space()}
     	end
     	-- setting the new caption in the Figure element
-    	el.caption.long[1] = caption
+    	el.caption.long[1].content = caption .. el.caption.long[1].content
     	-- resetting the temp variable
     	is_fig = 0
     	-- return the figure element with modifications
