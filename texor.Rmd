@@ -424,13 +424,13 @@ During the conversion of legacy articles, it was discovered that some papers had
 
 The \CRANpkg{rebib} package was developed to handle these tricky situations. It converts embedded LaTeX bibliographies into a close BibTeX equivalent. The features of the package are:
 
-- extracting `bbl` chunks from a `.tex` file;
+- extracting embedded bibliographic entries from a `.tex` file;
 - creating the mandatory title and author fields;
 - creating the optional URL, ISBN, publisher, pages and year fields, when available;
 - storing remaining information in `"journal"` (internally) and `"publisher"` (when writing BibTeX file);
 - ignoring commented LaTeX code;
 - tracking citations included in the document, and
-- aggregating references from embedded `bbl` with references from supplementary `.bbl` and `.bib` files.
+- aggregating references from embedded bibliographic entries with references from supplementary `.bbl` and `.bib` files.
 
 <!-- The \CRANpkg{rebib} package addresses the issue with LaTeX articles using built-in bibliography options with or without BibTeX files. While this works  well with LaTeX, it won't work with Rmarkdown. Initially the goal was to use external software like Biber to convert the embedded bibliography to BibTeX. However the integration of external software was not viable, hence the experimental idea of a bibliography parser gained momentum. 
 
