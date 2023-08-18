@@ -54,7 +54,7 @@ library(ggplot2)
 
 # Introduction
 
-The R Journal is the primary open-access outlet for publications produced by the R community. It was started in 2009, evolving from a newsletter that ran from 2001, to become a more formal publication that encourages and provides credit for the documentation of statistical computing research. 
+The R Journal is the primary open-access outlet for publications produced by the R community. It was started in 2009, evolving from the R News newsletter that ran from 2001, to become a more formal publication that encourages and provides credit for the documentation of statistical computing research. 
 
 The tooling behind the production of the R Journal is regularly updated. Early articles were typeset using LaTeX [@latex], based on a specific, but changing, template. Using LaTeX requires that code is separated from the documentation, and there is a chance that code chunks in the paper don't reproduce the results reported. With the emergence of dynamic document systems such as R Markdown [@rmarkdown], a tight coupling of code and documentation is possible. Code chunks are dynamically executed when the document is typeset using a system like \CRANpkg{knitr} [@knitr], making reporting of computing research more reproducible. 
 
