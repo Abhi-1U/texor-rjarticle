@@ -9,25 +9,25 @@ This is a small sample article to demonstrate handling of metadata and other str
 }
 
 \section{Introduction}
-There is a difference in the structure of metadata and generally Rmarkdown has more
-meta-data entries than its LaTeX counterpart. So for the conversion, main task is to 
-transform the meta data and include it in the generated Rmarkdown file, matching the
-LaTeX data as closely as possible.
+There is a difference in the structure of metadata and generally R Markdown has more
+metadata entries than its LaTeX counterpart. So for the conversion, the main task is to 
+transform the metadata and include it in the generated R Markdown file, matching the
+LaTeX metadata as closely as possible.
 
-Pandoc when used with \verb|-s| or \verb|standalone| mode reads out some of the existing
-meta data. The extracted author meta-data are listed below:
+When used with the \verb|-s| or \verb|standalone| mode, pandoc reads out some of the existing
+meta data. The extracted metadata are listed below.
 
 
-\subsubsection{Metadata Read from LaTeX file}
+\subsubsection{Metadata read from LaTeX file}
 
 \begin{itemize}
-  \item Author Names 
-  \item Author address(affiliation)
+  \item Author names 
+  \item Author address (affiliation)
   \item ORCID number
   \item Title
   \item Bibliography
   \item Abstract
-  \item CRAN/BIO packages
+  \item CRAN/Bioconductor packages
 \end{itemize}
 
 The \verb|\address{..}| section must be typeset in this manner for the most 
@@ -41,16 +41,15 @@ ORCiD: 0009-0000-6935-8690\\% ORCID number with prefix ORCiD:
 }
 \end{verbatim}
 
-\subsubsection{Metadata Read from DESCRIPTION file}
+\subsubsection{Metadata read from DESCRIPTION file}
 
 \begin{itemize}
   \item Date
   \item Slug
-  \item Volume and Issue
+  \item Volume and issue
 \end{itemize}
 
-Some details like the Volume and Issue were picked up from folder structure as well
-in some legacy articles where DESCRIPTION file was not available.
+Some metadata like the volume and issue were picked up from the folder structure for some legacy articles, where the DESCRIPTION file was not available.
 
 \subsubsection{Other supported commands in conversion}
 
@@ -69,7 +68,7 @@ in some legacy articles where DESCRIPTION file was not available.
 \verb|\command{help}| & \command{help} \\
 \hline
 \end{tabular}
-\caption{Other commands supported by \CRANpkg{texor} and Pandoc}
+\caption{Other commands supported by \CRANpkg{texor} and pandoc}
 \label{table:1}
 \end{table}
 
@@ -77,7 +76,7 @@ in some legacy articles where DESCRIPTION file was not available.
 
 \subsubsection{Citations}
 
-Table \ref{table:2} represents all the ways one can use citations in LaTeX and
+Table~\ref{table:2} represents all the ways one can use citations in LaTeX and
 expect the generated output.
 
 \begin{table}[htbp]
@@ -94,34 +93,36 @@ expect the generated output.
 \verb|\citeauthor{pandoc}| & \citeauthor{pandoc} \\ \hline
  \verb|\cite{pandoc}| & \cite{pandoc} \\ \hline
 \end{tabular}
-\caption{Different citations in LaTeX}
+\caption{Different forms of citation in LaTeX.}
 \label{table:2}
 \end{table}
 
 \subsubsection{Footnotes}
+
+Footnotes do not work in \verb|tabular| environments in LaTeX but do work in R Markdown tables\footnote{Footnotes in paragraph text work in both LaTeX and R markdown}. Custom footnote numbering works in LaTeX but does not work in R Markdown\footnote[21]{Forever 21 :)}. These features are demonstrated in Table~\ref{table:3}.
+
 \begin{table}[htbp]
 \centering
 \begin{tabular}{| c | c |}
  \hline
  Command & Render \\
  \hline
- \verb|\acronym{A}\footnote{This works in Web article}| & \acronym{A}\footnote{This works in Web article} \\ \hline
-\verb|\R\footnote[21]{Its 2 not 21 :(}| & \R\footnote[21]{Its 2 not 21 :(}  \\ \hline
+ \verb|\acronym{A}\footnote{This works in HTML}| & \acronym{A}\footnote{This works in HTML} \\ \hline
+\verb|\R\footnote[21]{HTML shows 2 rather than 21}| & \R\footnote[21]{HTML shows 2 rather than 21}  \\ \hline
 \end{tabular}
-\caption{Demo of footnotes}
+\caption{Demonstration of footnotes.}
 \label{table:3}
 \end{table}
 
-Footnotes do not work in \verb|tabular| environment in LaTeX but it does work in Rmarkdown\footnote{This works in LaTeX and  Web article}.
-Custom Footnote number works in LaTeX but does not work in web articles\footnote[21]{Forever 21 :)}.
 
-\subsubsection{BlockQuotes}
+\subsubsection{Block quotes}
 \begin{quote}
-This BlockQuote should Justify an example.
+This block quote should justify an example.
 \end{quote}
 
 \subsubsection{Links}
-Most links work just fine using \verb|\href| and \verb|\url| command will work flawlessly.
+Most links work just fine using \verb|\href| and the \verb|\url| command will work flawlessly, as demonstrated in Table ~\ref{table:4}.
+
 \begin{table}[htbp]
 \centering
 \begin{tabular}{| c | c |}
@@ -137,14 +138,14 @@ Most links work just fine using \verb|\href| and \verb|\url| command will work f
 \end{table}
 
 \subsection{Colored text}
-Some commands to describe colored text also work during conversion like
-\verb|\textcolor{blue}{Blue Text}|  \textcolor{blue}{Blue Text}
+Some commands to describe colored text also work during conversion, such as
+\verb|\textcolor{blue}{Blue Text}|  \textcolor{blue}{Blue Text}.
 
 \section{Summary}
 In summary the \CRANpkg{texor} package alongside pandoc supports:
 \begin{itemize}
-\item Extracting Metadata and putting it together well.
-\item Handling Links, BlockQuotes, Citations and Footnotes.
+\item Extracting metadata and putting it together well.
+\item Handling links, block quotes, citations and footnotes.
 \end{itemize}
 
 \begin{thebibliography}{2}
