@@ -6,31 +6,31 @@
 
 \abstract{
 pandoc supports intermediate modification of the Abstract Syntax Tree (AST) between
-the parsing and writing phase using filters. This supplement paper will highlight
-the use cases of such filters written in Lua Language on LaTeX,markdown and native AST.
+the parsing and writing phase using filters. This supplement paper highlights
+the use cases of such filters written in the Lua language on LaTeX, markdown and native AST.
 }
 
 \section{Introduction}
-To fully understand pandoc filters, one must first grasp the document conversion process. A document in one format is read/parsed into an intermediate form. An abstract syntax tree (AST) is what pandoc calls it. A document writer is a specialized type-setter to read an AST and produces the contents in the chosen article format. Converting markdown to HTML, for example, will entail these pandoc operations. Figure\ref{fig:workflow} shows the conversion workflow withing pandoc.
+To fully understand pandoc filters, one must first grasp the document conversion process. A document in one format is read/parsed into an intermediate form, known as an abstract syntax tree (AST). A document writer is a specialized type-setter to read an AST and produce the contents in the chosen article format. Converting markdown to HTML, for example, will entail these pandoc operations. Figure~\ref{fig:workflow} shows the conversion workflow within pandoc.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.6\textwidth]{figures/workflow.png}
-  \caption{Conversion Workflow}
+  \caption{Conversion workflow.}
   \label{fig:workflow}
 \end{figure}
 
-When specific elements require adjustment, the filters enter the picture. Assume you're converting markdown to HTML and want the page to have automated numbering for figures or tables. 
+When specific elements require adjustment, the Lua filters enter the picture. Assume you're converting markdown to HTML and want the page to have automated numbering for figures or tables. 
 If you use markdown, there is no system for automatically numbering figures/tables; to retain 1:1 conversion, the HTML output will also lack numbering. 
 
 At this point, you might wish there was a way to add such a feature. Then there is the possibility of unlimited choices for customization, including every customization as an option in pandoc or the writer is not viable. 
-To address this, the idea of filters emerged, in which you could change the AST partially and modify it before the writer could read it. As a result, you get the desired result \citep{pandocfilters}.
+To address this, the idea of filters emerged, with which you could modify the AST before the writer could read it to obtain the desired result \citep{pandocfilters}.
 
-\section{Need of lua filters}
+\section{Need of Lua filters}
 
-Continuing the example above lets create a dummy article, where we need to add
-numbering. One way could be to keep a counter of Images, and add a prefix \verb|"Figure X :"|
-to each figure caption. This will serve the purpose of numbering the Images in the end result.
+Continuing the example above, let's create a dummy article, where we need to add
+numbering. One way could be to keep a counter of images, and add a prefix \verb|"Figure X :"|
+to each figure caption. This will serve the purpose of numbering the images in the end result.
 
 \begin{verbatim}
 ![R logo](Rlogo-5.png){width="10%"}
@@ -43,31 +43,31 @@ to each figure caption. This will serve the purpose of numbering the Images in t
 \begin{verbatim}
 pandoc example.md --from markdown --to html5 --output example.html
 \end{verbatim}
-\caption{pandoc command without lua filter or extensions}
+\caption{pandoc command without lua filter or extensions.}
 \label{code:2}
 \end{figure*}
 
-Now If we convert the above markdown file to HTML5 using pandoc command \ref{code:2}, we get \ref{fig:1}
+Now if we convert the above markdown file to HTML5 using the pandoc command in Figure~\ref{code:2}, we get Figure~\ref{fig:1}.
 
 
 \begin{figure*}[!htbp]
 \centering
 \includegraphics[width=0.5\linewidth]{figures/example.png}
-\caption{Vanilla HTML5 output}
+\caption{Vanilla HTML5 output.}
 \label{fig:1}
 \end{figure*}
 
 As we can see, there is no figure numbering done automatically, which is generally
-the expected result. However if we want to include numbering to it, we would need
-to write a lua filter. This lua filter will modify the AST and make the changes we 
+the expected result. If we want to include numbering, we would need
+to write a Lua filter. This Lua filter will modify the AST and make the changes we 
 desire.
 
-We call a lua filter in the pandoc command \ref{code:2} using the \verb| --lua-filter name_of_filter.lua|
+We call a Lua filter in the pandoc command show in Figure~\ref{code:2} using the \verb| --lua-filter name_of_filter.lua|
 option in pandoc.
 
-Now we write a lua filter to manipulate the figures in \ref{code:3}
+In the next section we write a Lua filter to manipulate the figures in Figure~\ref{code:3}.
 
-\section{Writing pandoc lua filters}
+\section{Writing pandoc Lua filters}
 
 \begin{figure}[htbp]
 \begin{verbatim}
@@ -94,7 +94,7 @@ function Figure(el)
     	return el
 end
 \end{verbatim}
-\caption{A lua filter to add figure numbering}
+\caption{A Lua filter to add figure numbering.}
 \label{code:3}
 \end{figure}
 
@@ -102,39 +102,39 @@ Everything in Lua revolves around tables; for example, the pandoc AST or the doc
 
 In pandoc, there are two sorts of elements: \verb|Blocks| and \verb|Inlines|. \verb|Blocks| are complicated constructions constructed from simple pieces (\verb|Inlines|). A \verb|Para|, for example, is a \verb|Block| made up of several \verb|Str| \verb|Inlines|.
 
-The first step in writing a filter is to select a target type, that is, which block or Inline this filter will target.
-Following the selection, we name the function after the target type and each element in the argument as el.
+The first step in writing a filter is to select a target type, that is, which \verb|Block| or \verb|Inline| this filter will target.
+Following the selection, we name the function after the target type and each element in the argument as \verb|el|.
 For instance, in the case of our filter, it would be \verb|function Figure(el)|. Pandoc is smart enough to match the names of filter functions to the AST elements.
 
-Now within the filter function we can assume that \verb|el| will contain the table object of a Figure element from the document. we can use many functions over it or \verb|Inlines| contained in it. One such function to walk over all the elements inside the block is \verb|walk_block|. walk functions are great to check or count the presence of certain elements in a block. we use \verb|walk_block| to check if there are any Image inline elements within the Figure block. This is because after pandoc 3 \citep{pandoc} Figure blocks can now contain elements other than Images as well.
+Now within the filter function we can assume that \verb|el| will contain the table object of a Figure element from the document. We can use many functions over it or \verb|Inlines| contained in it. One such function to walk over all the elements inside the block is \verb|walk_block|. Walk functions are a great way to check or count the presence of certain elements in a block. We use \verb|walk_block| to check if there are any \verb|Image| inline elements within the \verb|Figure| block. This is because after pandoc 3 \citep{pandoc} \verb|Figure| blocks can now contain elements other than \verb|Images| as well.
 
-If there is an Image then we append \verb|"Figure X :"| to the caption of the Figure element.
+If there is an \verb|Image| then we append \verb|"Figure X :"| to the caption of the \verb|Figure| element.
 and return the modified element.
 
-\section{Interpreting changes using lua filters}
+\section{Interpreting changes using Lua filters}
 
-The filter \ref{code:3} when included in the pandoc command will generate \ref{fig:2} 
-using the \ref{code:4} command.
+The filter in Figure~\ref{code:3} when included in the pandoc command will generate Figure~\ref{fig:2} 
+using the command in Figure~\ref{code:4}.
 
 \begin{figure}[htbp]
 \begin{verbatim}
 pandoc example.md --from markdown --to html5 --output filtered-example.html
 --lua-filter image_numbering_filter.lua
 \end{verbatim}
-\caption{pandoc command with lua filter}
+\caption{pandoc command with Lua filter.}
 \label{code:4}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.5\linewidth]{figures/example-filtered.png}
-\caption{HTML5 output with desired filtering}
+\caption{HTML5 output with desired filtering.}
 \label{fig:2}
 \end{figure}
 
-\section{Usage of pandoc lua filters in texor package}
-Pandoc Lua filters are used in texor package to modify the AST for various markups.
- Table \ref{tab:filters} summarizes the use of each filter.
+\section{Usage of pandoc lua filters in the \CRANpkg{texor} package}
+Pandoc Lua filters are used in the \CRANpkg{texor} package to modify the AST for various markups.
+ Table~\ref{tab:filters} summarizes the use of each filter.
 \begin{table}
 \begin{tabular}{|l|p{10cm}|}
 \hline
@@ -142,36 +142,34 @@ File Name & Description\\
 \hline
 \verb|abs_filter.lua| & {Filters out unicode \verb|182| character.}\\
 \hline
-\verb|bib_filter.lua| & Clears out bibliography from the article itself as it will added to metadata\\
+\verb|bib_filter.lua| & Clears out the bibliography from the article itself as it will be added to the metadata.\\
 \hline
-\verb|R_code.lua| & Adds a class component \verb|'r'| to CodeBlocks for code highlight \\
+\verb|R_code.lua| & Adds a class component \verb|'r'| to CodeBlocks for code highlighting. \\
 \hline
-\verb|image_filter.lua| & Fixes extensions for image paths without extension or \verb|.pdf| extension \\
+\verb|image_filter.lua| & Fixes extensions for image paths without an extension or with \verb|.pdf| extension. \\
 \hline
-\verb|table_caption.lua| & Adds Table numbering in the captions similar to the ones found in Rmarkdown and kable based tables. \\
+\verb|table_caption.lua| & Adds table numbering in the captions similar to the ones found in R Markdown and \CRANpkg{kable}-based tables. \\
 \hline
-\verb|image_caption.lua| & Adds Figure/Algorithm/CodeBlock/WideTable numbering as well as clears out residuals of tikz/algorithm images \\
+\verb|image_caption.lua| & Adds Figure/Algorithm/CodeBlock/WideTable numbering as well as clears out residuals of tikz/algorithm images. \\
 \hline
-\verb|conversion_compat_check.lua| & This filter keeps a count all Inline and Block elements and writes it to a yaml file. \\
+\verb|conversion_compat_check.lua| & This filter keeps a count of all \verb|Inline| and \verb|Block| elements and writes it to a yaml file. \\
 \hline
-\verb|equation_filter.lua| & Adds Bookdown style equation numbering to LaTeX equation/math environments.\\
+\verb|equation_filter.lua| & Adds \CRANpkg{bookdown} style equation numbering to LaTeX equation/math environments.\\
 \hline
-\verb|bookdown_ref.lua| & Changes the format of Links to bookdown (markdown) style of links\\
+\verb|bookdown_ref.lua| & Changes the format of links to \CRANpkg{bookdown} (markdown) style.\\
 \hline
-\verb|issue_checker.lua| & Searches and notifies any occourence of unrecognized math commands.\\
+\verb|issue_checker.lua| & Searches and notifies any occurrence of unrecognized math commands.\\
 \hline
-\verb|find_pdf_files.lua| & This filter creates a list for all Image PDF files included in the article.\\
+\verb|find_pdf_files.lua| & This filter creates a list for all image PDF files included in the article.\\
 \hline
 \end{tabular}
-\caption{A summary of all Lua filters used in texor package (available in \href{https://github.com/Abhi-1U/texor/tree/master/inst}{/inst} folder of package).}
+\caption{A summary of all Lua filters used in the \CRANpkg{texor} package (available in the \href{https://github.com/Abhi-1U/texor/tree/master/inst}{/inst} folder of the package).}
 \label{tab:filters}
 \end{table}
 
 
 
-\section{Supplementary materials}
-The example conversion files described here are included as supplementary materials
-in the Rjournal article of texor.
+
 
 \begin{thebibliography}{2}
     \providecommand{\natexlab}[1]{#1}
