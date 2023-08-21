@@ -5,18 +5,18 @@
 \maketitle
 
 \abstract{
-This is a small sample article to demonstrate usage of \CRANpkg{texor} to convert code environments.
+This is a small sample article to demonstrate usage of texor to convert code environments.
 }
 
 \section{Introduction}
 
-Pandoc naturally converts the \code{verbatim} environment easily, however the redefinition of other commands such as \code{example}, \code{example*}, \code{Sinput} etc to \code{verbatim} does not work well in pandoc.
+Pandoc naturally converts verbatim environment easily, however the redefination of other commands such as example, example*, Sinput etc to verbatim does not work well in pandoc.
 
-Hence, the \CRANpkg{texor} package uses a stream editor to find and replace matching code environments to \code{verbatim} before pandoc touches it.
+Hence, the \CRANpkg{texor} package uses a stream editor to search find and replace matching code environments to verbatim before pandoc touches it.
 
 This way the the code is not lost in conversion, also a pandoc extension is used to add attributes to the markdown code using  \verb|fenced_code_attributes|
 
-Code Environment types are summarized in Table~\ref{table:1}.
+Code Environment types are well summarized in the table \ref{table:1}
 
 \begin{table}[htbp]
 \centering
@@ -25,8 +25,8 @@ Code Environment types are summarized in Table~\ref{table:1}.
  Code Environment Type &  &  &  & & \\
  \hline
  Example          & example & example* &  & & \\
- S series         & Sin & Sout & Sinput & Soutput & Scode \\
- Special verbatim & boxedverbatim & &  & & \\
+ S.series         & Sin & Sout & Sinput & Soutput & Scode \\
+ Special Verbatim & boxedverbatim & &  & & \\
 \hline
 \end{tabular}
 \caption{Code Environment support in texor}
@@ -37,18 +37,18 @@ Code Environment types are summarized in Table~\ref{table:1}.
 \section{Environments}
 
 \subsection{Verbatim Series}
-While \code{verbatim} is naturally supported in pandoc, other extensions of the \code{verbatim} environment
-like \code{boxedverbatim} from the moreverb package \citep{moreverb} fall back to normal \code{verbatim}.
+While verbatim is naturally supported in pandoc,other extensions of verbatim environment
+like boxedverbatim from moreverb package \citep{moreverb} falls back to normal verbatim.
 % verbatim
 
-1. \code{verbatim} :
+1. verbatim :
 
 \begin{verbatim}
 print("Hello world")
 \end{verbatim}
 
 
-2. \code{boxedverbatim} :
+2. boxedverbatim :
 
 \begin{boxedverbatim}
 print("Hello world")
@@ -57,8 +57,8 @@ print("Hello world")
 
 \subsection{S series}
 
-The S series of code environments is defined in the \file{Rjournal.sty} file. Most of these are
-extensions of the \code{verbatim} environment and are represented as vanilla \code{verbatim} in the HTML output.
+S series code environement is defined in Rjournal.sty file. Most of these are
+extensions of verbatim environment and are represented as vanilla verbatim in HTML.
 
 1. Sinput :
 
@@ -88,18 +88,17 @@ print("Hello world")
 
 
 \subsection{Example series}
+Example series of code environment is defined in Rjournal.sty file. Examples are
+extensions of verbatim environment and are represented as vanilla verbatim in HTML.
 
-The Example series of code environments is defined in the \file{Rjournal.sty} file. Examples are
-extensions of \code{verbatim} environment and are represented as vanilla \code{verbatim} in the HTML output.
-
-1. \code{example} :
+1. example :
 
 \begin{example}
 print("Hello world")
 \end{example}
 
 
-2. \code{example*} :
+2. example* :
 
 \begin{example*}
 print("Hello world")
@@ -108,8 +107,8 @@ print("Hello world")
 
 % Code in Figures
 \section{Code in Figure Environments}
-A small example of code in a figure environment is demonstrated in Figure~\ref{code:example} (named CodeBlock~\ref{code:example} in the HTML). This is a common practice
-in R News articles as it used to add a boxed border around the code which looks 
+A small example of this is visble in \ref{code:example}. This is a common practice
+in Rnews articles as it used to add a boxed border around the code which looks 
 attractive. However, in web articles there isn't much advantage to it. 
 
 \begin{figure}[htbp]
@@ -117,10 +116,10 @@ attractive. However, in web articles there isn't much advantage to it.
 \begin{verbatim}
 code_in_figure <- function() {
   if (pandoc_version >= 3) {
-    print("code in figure supported")
+    print("Code in Figure Supported")
   }
   else {
-    print("code in figure not supported")
+    print("code in Figure not supported")
   }
 }
 \end{verbatim}
@@ -130,7 +129,8 @@ code_in_figure <- function() {
 \end{figure}
 
 Pandoc v3 or greater \citep{pandoc} has a Figure object which allows non-image
-figures to be treated like image figures. This is why the \CRANpkg{texor} package requires at least version 3 of pandoc.
+figures to be treated like one. This is why \CRANpkg{texor} package requires atleast version 3
+of pandoc.
 
 
 
@@ -138,15 +138,16 @@ figures to be treated like image figures. This is why the \CRANpkg{texor} packag
 \section{Code in Table Environments}
 We can use code environments in a table using minipage environments. This is not
 a common practice among LaTeX article authors, but a few articles had such complex
-structures. A few of examples are included here to demonstrate the capabilities of pandoc and the \CRANpkg{texor} package. 
+structures. So, as a example to demonstrate pandoc and \CRANpkg{texor} package's capabilities, 
+I have included a few of them.
 
-Table~\ref{table:2} is an example of code environments within a table.
+Table \ref{table:2} is an example of code environments within a table.
 
 \begin{table}[htbp]
 \centering
   \begin{tabular}{|c | c |}
     \hline
-    Language & Function Definition Syntax \\
+    Language & Function Defination Syntax \\
     \hline
     R & \begin{minipage}{0.75\textwidth}
 \vspace{1mm}
@@ -184,8 +185,8 @@ end
 \label{table:2}
 \end{table}
 
-A similar arrangement can be used to arrange figures/plots besides code environments.
-Table~\ref{table:3} demonstrates a table with code and a figure.
+A similar arrangement can be had for figures/plots besides code environment.
+Table \ref{table:3} demonstrates a table with code and figure.
 \begin{table}[htbp]
   \centering
   \begin{tabular}{| c | c |}
@@ -206,7 +207,7 @@ plot(x,y)
     \end{minipage}\\
     \hline
   \end{tabular}
-  \caption{Code and a plot side by side}
+  \caption{Code and Plot side by side}
   \label{table:3}
 \end{table}
 
@@ -214,15 +215,15 @@ plot(x,y)
 % Inline Code
 \section{Inline Code usage}
 
-Using inline code in LaTeX is possible using the \verb|\verb| command.
-It would be reproduced similarly, as an \code{Inline} code element.
+Using inline code in LaTeX is possible using \verb|\verb| command.
+It would be repoduced similarly, as a Inline code element.
 \begin{verbatim}
 \verb|x <- 1:100|
 \end{verbatim}
-will be represented as \verb|x <- 1:100| in \code{Inline} format.
+will be represented as \verb|x <- 1:100| in Inline format.
 
 \section{Code chunks using Schunk}
-Code chunks within an \verb|Schunk| environment to demonstrate Input/Output:
+Code chunks within an \verb|Schunk| environment to demonstrate Input/Output
 
 \begin{Schunk}
 Input :
@@ -235,7 +236,7 @@ Output :
 \end{Soutput}
 \end{Schunk}
 
-A similar arrangement can be used for plots as well, using the figure environnment.
+Similar arrangement can be had for Plots as well using figure environnment.
 
 \begin{Schunk}
 Input :
@@ -253,10 +254,10 @@ Output :\\
 
 In summary the \CRANpkg{texor} package supports:
 \begin{itemize}
-\item Almost all code environments in the R Journal.
-\item Code highlighting for the R language.
-\item Inline code.
-\item Code in different environments such as tables/figures.
+\item Almost all code environments in RJournal.
+\item Code Highlight for R language.
+\item Inline Code.
+\item Code in different environments like tables/figures.
 \end{itemize}
 
 
@@ -272,7 +273,7 @@ In summary the \CRANpkg{texor} package supports:
 A.~ Krewinkel and A.~ Lucero
 \newblock pandoc 3.0 Release notes
 \newblock \emph{pandoc} \penalty0 2023
-\newblock URL \url{https://pandoc.org/releases.html#pandoc-3.0-2023-01-18}
+\newblock URL \url{https://pandoc.org/releases.html}
 
 \bibitem[Fairbairns, Duggan, Schöpf, Eijkhout (2011)]{moreverb}
 R.~ Fairbairns, A.~ Duggan, R.~ Schöpf and V.~ Eijkhout

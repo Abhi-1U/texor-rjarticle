@@ -52,26 +52,7 @@ The following code includes an image with width parameters, producing the output
   \label{figure:rlogo}
 \end{figure}
 
-This is the most basic example of figure.
-
-\section{Images in PDF format}
-
-The following code includes an image in PDF format, shown in Figure \ref{fig:normal}.
-
-\begin{verbatim}
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.5\textwidth]{normal}
-  \caption{PDF of a normal distribution}
-  \label{fig:normal}
-\end{figure}
-\end{verbatim}
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.5\textwidth]{normal}
-  \caption{PDF of a normal distribution}
-  \label{fig:normal}
-\end{figure}
+This is the most basic example of figure. Similarly PDF figures will be included as rasterized images. 
 
 \section{Multiple images}
  Pandoc v3 and above now support a new \code{Figure} object \citep{pandoc} which supports multiple 
@@ -119,12 +100,8 @@ The following code includes an image in PDF format, shown in Figure \ref{fig:nor
 
 \section{Tikz images}
 
+The \pkg{texor} package supports tikz images by rasterizing it and making it web friendly.
 Figure \ref{fig:tikz} shows a tikz image adapted from \citep{casflow}.
-
-
-An interesting aspect of including a tikz image here is that you can modify the
-source and re-convert without making any other changes. Figure will get updated
-in the generated html article.
 
 \subsubsection{Tikz Code:}
 The image in Figure  \ref{fig:tikz} is a graphical representation of how \pkg{texor} handles tikz images:
@@ -171,8 +148,10 @@ draw=black]
 \section{Algorithm2e diagrams}
 
 Diagrams and images using the \code{algorithm2e} environment are supported, these will be numbered differently.
-We strongly suggest to use "alg:" in labels for best results. 
-Algorithm \ref{alg:how} is an example from the \CRANpkg{algorithm2e} vignette \cite{algoexample}.
+We strongly suggest to use "alg:" in labels for best results. As a part of the filtering requires "alg:" to number
+algorithm references seperately, otherwise they will share references with normal figures.
+
+Algorithm \ref{alg:how} is an example from the \pkg{algorithm2e} vignette \cite{algoexample}.
 
 
 \begin{algorithm}[htbp]
@@ -195,17 +174,9 @@ go back to the beginning of current section\;
 
 \section{Other elements in figure objects}
 
-Figures can also house non-image environments like code blocks and wide tables. This is 
-one aspect where the converted articles differ between PDF and HTML formats. Code blocks 
-in figure environments would have numbering and caption of the form "Figure x:" in the PDF output. However, 
-when the code blocks are converted to R Markdown, they are numbered as "CodeBlock x:".
-This distinguishes them from normal images and matches with the authors' vision more appropriately. 
-
-As for the inclusion of wide tables, since the figure houses two different tabular environments with the same caption,
-this would be treated by pandoc as two different tables sharing the same caption. This would not be the best solution hence, the \pkg{texor} package uses Figure environment to house the widetables.
-This way they are distinguished well from normal tables, also the numbering scheme is seperated from figures "WideTable x:".
-
-However one important thing to note is, the reference links and reference numbering would be shared with ones of the figures. So the changes that the package makes are cosmetic to captions. Like CodeBlock 1 below refers to \ref{code:example}. The number should have been 1 but instead it is 7.
+Figures can also house non-image environments like code blocks. Code blocks 
+in figure environments would share numbering with normal figures, similar to LaTeX.
+Here Figure \ref{code:example} refers to a code block. 
 
 \begin{figure}[htbp]
 \begin{center}
@@ -223,15 +194,33 @@ code_in_figure <- function() {
 \label{code:example}
 \end{center}
 \end{figure}
+
+\section{Limitations}
+
+The limitations of \CRANpkg{texor} package in figure handling are:
+
+\begin{itemize}
+\item Animations using the \pkg{animation} package in LaTeX wont be supported. The authors
+can include GiF equivalents of the same in the Rmarkdown/web article.
+\item Multi-page PDF files are currently not supported.
+\item Usage of subfigure,sclaebox,wrapfigure environments will not work as intended.
+\item Currently only \verb|[width=X.X\textwdith]| format is supported for defining the width
+in web article (default width would be 100\% in other cases).
+\item Other \verb|\inclduegraphics[..]| options will be ignored.
+\end{itemize}
+
+
+
 \section{Summary}
 
 In summary the \CRANpkg{texor} package supports:
+
 \begin{itemize}
-\item Almost all image formats in LaTeX.
-\item Algorithm and tikz as well in some capacity.
 \item Multiple images in grid,side-by-side configuration.
 \item Image Captions with Numbering and Labelling.
+\item Algorithm2e and tikz figures.
 \end{itemize}
+
 
 
 

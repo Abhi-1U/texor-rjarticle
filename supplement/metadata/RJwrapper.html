@@ -2523,22 +2523,22 @@ margin-right: 0.5em;
 <div class="d-article">
 <div class="article">
 <h1 data-number="1" id="introduction"><span class="header-section-number">1</span> Introduction</h1>
-<p>There is a difference in the structure of metadata and generally
-Rmarkdown has more meta-data entries than its LaTeX counterpart. So for
-the conversion, main task is to transform the meta data and include it
-in the generated Rmarkdown file, matching the LaTeX data as closely as
-possible.</p>
-<p>Pandoc when used with <code>-s</code> or <code>standalone</code> mode reads out some of the
-existing meta data. The extracted author meta-data are listed below:</p>
-<h3 class="unnumbered" id="metadata-read-from-latex-file">Metadata Read from LaTeX file</h3>
+<p>There is a difference in the structure of metadata and generally R
+Markdown has more metadata entries than its LaTeX counterpart. So for
+the conversion, the main task is to transform the metadata and include
+it in the generated R Markdown file, matching the LaTeX metadata as
+closely as possible.</p>
+<p>When used with the <code>-s</code> or <code>standalone</code> mode, pandoc reads out some of
+the existing meta data. The extracted metadata are listed below.</p>
+<h3 class="unnumbered" id="metadata-read-from-latex-file">Metadata read from LaTeX file</h3>
 <ul>
-<li><p>Author Names</p></li>
-<li><p>Author address(affiliation)</p></li>
+<li><p>Author names</p></li>
+<li><p>Author address (affiliation)</p></li>
 <li><p>ORCID number</p></li>
 <li><p>Title</p></li>
 <li><p>Bibliography</p></li>
 <li><p>Abstract</p></li>
-<li><p>CRAN/BIO packages</p></li>
+<li><p>CRAN/Bioconductor packages</p></li>
 </ul>
 <p>The <code>\address{..}</code> section must be typeset in this manner for the most
 effective conversion.</p>
@@ -2548,20 +2548,20 @@ effective conversion.</p>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Mumbai, India\\ % Your City<span class="sc">/</span>Country</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>ORCiD<span class="sc">:</span> <span class="dv">0009-0000-6935-8690</span>\\% ORCID number with prefix ORCiD<span class="sc">:</span> </span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<h3 class="unnumbered" id="metadata-read-from-description-file">Metadata Read from DESCRIPTION file</h3>
+<h3 class="unnumbered" id="metadata-read-from-description-file">Metadata read from DESCRIPTION file</h3>
 <ul>
 <li><p>Date</p></li>
 <li><p>Slug</p></li>
-<li><p>Volume and Issue</p></li>
+<li><p>Volume and issue</p></li>
 </ul>
-<p>Some details like the Volume and Issue were picked up from folder
-structure as well in some legacy articles where DESCRIPTION file was not
+<p>Some metadata like the volume and issue were picked up from the folder
+structure for some legacy articles, where the DESCRIPTION file was not
 available.</p>
 <h3 class="unnumbered" id="other-supported-commands-in-conversion">Other supported commands in conversion</h3>
 <div id="table:1">
 <table style="width:98%;">
 <caption>Table 1: Other commands supported by
-<a href="https://CRAN.R-project.org/package=texor"><em>texor</em></a> and Pandoc</caption>
+<a href="https://CRAN.R-project.org/package=texor"><em>texor</em></a> and pandoc</caption>
 <colgroup>
 <col style="width: 26%" />
 <col style="width: 71%" />
@@ -2606,11 +2606,11 @@ available.</p>
 </div>
 <h1 data-number="2" id="miscellaneous"><span class="header-section-number">2</span> Miscellaneous</h1>
 <h3 class="unnumbered" id="citations">Citations</h3>
-<p>Table <a href="#table:2">2</a> represents all the ways one can use citations in
+<p>Table <a href="#table:2">2</a> represents all the ways one can use citations in
 LaTeX and expect the generated output.</p>
 <div id="table:2">
 <table style="width:51%;">
-<caption>Table 2: Different citations in LaTeX</caption>
+<caption>Table 2: Different forms of citation in LaTeX.</caption>
 <colgroup>
 <col style="width: 33%" />
 <col style="width: 18%" />
@@ -2654,11 +2654,15 @@ LaTeX and expect the generated output.</p>
 </table>
 </div>
 <h3 class="unnumbered" id="footnotes">Footnotes</h3>
+<p>Footnotes do not work in <code>tabular</code> environments in LaTeX but do work in
+R Markdown tables<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Custom footnote numbering works in LaTeX but does
+not work in R Markdown<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. These features are demonstrated in
+Table <a href="#table:3">3</a>.</p>
 <div id="table:3">
-<table style="width:85%;">
-<caption>Table 3: Demo of footnotes</caption>
+<table style="width:81%;">
+<caption>Table 3: Demonstration of footnotes.</caption>
 <colgroup>
-<col style="width: 72%" />
+<col style="width: 68%" />
 <col style="width: 12%" />
 </colgroup>
 <thead>
@@ -2669,26 +2673,23 @@ LaTeX and expect the generated output.</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><code>\acronym{A}\footnote{This works in Web article}</code></td>
-<td style="text-align: center;">A<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></td>
+<td style="text-align: center;"><code>\acronym{A}\footnote{This works in HTML}</code></td>
+<td style="text-align: center;">A<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><code>\R\footnote[21]{Its 2 not 21 :(}</code></td>
-<td style="text-align: center;">R<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></td>
+<td style="text-align: center;"><code>\R\footnote[21]{HTML shows 2 rather than 21}</code></td>
+<td style="text-align: center;">R<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Footnotes do not work in <code>tabular</code> environment in LaTeX but it does work
-in Rmarkdown<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. Custom Footnote number works in LaTeX but does not
-work in web articles<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
-<h3 class="unnumbered" id="blockquotes">BlockQuotes</h3>
+<h3 class="unnumbered" id="block-quotes">Block quotes</h3>
 <blockquote>
-<p>This BlockQuote should Justify an example.</p>
+<p>This block quote should justify an example.</p>
 </blockquote>
 <h3 class="unnumbered" id="links">Links</h3>
-<p>Most links work just fine using <code>\href</code> and <code>\url</code> command will work
-flawlessly.</p>
+<p>Most links work just fine using <code>\href</code> and the <code>\url</code> command will work
+flawlessly, as demonstrated in Table  <a href="#table:4">4</a>.</p>
 <div id="table:4">
 <table style="width:98%;">
 <caption>Table 4: Links</caption>
@@ -2719,14 +2720,14 @@ flawlessly.</p>
 </table>
 </div>
 <h2 class="unnumbered" id="colored-text">Colored text</h2>
-<p>Some commands to describe colored text also work during conversion like
-<code>\textcolor{blue}{Blue Text}</code> <span style="color: blue">Blue Text</span></p>
+<p>Some commands to describe colored text also work during conversion, such
+as <code>\textcolor{blue}{Blue Text}</code> <span style="color: blue">Blue Text</span>.</p>
 <h1 data-number="3" id="summary"><span class="header-section-number">3</span> Summary</h1>
 <p>In summary the <a href="https://CRAN.R-project.org/package=texor"><em>texor</em></a>
 package alongside pandoc supports:</p>
 <ul>
-<li><p>Extracting Metadata and putting it together well.</p></li>
-<li><p>Handling Links, BlockQuotes, Citations and Footnotes.</p></li>
+<li><p>Extracting metadata and putting it together well.</p></li>
+<li><p>Handling links, block quotes, citations and footnotes.</p></li>
 </ul>
 </div>
 <h2 class="appendix unnumbered" id="cran-packages-used">CRAN packages used</h2>
@@ -2747,10 +2748,10 @@ A. Krewinkel and A.  Lucero. <em><span class="nocase">pandoc 3.0 Release notes<
 <aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1"><p>This works in Web article<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Its 2 not 21 :(<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>This works in LaTeX and Web article<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>Forever 21 :)</p>
+<li id="fn1"><p>Footnotes in paragraph text work in both LaTeX and R markdown<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Forever 21 :)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>This works in HTML<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>HTML shows 2 rather than 21</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></li>
 </ol>
