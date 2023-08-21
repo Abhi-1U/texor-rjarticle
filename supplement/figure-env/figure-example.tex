@@ -5,13 +5,13 @@
 \maketitle
 
 \abstract{
-This is a small sample article to demonstrate usage of texor to convert figure environments.
+This is a small sample article to demonstrate usage of \CRANpkg{texor} to convert figure environments.
 }
 
 \section{Introduction}
 
-Images are an essential component in any article, However due to the differences in the support for various graphic formats between LaTeX and markdown/HTML we need to fallback on raster graphics. 
-It is well summarized in the Table \ref{table:1}.
+Images are an essential component of any article, however, due to the differences in support for various graphic formats between LaTeX and markdown/HTML we need to fall back on raster graphics. 
+The support for different image formats across markup languages is summarized in Table~\ref{table:1}.
 
 \begin{table}[htbp]
 \centering
@@ -33,8 +33,8 @@ It is well summarized in the Table \ref{table:1}.
 
 
 \section{Image with width parameters}
-This section may contain a figure such as Figure~\ref{figure:rlogo}.
-This is the most basic example of figure.
+
+The following code includes an image with width parameters, producing the output in Figure~\ref{figure:rlogo}.
 
 \begin{verbatim}
 \begin{figure}[htbp]
@@ -52,10 +52,11 @@ This is the most basic example of figure.
   \label{figure:rlogo}
 \end{figure}
 
+This is the most basic example of figure.
 
 \section{Images in PDF format}
 
-Image \ref{fig:normal} is a graphical representation of normal distribution.
+The following code includes an image in PDF format, shown in Figure \ref{fig:normal}.
 
 \begin{verbatim}
 \begin{figure}[htbp]
@@ -73,8 +74,8 @@ Image \ref{fig:normal} is a graphical representation of normal distribution.
 \end{figure}
 
 \section{Multiple images}
- Pandoc v3 and above now supports a new Figure object \citep{pandoc} which supports multiple 
- images side by side or in a grid format.
+ Pandoc v3 and above now support a new \code{Figure} object \citep{pandoc} which supports multiple 
+ images side by side or in a grid format. The following subsections demonstrate these capabilities.
 %% Two images side by side
 \subsubsection{Two or more Images side by side}
 \begin{verbatim}
@@ -118,28 +119,27 @@ Image \ref{fig:normal} is a graphical representation of normal distribution.
 
 \section{Tikz images}
 
-Here is a tikz image example in fig \ref{fig:tikz} adapted from \citep{casflow}.
+Figure \ref{fig:tikz} shows a tikz image adapted from \citep{casflow}.
 
 
-Another interesting aspect of including tikz image here is that you can modify the
+An interesting aspect of including a tikz image here is that you can modify the
 source and re-convert without making any other changes. Figure will get updated
 in the generated html article.
 
 \subsubsection{Tikz Code:}
-The figure  \ref{fig:tikz} is an example of how \pkg{texor} handles tikz images,
+The image in Figure  \ref{fig:tikz} is a graphical representation of how \pkg{texor} handles tikz images:
 
 \begin{itemize}
-\item First figures containing tikz images are isolated.
-\item Tikz libraries are fetched from the wrapper file,
-\item Tikz Code section is isolated into a standalone LaTeX file and compiled.
-\item The Compiled LaTeX file generates a PDF Image.
-\item This is then Converted again to PNG format as PDFs embedded in HTML wont look good.
-\item In the figure environment a line is added \verb|\includegraphics{tikz/somefigure.png}|
-\item During the conversion in pandoc, a lua filter removes extra/unncessary text from the rest of the figure
-environemnt.
+\item Figures containing tikz images are isolated.
+\item Tikz libraries are fetched from the wrapper file.
+\item The Tikz code section is isolated into a standalone LaTeX file and compiled.
+\item The compiled LaTeX file generates a PDF Image.
+\item This is converted to PNG format for embedding in the HTML output.
+\item \verb|\includegraphics{tikz/somefigure.png}| is added to the figure environment.
+\item A lua filter removes redundant text the figure environment.
 \end{itemize}
 
-If You use \pkg{texor} to convert your articles using \verb|texor::latex_to_web()| with \verb|temp_mode=TRUE|(it is TRUE by default). The resultant Rmarkdown/HTML file will not modify the contents of your LaTeX file. In this case you can keep reloading the article after making changes to the tikz images, without having to do the above steps manually in case you are converting the article by hand.
+If you use \pkg{texor} to convert your articles using \verb|texor::latex_to_web()| with \verb|temp_mode=TRUE|(it is \verb|TRUE| by default). The resultant Rmarkdown/HTML file will not modify the contents of your LaTeX file. In this case you can keep reloading the article after making changes to the tikz images, without having to do the above steps manually in case you are converting the article by hand.
 
 \begin{figure*}
 
@@ -170,9 +170,9 @@ draw=black]
 
 \section{Algorithm2e diagrams}
 
-we do support algorithm2e diagrams and images, these will be numbered differently
-and we strongly suggest to use "alg:" in labels for best results. 
-Here is an example of algorithm \ref{alg:how}, referenced from \cite{algoexample}
+Diagrams and images using the \code{algorithm2e} environment are supported, these will be numbered differently.
+We strongly suggest to use "alg:" in labels for best results. 
+Algorithm \ref{alg:how} is an example from the \CRANpkg{algorithm2e} vignette \cite{algoexample}.
 
 
 \begin{algorithm}[htbp]
@@ -195,14 +195,14 @@ go back to the beginning of current section\;
 
 \section{Other elements in figure objects}
 
-Figures can also house non-image environments like CodeBlocks and WideTables. This is 
-the part where things start to look a bit different in the converted articles, CodeBlocks 
-in figure environments would have numbering and caption that goes "Figure x:". However, 
-when the same CodeBlock is converted to Rmarkdown, they are numbered as "CodeBlock x:".
-This distinguishes them from normal Images and matches with authors vision more appropriately. 
+Figures can also house non-image environments like code blocks and wide tables. This is 
+one aspect where the converted articles differ between PDF and HTML formats. Code blocks 
+in figure environments would have numbering and caption of the form "Figure x:" in the PDF output. However, 
+when the code blocks are converted to R Markdown, they are numbered as "CodeBlock x:".
+This distinguishes them from normal images and matches with the authors' vision more appropriately. 
 
-As for Inclusion of widetables, since it houses two different tabular environments with the same caption,
-it would be treated as two different tables by pandoc sharing the same caption. This would not be the best solution hence, \pkg{texor} package uses Figure enviornment to house the widetables.
+As for the inclusion of wide tables, since the figure houses two different tabular environments with the same caption,
+this would be treated by pandoc as two different tables sharing the same caption. This would not be the best solution hence, the \pkg{texor} package uses Figure environment to house the widetables.
 This way they are distinguished well from normal tables, also the numbering scheme is seperated from figures "WideTable x:".
 
 However one important thing to note is, the reference links and reference numbering would be shared with ones of the figures. So the changes that the package makes are cosmetic to captions. Like CodeBlock 1 below refers to \ref{code:example}. The number should have been 1 but instead it is 7.
@@ -212,10 +212,10 @@ However one important thing to note is, the reference links and reference number
 \begin{verbatim}
 code_in_figure <- function() {
   if (pandoc_version >= 3) {
-    print("Code in Figure Supported")
+    print("code in figure supported")
   }
   else {
-    print("code in Figure not supported")
+    print("code in figure not supported")
   }
 }
 \end{verbatim}

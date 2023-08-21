@@ -5,11 +5,11 @@
 \maketitle
 
 \abstract{
-This is a small sample article to demonstrate usage of texor to convert math environments.
+This is a small sample article to demonstrate usage of the texor package to convert math environments.
 }
 
 \section{Introduction}
-Math typesetting has always been LaTeX’s highlight feature, making it a de facto choice among academicians and researchers globally. However, as we proceed to our humble web interfaces, math is hard to describe traditionally. There have been advancements in JavaScript libraries to better Typeset and present math in web pages but not all LaTeX commands/math functions are available.
+Math typesetting has always been a highlight of LaTeX, making it a de facto choice among academics and researchers globally. However, in the move to humble web interfaces, math has been traditionally hard to describe. There have been advances in JavaScript libraries to better typeset and present math in web pages but not all LaTeX commands/math functions are available.
 
 \subsubsection{MathJax}
 The \CRANpkg{texor} package uses Mathjax version 3 to enhance the visual look of the math content in HTML.
@@ -25,13 +25,13 @@ The core goal of the MathJax project is the development of its state-of-the-art,
     \item Support for equation conversion outside a browser (e.g., preprocessing on a server).
 \end{itemize}
 
-\subsubsection{Pandoc Handling, extensions}
-As \CRANpkg{texor} calls \CRANpkg{rmarkdown} to render the Rmarkdwon file into HTML,
-the \verb|rjtools::rjournal_web_article| template by default uses MathJax as the math engine. 
-Also we specify the Mathjax version in the metadata of the generated Rmarkdown file.
+\subsubsection{Pandoc handling, extensions}
+As \CRANpkg{texor} calls \CRANpkg{rmarkdown} to render the R Markdown file into HTML,
+the \verb|rjtools::rjournal_web_article| template uses MathJax as the math engine by default. 
+We also specify the Mathjax version in the metadata of the generated Rmarkdown file.
 
 \section{Inline math}
-One can define Inline Math in LaTeX using commands \verb|\(..\)| or \verb|$..$|.
+One can define inline math in LaTeX using commands \verb|\(..\)| or \verb|$..$|.
 It is also possible to use inline math within captions and  
 \begin{table}[htbp]
   \centering
@@ -63,15 +63,15 @@ $\mu = (0,0,0)^\top $
     \end{minipage}\\
     \hline
   \end{tabular}
-  \caption{InlineMath syntax and its output side by side}
+  \caption{Inline math syntax and its output side by side.}
   \label{table:1}
 \end{table}
 
 
 
-\section{Display Math}
+\section{Display math}
 
-Display Math refers to equations, almost all LaTeX equations can be rendered by
+Display math refers to equations typeset on separate lines rather than in line with the text. Almost all LaTeX equations can be rendered by
 MathJax.
 
 \begin{verbatim}
@@ -81,7 +81,7 @@ f(x) = \frac{1}{\sigma\sqrt{2\pi}}
   \label{eq:1}
 \end{align}
 \end{verbatim}
-This will render as \ref{eq:1}.
+The code above will render as Figure~\ref{eq:1}.
 
 \begin{align}
 \label{eq:1}
@@ -89,14 +89,14 @@ f(x) = \frac{1}{\sigma\sqrt{2\pi}}
   \exp\left( -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)
 \end{align}
 
-\section{Equation Numbering}
+\section{Equation numbering}
 In LaTeX your equations get numbered automatically unless you are using \verb|\[..\]| environment or \verb|\nonumber| to suppress
-numbering. Equation numbering works a bit differently in \CRANpkg{bookdown} (the base of RJ web article format) where
-it is mandatory to have a \verb|(\#eq:xx)| which is described in more detail in \citep{bookdown}.
+numbering. Equation numbering works a bit differently in \CRANpkg{bookdown} (the base of the R Journal web article format) where
+it is mandatory to have a \verb|(\#eq:xx)| which is described in more detail in \citet{bookdown}.
 
-The \CRANpkg{texor} package eases authors from manually adding \verb|(\#eq:xx)| to equations in Rmarkdown
-by using pandoc Lua filter to convert existing \verb|\label{..}| in the equations to \verb|(\#eq:xx)|
-during conversion. Equation \ref{eq:xe} shows such a use case of equation being numbered by its label in Rmakrdown
+The \CRANpkg{texor} package relieves authors from manually adding \verb|(\#eq:xx)| to equations in R Markdown
+by using a pandoc Lua filter to convert existing \verb|\label{..}| in the equations to \verb|(\#eq:xx)|
+during conversion. Equation~\ref{eq:xe} shows such a use case of an equation being numbered by its label in R Markdown
 as well as LaTeX.
 
 \begin{align}
@@ -106,16 +106,16 @@ S_{T, s}(z_t) = X^{\top} K_{b,t}^* X (Z - z_t)^s,
 
 Equation labels must start with the prefix \verb|eq:| in bookdown. All labels in bookdown must only contain alphanumeric characters, \verb|:|, \verb|-|, and/or \verb|/| as suggested in \citep{bookdown}. 
 
-\section{Custom Math Commands}
+\section{Custom math commands}
 
 %Also avoid custom math commands MathJaX will never be able to parse it. The reason being
 %MathJax renders math case by case and custom commands will already be removed by pandoc
 %during the conversion, hence MathJax will not be aware of such redefinations.
 To ease the frequent use of the command, some custom math commands that contain LaTeX math commands. 
-However, This will not function if you use functions/environments from CTAN packages or 
+However, this will not work if you use functions/environments from CTAN packages or 
 the ones that are out-of-the-box functions which do not render in HTML/markdown.
 
-\paragraph{Acceptable}
+\paragraph{Renders correctly in HTML}
 
 \begin{verbatim}
 \newcommand{\ABS}[1]{|#1|}
@@ -123,7 +123,7 @@ the ones that are out-of-the-box functions which do not render in HTML/markdown.
 
 $$ \ABS{\sigma^2} = \pm 1 $$
 
-\paragraph{Not acceptable}
+\paragraph{Does not render correctly in HTML}
 
 
 \begin{verbatim}
@@ -133,10 +133,10 @@ $$ \ABS{\sigma^2} = \pm 1 $$
 $$ \rotatethis{\sigma^2} = \pm 1 $$
 
 
-\section{Unsupported LaTeX Commands}
+\section{Unsupported LaTeX commands}
 
 Altough MathJax does a good job of supporting most LaTeX math functions,
-some functions do not work like \verb|\bm| \verb|\boldmath|, instead use \verb|\mathbf|.
+some functions do not currently work. Common examples are \verb|\bm| and \verb|\boldmath|, for which \verb|\mathbf| can be used instead.
 
 
 
@@ -144,10 +144,10 @@ some functions do not work like \verb|\bm| \verb|\boldmath|, instead use \verb|\
 
 \section{Summary}
 
-In summary the \CRANpkg{texor} package with the help of pandoc and MathJax supports:
+In summary the \CRANpkg{texor} package, with the help of pandoc and MathJax supports:
 \begin{itemize}
-\item some common math environments.
-\item Equation Numbering
+\item Common math environments.
+\item Equation numbering.
 \end{itemize}
 
 

@@ -9,20 +9,20 @@ This is a small sample article to demonstrate usage of \CRANpkg{texor} to conver
 }
 
 \section{Introduction}
-Tables are commonly used in RJ articles to display data in a tabular format. However, there are differences in the way tables are handled by LaTeX and HTML.
+Tables are commonly used in R Journal articles to display data in a tabular format. However, there are differences in the way tables are handled by LaTeX and HTML.
 LaTeX tables have more customization and are usually optimized for printing, whereas the web articles need tables optimized for varying sizes of media.
 Pandoc converts most of the tables somewhat easily, but is unable to do well with table customization packages and complex tables.
-Some pandoc extensions are used in order to tackle them, they are : \verb|simple_tables|,\verb|pipe_tables|
+The \CRANpkg{texor} packages uses the pandoc extensions \verb|simple_tables| and \verb|pipe_tables| to tackle these difficult cases.
+
 \section{Generic tables}
-Normal LaTeX tables will be converted just fine, even if they include a bit of math and other elements.
-However do note that the conversion will be done to traditional or pandoc style markdown instead of Rmarkdown
-specific using \verb|knitr::kable(..)| function. Also any custom LaTeX commands or specific font charactars would
+Normal LaTeX tables will be converted just fine, even if they include a some math and other elements.
+However, note that the conversion will be done to traditional or pandoc-style markdown rather than R Markdown with the \verb|knitr::kable(..)| function. Also any custom LaTeX commands or specific font characters will
 not be supported.
 \begin{table}[htbp]
 \centering
 \begin{tabular}{l | llll }
  \hline
- Graphics Format & LaTeX & Markdown & Rmarkdown & HTML \\
+ Graphics Format & LaTeX & Markdown & R Markdown & HTML \\
  \hline
  PNG       & Yes & Yes & Yes & Yes \\
  JPG       & Yes & Yes & Yes & Yes \\
@@ -32,7 +32,7 @@ not be supported.
  Algorithm & Yes & No & No & No \\
 \hline
 \end{tabular}
-\caption{Image Format support in various Markup/Typesetting Languages}
+\caption{Image format support in various markup/typesetting languages.}
 \label{table:1}
 \end{table}
 
@@ -52,12 +52,12 @@ not be supported.
  EX5  & X51 & X52 &  Y51  & Y52 \\
 \hline
 \end{tabular}
-\caption{An Example Table with Multicolumn}
+\caption{An example table using \code{multicolumn}}
 \label{table:2}
 \end{center}
 \end{table*}
 
-The above example illustrates a multicolumn table \ref{table:2}, which the \CRANpkg{texor} package can handle through subroutines and pre-processing step to transform the LaTeX code. 
+Table~\ref{table:2} illustrates a table that uses the \code{multicolumn} command, which the \CRANpkg{texor} package can handle through subroutines and pre-processing steps to transform the LaTeX code. 
 
 \begin{itemize}
     \item The Stream Editor modifies the \verb|\multicolumn{..}| to \verb|\multicolumnx{..}|
@@ -65,10 +65,10 @@ The above example illustrates a multicolumn table \ref{table:2}, which the \CRAN
     \item Finally pandoc reads the table and transforms it to markdown.
 \end{itemize}
 
-Also note that the stream editor is used to rename \verb|table*| environment to \verb|table| environment because the markdown/HTML will not support the specific changes table* environment will bring.
+Also note that the stream editor is used to rename \verb|table*| environment to \verb|table| environment because the HTML format is single column, so the asterisk indicating that the table should be drawn over the full width of the page is redundant in this case.
 
 \section{Complex tables}
-A complex table with various other elements like figures, math , code and so on, are also supported
+A complex table with various other elements like figures, math, code and so on, are also supported
 by \CRANpkg{texor}.  
 \begin{table}[htbp]
 \centering
@@ -94,7 +94,7 @@ plot(x,y)
  Nested Table & Yes & No & NaN \\
 \hline
 \end{tabular}
-\caption{Image Format support in various Markup/Typesetting Languages}
+\caption{Image format support in various markup/typesetting languages}
 \label{table:3}
 \end{table}
 
@@ -133,7 +133,7 @@ index &    I  &  J  &  K  &  L  &  M  &  N & O \\
 
 \end{widetable}
 
-Widetable environments also gets some perks when converted by \CRANpkg{texor} package. 
+Widetable environments are treated specially when converted by the \CRANpkg{texor} package. 
 They get their own block and separate numbering (although references are shared by figures).
 
 \begin{widetable}
@@ -154,15 +154,15 @@ Package  & Commits  & Version  & Last Updated \tabularnewline
 \end{widetable}
 
 
-Here is a reference to the table \ref{table:4} and table \ref{table:5}.
+Here is a reference to Table~\ref{table:4} and Table~\ref{table:5}.
 \section{Summary}
 
 In summary the \CRANpkg{texor} package supports:
 \begin{itemize}
-\item some common table environments.
-\item wide tables.
-\item some multicolumn tables.
-\item inclusion of different environments like figure/code in tables.
+\item Some common table environments.
+\item Wide tables.
+\item Some tables with \code{multicolumn} commands.
+\item Environments such as \code{figure}/\code{code} in tables.
 \end{itemize}
 
 
