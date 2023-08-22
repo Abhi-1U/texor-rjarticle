@@ -39,7 +39,7 @@ author:
 type: package
 output: 
   rjtools::rjournal_web_article:
-    web_only: yes
+    web_only: no
     self_contained: yes
     toc: no
 bibliography: RJreferences.bib
