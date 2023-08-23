@@ -39,7 +39,6 @@ author:
 type: package
 output: 
   rjtools::rjournal_web_article:
-    web_only: no
     self_contained: yes
     toc: no
 bibliography: RJreferences.bib
@@ -380,19 +379,9 @@ Also note that the stream editor is used to rename `table*` environment to `tabl
 
 Tables with images, math, code or links in the cells are generally handled. Also `widetable` tables that allow for specific width or wrapping of tables into blocks are also partially handled.
 
-## Logging the conversion
-
-XXX what should go here?
-
 # Using \CRANpkg{texor} {#texor}
 
-The package `texor` can be installed from CRAN using:
-
-```r
-install.packages("texor")
-```
-
-and the development version from https://github.com/Abhi-1U/texor. The website for the package, https://abhi-1u.github.io/texor, has vignettes documenting usage. 
+The package `texor` can be installed from CRAN and the development version from https://github.com/Abhi-1U/texor. The website for the package, https://abhi-1u.github.io/texor, has vignettes documenting usage. 
 
 Note that you will need to use [Pandoc Version > 3.0.0 (if possible latest)]((https://pandoc.org/installing.html)) for the best results. You can check your version with:
 
@@ -412,8 +401,6 @@ For individuals who are interested in submitting their paper to the R Journal bu
 - Edit the lines where figures are included. <!--Why? What will need changing?-->
 - Edit the tables. <!--If the simple conversion is insufficient?-->
 - Include your R code, to dynamically do the computing described in your article. 
-
-XXX - Should we include various options/params for the function here ?
 
 # Managing the bibliography using \CRANpkg{rebib} {#rebib}
 
@@ -438,13 +425,11 @@ It was initially a part of the \CRANpkg{texor} package, as those functions grew 
 
 <!-- ## Using \CRANpkg{rebib}-->
  
-The package `rebib` can be installed from CRAN using:
+The package `rebib` can be installed from CRAN and the development version from https://github.com/Abhi-1U/rebib. The website for the package, https://abhi-1u.github.io/rebib, has vignettes documenting usage.  
 
-```r
-install.packages("rebib")
-```
+# The process of converting all the legacy articles
 
-and the development version from https://github.com/Abhi-1U/rebib. The website for the package, https://abhi-1u.github.io/rebib, has vignettes documenting usage.  
+# Known problems needing manual fixes
 
 # Summary
 
@@ -458,11 +443,7 @@ Only handling to HTML format, especially relevant for figures, because the legac
 
 Where this might be useful in the future, other applications.-->
 
-No shift to quarto yet.
-
-
-
-Known problems that need manual fixes.
+Since the shift to R Markdown, a new development for the open source community has emerged: quarto [@quarto]. Although R Markdown would suggest a focus on R, it was always possible to include code chunks written in other languages. But Quarto makes this cleaner, and thus more appealing for non-R developers. It also provides a cleaner type-setting. At some point, the R Journal will likely shift to a Quarto template, which is reasonably straightforward, but for the present R Markdown is a suitable dynamic document delivery system for the R Journal.
 
 # Acknowledgments {-}
 

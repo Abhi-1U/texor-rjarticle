@@ -236,7 +236,7 @@ Math is handled primarily by Pandoc. The inline math and equation descriptions a
 
 The HTML output renders math using MathJax. This does mean that some functionality, like \texttt{\textbackslash{}bm}, \texttt{\textbackslash{}boldmath} and \texttt{\textbackslash{}mathbbm} are not supported, and special definitions can only be handled in a limited capacity.
 
-The numbering of equations is a bit trickier. LaTeX automatically numbers equations, unless specifically instructed not to. Equation numbering in R Markdown requires specific labeling using \texttt{(\textbackslash{}\#eq:xx)} as described in Yihui Xie (2023). The \CRANpkg{texor} helps by adding the labeling using a Lua filter to convert the existing \texttt{\textbackslash{}label\{..\}} to \texttt{(\textbackslash{}\#eq:xx)}.
+The numbering of equations is a bit trickier. LaTeX automatically numbers equations, unless specifically instructed not to. Equation numbering in R Markdown requires specific labeling using \texttt{(\textbackslash{}\#eq:xx)} as described in Xie (2023). The \CRANpkg{texor} helps by adding the labeling using a Lua filter to convert the existing \texttt{\textbackslash{}label\{..\}} to \texttt{(\textbackslash{}\#eq:xx)}.
 
 \hypertarget{tables}{%
 \subsection{Tables}\label{tables}}
@@ -337,21 +337,10 @@ Also note that the stream editor is used to rename \texttt{table*} environment t
 
 Tables with images, math, code or links in the cells are generally handled. Also \texttt{widetable} tables that allow for specific width or wrapping of tables into blocks are also partially handled.
 
-\hypertarget{logging-the-conversion}{%
-\subsection{Logging the conversion}\label{logging-the-conversion}}
-
-XXX what should go here?
-
 \hypertarget{texor}{%
 \section{\texorpdfstring{Using \CRANpkg{texor}}{Using }}\label{texor}}
 
-The package \texttt{texor} can be installed from CRAN using:
-
-\begin{verbatim}
-install.packages("texor")
-\end{verbatim}
-
-and the development version from \url{https://github.com/Abhi-1U/texor}. The website for the package, \url{https://abhi-1u.github.io/texor}, has vignettes documenting usage.
+The package \texttt{texor} can be installed from CRAN and the development version from \url{https://github.com/Abhi-1U/texor}. The website for the package, \url{https://abhi-1u.github.io/texor}, has vignettes documenting usage.
 
 Note that you will need to use \href{(https://pandoc.org/installing.html)}{Pandoc Version \textgreater{} 3.0.0 (if possible latest)} for the best results. You can check your version with:
 
@@ -375,8 +364,6 @@ For individuals who are interested in submitting their paper to the R Journal bu
 \item
   Include your R code, to dynamically do the computing described in your article.
 \end{itemize}
-
-XXX - Should we include various options/params for the function here ?
 
 \hypertarget{rebib}{%
 \section{\texorpdfstring{Managing the bibliography using \CRANpkg{rebib}}{Managing the bibliography using }}\label{rebib}}
@@ -406,13 +393,13 @@ The \CRANpkg{rebib} package was developed to handle these tricky situations. It 
   aggregating references from embedded bibliographic entries with references from supplementary \texttt{.bbl} and \texttt{.bib} files.
 \end{itemize}
 
-The package \texttt{rebib} can be installed from CRAN using:
+The package \texttt{rebib} can be installed from CRAN and the development version from \url{https://github.com/Abhi-1U/rebib}. The website for the package, \url{https://abhi-1u.github.io/rebib}, has vignettes documenting usage.
 
-\begin{verbatim}
-install.packages("rebib")
-\end{verbatim}
+\hypertarget{the-process-of-converting-all-the-legacy-articles}{%
+\section{The process of converting all the legacy articles}\label{the-process-of-converting-all-the-legacy-articles}}
 
-and the development version from \url{https://github.com/Abhi-1U/rebib}. The website for the package, \url{https://abhi-1u.github.io/rebib}, has vignettes documenting usage.
+\hypertarget{known-problems-needing-manual-fixes}{%
+\section{Known problems needing manual fixes}\label{known-problems-needing-manual-fixes}}
 
 \hypertarget{summary}{%
 \section{Summary}\label{summary}}
@@ -421,9 +408,7 @@ The original motivation for the \CRANpkg{texor} and \CRANpkg{rebib} packages was
 
 However, it could be useful to help authors convert to dynamic documents, by providing an initial R Markdown version of their LaTeX, that with some modification, such as including their R code for computations directly in the document, will produce both PDF nd HTML versions of their submitted paper.
 
-No shift to quarto yet.
-
-Known problems that need manual fixes.
+Since the shift to R Markdown, a new development for the open source community has emerged: quarto (Allaire et al. 2022). Although R Markdown would suggest a focus on R, it was always possible to include code chunks written in other languages. But Quarto makes this cleaner, and thus more appealing for non-R developers. It also provides a cleaner type-setting. At some point, the R Journal will likely shift to a Quarto template, which is reasonably straightforward, but for the present R Markdown is a suitable dynamic document delivery system for the R Journal.
 
 \hypertarget{acknowledgments}{%
 \section*{Acknowledgments}\label{acknowledgments}}
@@ -444,7 +429,7 @@ The supplementary materials has example folders containing LaTeX documents that 
 \item
   \texttt{math-env}: Examples of inline math, display math, how equation numbering is handled by a Lua filter to convert from LaTeX labeling to R Markdown labeling.
 \item
-  \texttt{figure-env}: Explains how the variety of figure definitions are handled in the conversion, including different image formats, numbering, captions, labeling, multiple images, and \texttt{tikz} (Josh Cassidy 2013) images.
+  \texttt{figure-env}: Explains how the variety of figure definitions are handled in the conversion, including different image formats, numbering, captions, labeling, multiple images, and \texttt{tikz} (Cassidy 2013) images.
 \item
   \texttt{table-env}: Examples of how a variety of table types are converted, including multicolumn, complex and wide tables.
 \item
@@ -490,8 +475,14 @@ The \CRANpkg{texor} and \CRANpkg{rebib} source code and materials to reproduce t
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-quarto}{}}%
+Allaire, J. J., Charles Teague, Yihui Xie, and Christophe Dervieux. 2022. {``Quarto.''} Zenodo. \url{https://doi.org/10.5281/zenodo.5960048}.
+
 \leavevmode\vadjust pre{\hypertarget{ref-tableHTML}{}}%
 Boutaris, Theo, Clemens Zauchner, and Dana Jomar. 2023. \emph{tableHTML: A Tool to Create HTML Tables}. \url{https://CRAN.R-project.org/package=tableHTML}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-casflow}{}}%
+Cassidy, Josh. 2013. \emph{{LaTeX Graphics using TikZ: A Tutorial for Beginners (Part 3)---Creating Flowcharts}}. Overleaf tutorials. \url{https://www.overleaf.com/learn/latex/}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-distill}{}}%
 Dervieux, Christophe, JJ Allaire, Rich Iannone, Alison Presmanes Hill, and Yihui Xie. 2022. \emph{Distill: 'R Markdown' Format for Scientific and Technical Writing}. \url{https://CRAN.R-project.org/package=distill}.
@@ -511,9 +502,6 @@ Iannone, Richard, Joe Cheng, Barret Schloerke, Ellis Hughes, Alexandra Lauer, an
 \leavevmode\vadjust pre{\hypertarget{ref-lua}{}}%
 Ierusalimschy, Roberto, Luiz Henrique de Figueiredo, and Waldemar Celes Filho. 1996. {``Lua---an Extensible Extension Language.''} \emph{Software: Practice and Experience} 26 (6): 635--52.
 
-\leavevmode\vadjust pre{\hypertarget{ref-casflow}{}}%
-Josh Cassidy. 2013. \emph{{LaTeX Graphics using TikZ: A Tutorial for Beginners (Part 3)---Creating Flowcharts}}. Overleaf tutorials. \url{https://www.overleaf.com/learn/latex/}.
-
 \leavevmode\vadjust pre{\hypertarget{ref-pandoc}{}}%
 MacFarlane, John. 2023. {``Pandoc: A Universal Document Converter.''} https://pandoc.org.
 
@@ -529,14 +517,14 @@ The LaTeX Project. 2023. {``LaTeX -- a Document Preparation System.''} https://w
 \leavevmode\vadjust pre{\hypertarget{ref-knitr}{}}%
 Xie, Yihui. 2015. \emph{Dynamic Documents with {R} and Knitr}. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. \url{https://yihui.org/knitr/}.
 
+\leavevmode\vadjust pre{\hypertarget{ref-bookdown}{}}%
+---------. 2023. \emph{{bookdown: Authoring Books and Technical Documents with R Markdown}}. \#equations. \url{https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html}.
+
 \leavevmode\vadjust pre{\hypertarget{ref-rmarkdown}{}}%
 Xie, Yihui, J. J. Allaire, and Garrett Grolemund. 2018. \emph{R Markdown: The Definitive Guide}. Boca Raton, Florida: Chapman; Hall/CRC. \url{https://bookdown.org/yihui/rmarkdown}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-DT}{}}%
 Xie, Yihui, Joe Cheng, and Xianying Tan. 2023. \emph{DT: A Wrapper of the JavaScript Library 'DataTables'}. \url{https://CRAN.R-project.org/package=DT}.
-
-\leavevmode\vadjust pre{\hypertarget{ref-bookdown}{}}%
-Yihui Xie. 2023. \emph{{bookdown: Authoring Books and Technical Documents with R Markdown}}. \#equations. \url{https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-kableExtra}{}}%
 Zhu, Hao. 2021. \emph{kableExtra: Construct Complex Table with 'Kable' and Pipe Syntax}. \url{https://CRAN.R-project.org/package=kableExtra}.
