@@ -2837,9 +2837,9 @@ This is achieved by several sequential steps: <code>convert_to_markdown()</code>
 <!--XXX ??? warn authors about the conversion not being 1:1 with rmarkdown and might need further edits in with tables and figures.-->
 <p>For individuals who are interested in submitting their paper to the R Journal but have written their article using the legacy LaTeX format and wish to convert it to the current R Markdown format, you can use the <code>latex_to_web()</code> function on your paper directory. This will get you about 80% of the way to an R Markdown version of your paper. You will then want to</p>
 <ul>
-<li>Edit the lines where figures are included. <!--Why? What will need changing?--></li>
-<li>Edit the tables. <!--If the simple conversion is insufficient?--></li>
-<li>Include your R code, to dynamically do the computing described in your article.</li>
+<li>Edit the lines where figures are included. The conversion will create HTML code to define the image. This should be changed into Markdown description <code>![Caption](Image)</code> or using <code>knitr::include_graphic(Image)</code> in an R code chunk, in order for both HTML and PDF versions of the paper to be created when the <code>rjtools</code> article template is knitted. <!--Why? What will need changing?--></li>
+<li>Edit the tables for aesthetics. The conversion will create Markdown tables, which will convert appropriately to HTML and PDF. However, to have more control and to create more elegant tables using <code>knitr::kable</code> provides finer level control. <!--If the simple conversion is insufficient?--></li>
+<li>Include your R code, to dynamically do the computing described in your article. If any code block is time-consuming to complete, saving intermediate output, or caching would be recommended.</li>
 </ul>
 <h1 data-number="4" id="rebib"><span class="header-section-number">4</span> Managing the bibliography using <a href="https://cran.r-project.org/package=rebib">rebib</a></h1>
 <p>Typically bibliographies are generated during the processing of a LaTeX article using the BibTeX software <span class="citation" data-cites="bibtex">(<a href="#ref-bibtex" role="doc-biblioref">Feder 2006</a>)</span> operating on a <code>.bib</code> list of references. The current R Journal template requires the inclusion of the <code>.bib</code> file. But LaTeX actually uses a <code>.bbl</code> format for references, which is what BibTeX generates as an intermediate format during the article processing.</p>

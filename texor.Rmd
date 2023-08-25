@@ -398,9 +398,9 @@ For converting the 14 years of legacy R Journal articles, batch processing of is
 
 For individuals who are interested in submitting their paper to the R Journal but have written their article using the legacy LaTeX format and wish to convert it to the current R Markdown format, you can use the `latex_to_web()` function on your paper directory. This will get you about 80% of the way to an R Markdown version of your paper. You will then want to 
 
-- Edit the lines where figures are included. <!--Why? What will need changing?-->
-- Edit the tables. <!--If the simple conversion is insufficient?-->
-- Include your R code, to dynamically do the computing described in your article. 
+- Edit the lines where figures are included. The conversion will create HTML code to define the image. This should be changed into Markdown description `![Caption](Image)` or using `knitr::include_graphic(Image)` in an R code chunk, in order for both HTML and PDF versions of the paper to be created when the `rjtools` article template is knitted.  <!--Why? What will need changing?-->
+- Edit the tables for aesthetics. The conversion will create Markdown tables, which will convert appropriately to HTML and PDF. However, to have more control and to create more elegant tables using `knitr::kable` provides finer level control. <!--If the simple conversion is insufficient?-->
+- Include your R code, to dynamically do the computing described in your article. If any code block is time-consuming to complete, saving intermediate output, or caching would be recommended.
 
 # Managing the bibliography using \CRANpkg{rebib} {#rebib}
 
@@ -428,6 +428,8 @@ It was initially a part of the \CRANpkg{texor} package, as those functions grew 
 The package `rebib` can be installed from CRAN and the development version from https://github.com/Abhi-1U/rebib. The website for the package, https://abhi-1u.github.io/rebib, has vignettes documenting usage.  
 
 # The process of converting all the legacy articles
+
+
 
 # Known problems needing manual fixes
 

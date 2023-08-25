@@ -358,11 +358,11 @@ For individuals who are interested in submitting their paper to the R Journal bu
 \begin{itemize}
 \tightlist
 \item
-  Edit the lines where figures are included.
+  Edit the lines where figures are included. The conversion will create HTML code to define the image. This should be changed into Markdown description \texttt{!{[}Caption{]}(Image)} or using \texttt{knitr::include\_graphic(Image)} in an R code chunk, in order for both HTML and PDF versions of the paper to be created when the \texttt{rjtools} article template is knitted.
 \item
-  Edit the tables.
+  Edit the tables for aesthetics. The conversion will create Markdown tables, which will convert appropriately to HTML and PDF. However, to have more control and to create more elegant tables using \texttt{knitr::kable} provides finer level control.
 \item
-  Include your R code, to dynamically do the computing described in your article.
+  Include your R code, to dynamically do the computing described in your article. If any code block is time-consuming to complete, saving intermediate output, or caching would be recommended.
 \end{itemize}
 
 \hypertarget{rebib}{%
