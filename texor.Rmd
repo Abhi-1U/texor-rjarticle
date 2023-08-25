@@ -477,8 +477,8 @@ You'll need to ensure that you have the latest versions of \CRANpkg{texor} and \
 
 The \CRANpkg{texor} and \CRANpkg{rebib} source code and materials to reproduce this paper are available at:
 
-- \CRANpkg{texor}: https://abhi-1u.github.io/texor
-- \CRANpkg{rebib}: https://abhi-1u.github.io/rebib/
+- \CRANpkg{texor}: Version 1.2.0 https://abhi-1u.github.io/texor
+- \CRANpkg{rebib}: Version 0.3.0 https://abhi-1u.github.io/rebib/
 - This paper: https://github.com/Abhi-1U/texor-rjarticle
 - More details on \CRANpkg{rjtools} are at https://rjournal.github.io/rjtools/
 
