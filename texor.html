@@ -159,7 +159,7 @@ margin-left: 2em;
   <meta name="citation_reference" content="citation_title=R markdown: The definitive guide;citation_publisher=Chapman; Hall/CRC;citation_author=Yihui Xie;citation_author=J. J. Allaire;citation_author=Garrett Grolemund" />
   <meta name="citation_reference" content="citation_title=Dynamic documents with R and knitr;citation_publisher=Chapman; Hall/CRC;citation_author=Yihui Xie" />
   <meta name="citation_reference" content="citation_title=Distill: ’R markdown’ format for scientific and technical writing;citation_author=Christophe Dervieux;citation_author=JJ Allaire;citation_author=Rich Iannone;citation_author=Alison Presmanes Hill;citation_author=Yihui Xie" />
-  <meta name="citation_reference" content="citation_title=Pandoc: A universal document converter;citation_publisher=https://pandoc.org;citation_author=John MacFarlane" />
+  <meta name="citation_reference" content="citation_title=Pandoc;citation_publisher=https://github.com/jgm/pandoc;citation_author=John MacFarlane;citation_author=Albert Krewinkel;citation_author=Jesse Rosenthal" />
   <meta name="citation_reference" content="citation_title=Markdown;citation_publisher=https://daringfireball.net/projects/markdown/;citation_author=John Gruber" />
   <meta name="citation_reference" content="citation_title=The UNIX time-sharing system;citation_volume=57;citation_doi=10.1002/j.1538-7305.1978.tb02136.x;citation_author=O. M. Ritchie;citation_author=K. Thompson" />
   <meta name="citation_reference" content="citation_title=Lua—an extensible extension language;citation_volume=26;citation_author=Roberto Ierusalimschy;citation_author=Luiz Henrique Figueiredo;citation_author=Waldemar Celes Filho" />
@@ -2578,7 +2578,7 @@ Describe changes in templates, and web site. Desirability to convert the legacy 
 - Quirks of the legacy articles
 -->
 <h1 data-number="2" id="internals"><span class="header-section-number">2</span> The internals of converting from LaTeX to R Markdown</h1>
-<p>The decision to convert to R Markdown format means that the final output to PDF and HTML will depend on Pandoc <span class="citation" data-cites="pandoc">(<a href="#ref-pandoc" role="doc-biblioref">MacFarlane 2023</a>)</span>. Pandoc is a versatile document conversion program written in Haskell that is core to numerous documentation systems, including R Markdown and Quarto. Pandoc first converts a document into an abstract syntax tree. From this, it can convert to a different format, including custom ones. <!-- Although creating bespoke writers/readers in `Lua` can be challenging, pandoc includes filters that allow users to customize the output generated based on matching patterns plus some logic to modify them. --></p>
+<p>The decision to convert to R Markdown format means that the final output to PDF and HTML will depend on Pandoc <span class="citation" data-cites="pandoc">(<a href="#ref-pandoc" role="doc-biblioref">MacFarlane et al. 2023</a>)</span>. Pandoc is a versatile document conversion program written in Haskell that is core to numerous documentation systems, including R Markdown and Quarto. Pandoc first converts a document into an abstract syntax tree. From this, it can convert to a different format, including custom ones. <!-- Although creating bespoke writers/readers in `Lua` can be challenging, pandoc includes filters that allow users to customize the output generated based on matching patterns plus some logic to modify them. --></p>
 <p>Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, some pre-processing is necessary to handle special R Journal LaTeX styling. And further post-processing is necessary to handle specific R Journal R Markdown styling. The <a href="https://cran.r-project.org/package=texor">texor</a> package contains functionality to handle this pre- and post-processing of the document, in a workflow illustrated in Figure <a href="#fig:workflow">1</a>.</p>
 <!-- uses these filters heavily, even for simple tasks like choosing which supporting figures to copy. A `Lua` filter constructs a list of image paths, stores them momentarily and the package uses this data to copy images. However, \CRANpkg{texor} also includes many pre-processing functions that employ regular expressions. This is needed to convert some text and LaTeX commands that are not recognized or handled by Pandoc. -->
 <div class="layout-chunk" data-layout="l-body">
@@ -2931,7 +2931,7 @@ R. Iannone, J. Cheng, B. Schloerke, E. Hughes, A. Lauer and J. Seo. <em>Gt: Easi
 R. Ierusalimschy, L. H. de Figueiredo and W. C. Filho. Lua—an extensible extension language. <em>Software: Practice and Experience</em>, 26(6): 635–652, 1996.
 </div>
 <div id="ref-pandoc" class="csl-entry" role="listitem">
-J. MacFarlane. Pandoc: A universal document converter. 2023.
+J. MacFarlane, A. Krewinkel and J. Rosenthal. Pandoc. 2023.
 </div>
 <div id="ref-tables" class="csl-entry" role="listitem">
 D. Murdoch. <em>Tables: Formula-driven table generation.</em> 2023. URL <a href="https://CRAN.R-project.org/package=tables">https://CRAN.R-project.org/package=tables</a>. R package version 0.9.17.

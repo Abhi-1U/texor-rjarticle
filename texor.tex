@@ -45,7 +45,7 @@ The paper is organised as follows. Section 2 gives an overview of the conversion
 \hypertarget{internals}{%
 \section{The internals of converting from LaTeX to R Markdown}\label{internals}}
 
-The decision to convert to R Markdown format means that the final output to PDF and HTML will depend on Pandoc (MacFarlane 2023). Pandoc is a versatile document conversion program written in Haskell that is core to numerous documentation systems, including R Markdown and Quarto. Pandoc first converts a document into an abstract syntax tree. From this, it can convert to a different format, including custom ones.
+The decision to convert to R Markdown format means that the final output to PDF and HTML will depend on Pandoc (MacFarlane, Krewinkel, and Rosenthal 2023). Pandoc is a versatile document conversion program written in Haskell that is core to numerous documentation systems, including R Markdown and Quarto. Pandoc first converts a document into an abstract syntax tree. From this, it can convert to a different format, including custom ones.
 
 Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, some pre-processing is necessary to handle special R Journal LaTeX styling. And further post-processing is necessary to handle specific R Journal R Markdown styling. The \CRANpkg{texor} package contains functionality to handle this pre- and post-processing of the document, in a workflow illustrated in Figure \ref{fig:workflow}.
 
@@ -503,7 +503,7 @@ Iannone, Richard, Joe Cheng, Barret Schloerke, Ellis Hughes, Alexandra Lauer, an
 Ierusalimschy, Roberto, Luiz Henrique de Figueiredo, and Waldemar Celes Filho. 1996. {``Lua---an Extensible Extension Language.''} \emph{Software: Practice and Experience} 26 (6): 635--52.
 
 \leavevmode\vadjust pre{\hypertarget{ref-pandoc}{}}%
-MacFarlane, John. 2023. {``Pandoc: A Universal Document Converter.''} https://pandoc.org.
+MacFarlane, John, Albert Krewinkel, and Jesse Rosenthal. 2023. {``Pandoc.''} https://github.com/jgm/pandoc.
 
 \leavevmode\vadjust pre{\hypertarget{ref-tables}{}}%
 Murdoch, Duncan. 2023. \emph{Tables: Formula-Driven Table Generation}. \url{https://CRAN.R-project.org/package=tables}.
