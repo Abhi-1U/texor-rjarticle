@@ -2861,8 +2861,15 @@ It was initially a part of the \CRANpkg{texor} package, as those functions grew 
 <!-- ## Using \CRANpkg{rebib}-->
 <p>The package <code>rebib</code> can be installed from CRAN and the development version from <a href="https://github.com/Abhi-1U/rebib" class="uri">https://github.com/Abhi-1U/rebib</a>. The website for the package, <a href="https://abhi-1u.github.io/rebib" class="uri">https://abhi-1u.github.io/rebib</a>, has vignettes documenting usage.</p>
 <h1 data-number="5" id="the-process-of-converting-all-the-legacy-articles"><span class="header-section-number">5</span> The process of converting all the legacy articles</h1>
-<h1 data-number="6" id="known-problems-needing-manual-fixes"><span class="header-section-number">6</span> Known problems needing manual fixes</h1>
-<h1 data-number="7" id="summary"><span class="header-section-number">7</span> Summary</h1>
+<p>The R Journal has been operating since 2009, and has published 682 articles through 2022 in addition to numerous editorials and news items. These LaTeX articles are the main focus of the conversions made with <a href="https://cran.r-project.org/package=texor">texor</a> and <a href="https://cran.r-project.org/package=rebib">rebib</a>.</p>
+<h2 class="unnumbered" id="batch-processing">Batch processing</h2>
+<p>The code is designed to process an issue at a time, by operating on all the files in the directory housing the issue. Each processing function, from pre-processing the text in the LaTeX file to post-processing accepts a directory name as the argument. The vignette <a href="https://abhi-1u.github.io/texor/articles/introduction-to-texor.html">Introduction to texor</a> provides more details.</p>
+<h2 class="unnumbered" id="known-problems-requiring-manual-fixes">Known problems requiring manual fixes</h2>
+<h2 class="unnumbered" id="plan-for-release">Plan for release</h2>
+<p>The HTML versions of all successfully converted legacy articles will be on the <a href="https://journal.r-project.org">R Journal web site</a> late in 2023. The final step in the integration requires the R Markdown file to be knitted in place to capture the meta data for each article.</p>
+<h2 class="unnumbered" id="reporting-problems">Reporting problems</h2>
+<p>As a consequence of this project, the journal web site has been furnished with an additional link titled “CONTRIBUTE”. Visiting this link will give you details on how to report a problem with an article that you are readin, or even to make a suggestion on improving operations.</p>
+<h1 data-number="6" id="summary"><span class="header-section-number">6</span> Summary</h1>
 <p>The original motivation for the <a href="https://cran.r-project.org/package=texor">texor</a> and <a href="https://cran.r-project.org/package=rebib">rebib</a> packages was to convert legacy LaTeX articles into HTML format to accessibility. Thus it only creates the R Markdown and an HTML version leaving the original PDF as published. This will also be used to produce HTML versions of newly accepted papers only submitted as LaTeX.</p>
 <p>However, it could be useful to help authors convert to dynamic documents, by providing an initial R Markdown version of their LaTeX, that with some modification, such as including their R code for computations directly in the document, will produce both PDF nd HTML versions of their submitted paper.</p>
 <!--Remember only the HTML is rendered, and the original PDF is not re-generated.

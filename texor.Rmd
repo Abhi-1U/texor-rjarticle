@@ -429,9 +429,21 @@ The package `rebib` can be installed from CRAN and the development version from 
 
 # The process of converting all the legacy articles
 
+The R Journal has been operating since 2009, and has published 682 articles through 2022 in addition to numerous editorials and news items. These LaTeX articles are the main focus of the conversions made with \CRANpkg{texor} and \CRANpkg{rebib}.
 
+## Batch processing
 
-# Known problems needing manual fixes
+The code is designed to process an issue at a time, by operating on all the files in the directory housing the issue. Each processing function, from pre-processing the text in the LaTeX file to post-processing accepts a directory name as the argument.  The vignette [Introduction to texor](https://abhi-1u.github.io/texor/articles/introduction-to-texor.html) provides more details. 
+
+## Known problems requiring manual fixes
+
+## Plan for release
+
+The HTML versions of all successfully converted legacy articles will be on the [R Journal web site](https://journal.r-project.org) late in 2023. The final step in the integration requires the R Markdown file to be knitted in place to capture the meta data for each article. 
+
+## Reporting problems
+
+As a consequence of this project, the journal web site has been furnished with an additional link titled "CONTRIBUTE". Visiting this link will give you details on how to report a problem with an article that you are readin, or even to make a suggestion on improving operations.
 
 # Summary
 
