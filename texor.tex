@@ -408,7 +408,7 @@ The code is designed to process all the articles in an issue at a time, by opera
 \hypertarget{known-problems-requiring-manual-fixes}{%
 \subsection{Known problems requiring manual fixes}\label{known-problems-requiring-manual-fixes}}
 
-The problems encountered with some articles include:
+The problems encountered with some articles are many and varied, and include:
 
 \begin{itemize}
 \tightlist
@@ -416,6 +416,14 @@ The problems encountered with some articles include:
   The table format is often not as neat in the HTML as in the LaTeX. It can be made close to the original with extra effort in the R Markdown description.
 \item
   Some of the figure files are missing - so the figure may need to be extracted from the pdf file and included with \texttt{knitr::include\_graphics()}.
+\item
+  Figures and equations may need some resizing. Sometimes the figure or equation might extend outside the text region in the HTML, which can be fixed with specifying preferred size, or breaks in the equation lines.
+\item
+  Alignment in multi-line equations may need adjusting.
+\item
+  Alignment of columns in a table may not be the same as the original, for example text might be center-aligned, instead of the original left-aligned.
+\item
+  Specialty LaTeX definitions included by an author for their article may not be recognized by Pandoc, leaving the original command as is, in the article.
 \end{itemize}
 
 \hypertarget{plan-for-release}{%

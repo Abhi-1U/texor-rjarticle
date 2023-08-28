@@ -437,10 +437,14 @@ The code is designed to process all the articles in an issue at a time, by opera
 
 ## Known problems requiring manual fixes
 
-The problems encountered with some articles include:
+The problems encountered with some articles are many and varied, and include:
 
 - The table format is often not as neat in the HTML as in the LaTeX. It can be made close to the original with extra effort in the R Markdown description.
 - Some of the figure files are missing - so the figure may need to be extracted from the pdf file and included with `knitr::include_graphics()`.
+- Figures and equations may need some resizing. Sometimes the figure or equation might extend outside the text region in the HTML, which can be fixed with specifying preferred size, or breaks in the equation lines. 
+- Alignment in multi-line equations may need adjusting.
+- Alignment of columns in a table may not be the same as the original, for example text might be center-aligned, instead of the original left-aligned.
+- Specialty LaTeX definitions included by an author for their article may not be recognized by Pandoc, leaving the original command as is, in the article. 
 
 ## Plan for release
 

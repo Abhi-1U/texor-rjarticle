@@ -2865,10 +2865,14 @@ It was initially a part of the \CRANpkg{texor} package, as those functions grew 
 <h2 class="unnumbered" id="batch-processing">Batch processing</h2>
 <p>The code is designed to process all the articles in an issue at a time, by operating on all the files in the directory housing the issue. Each processing function, from pre-processing the text in the LaTeX file to post-processing accepts a directory name as the argument. Generally, if a problem is encountered with one article, the processing will skip on to the next. The vignette <a href="https://abhi-1u.github.io/texor/articles/introduction-to-texor.html">Introduction to texor</a> provides more details.</p>
 <h2 class="unnumbered" id="known-problems-requiring-manual-fixes">Known problems requiring manual fixes</h2>
-<p>The problems encountered with some articles include:</p>
+<p>The problems encountered with some articles are many and varied, and include:</p>
 <ul>
 <li>The table format is often not as neat in the HTML as in the LaTeX. It can be made close to the original with extra effort in the R Markdown description.</li>
 <li>Some of the figure files are missing - so the figure may need to be extracted from the pdf file and included with <code>knitr::include_graphics()</code>.</li>
+<li>Figures and equations may need some resizing. Sometimes the figure or equation might extend outside the text region in the HTML, which can be fixed with specifying preferred size, or breaks in the equation lines.</li>
+<li>Alignment in multi-line equations may need adjusting.</li>
+<li>Alignment of columns in a table may not be the same as the original, for example text might be center-aligned, instead of the original left-aligned.</li>
+<li>Specialty LaTeX definitions included by an author for their article may not be recognized by Pandoc, leaving the original command as is, in the article.</li>
 </ul>
 <h2 class="unnumbered" id="plan-for-release">Plan for release</h2>
 <p>The HTML versions of all successfully converted legacy articles will be on the <a href="https://journal.r-project.org">R Journal web site</a> late in 2023. The final step in the integration requires the R Markdown file to be knitted in place to capture the meta data for each article.</p>
