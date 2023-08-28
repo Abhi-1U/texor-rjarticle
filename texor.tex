@@ -403,10 +403,20 @@ The R Journal has been operating since 2009, and has published 682 articles thro
 \hypertarget{batch-processing}{%
 \subsection{Batch processing}\label{batch-processing}}
 
-The code is designed to process an issue at a time, by operating on all the files in the directory housing the issue. Each processing function, from pre-processing the text in the LaTeX file to post-processing accepts a directory name as the argument. The vignette \href{https://abhi-1u.github.io/texor/articles/introduction-to-texor.html}{Introduction to texor} provides more details.
+The code is designed to process all the articles in an issue at a time, by operating on all the files in the directory housing the issue. Each processing function, from pre-processing the text in the LaTeX file to post-processing accepts a directory name as the argument. Generally, if a problem is encountered with one article, the processing will skip on to the next. The vignette \href{https://abhi-1u.github.io/texor/articles/introduction-to-texor.html}{Introduction to texor} provides more details.
 
 \hypertarget{known-problems-requiring-manual-fixes}{%
 \subsection{Known problems requiring manual fixes}\label{known-problems-requiring-manual-fixes}}
+
+The problems encountered with some articles include:
+
+\begin{itemize}
+\tightlist
+\item
+  The table format is often not as neat in the HTML as in the LaTeX. It can be made close to the original with extra effort in the R Markdown description.
+\item
+  Some of the figure files are missing - so the figure may need to be extracted from the pdf file and included with \texttt{knitr::include\_graphics()}.
+\end{itemize}
 
 \hypertarget{plan-for-release}{%
 \subsection{Plan for release}\label{plan-for-release}}

@@ -433,9 +433,14 @@ The R Journal has been operating since 2009, and has published 682 articles thro
 
 ## Batch processing
 
-The code is designed to process an issue at a time, by operating on all the files in the directory housing the issue. Each processing function, from pre-processing the text in the LaTeX file to post-processing accepts a directory name as the argument.  The vignette [Introduction to texor](https://abhi-1u.github.io/texor/articles/introduction-to-texor.html) provides more details. 
+The code is designed to process all the articles in an issue at a time, by operating on all the files in the directory housing the issue. Each processing function, from pre-processing the text in the LaTeX file to post-processing accepts a directory name as the argument. Generally, if a problem is encountered with one article, the processing will skip on to the next. The vignette [Introduction to texor](https://abhi-1u.github.io/texor/articles/introduction-to-texor.html) provides more details. 
 
 ## Known problems requiring manual fixes
+
+The problems encountered with some articles include:
+
+- The table format is often not as neat in the HTML as in the LaTeX. It can be made close to the original with extra effort in the R Markdown description.
+- Some of the figure files are missing - so the figure may need to be extracted from the pdf file and included with `knitr::include_graphics()`.
 
 ## Plan for release
 
