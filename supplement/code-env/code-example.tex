@@ -249,6 +249,16 @@ Output :\\
 \includegraphics[width=1\textwidth]{binom}
 \end{Schunk}
 
+\section{Including 'R code chunks'}
+
+Including R code chunks in an article that is to be converted to R markdown
+can be a bit tricky as the \CRANpkg{knitr} package will interpret and execute the R code chunks as
+actual code bits. A workaround for this issue has been described in this \href{https://support.posit.co/hc/en-us/articles/360018181633-Including-verbatim-R-code-chunks-inside-R-Markdown}{posit support article}. Below is an example with the workaround adapted from \cite{rcodechunks}.
+\begin{example}
+`r ''````{r}
+plot(cars)
+```
+\end{example}
 
 \section{Summary}
 
@@ -281,6 +291,11 @@ R.~ Fairbairns, A.~ Duggan, R.~ Schöpf and V.~ Eijkhout
 \newblock \emph{CTAN} \penalty0 2011
 \newblock URL \url{https://mirror.niser.ac.in/ctan/macros/latex/contrib/moreverb/moreverb.pdf}
 
+\bibitem[Stephens (2022)]{rcodechunks}
+Nathan Stephens
+\newblock Including verbatim R code chunks inside R Markdown
+\newblock \emph{Posit support forum}, 2022 
+\newblock URL \url{https://support.posit.co/hc/en-us/articles/360018181633-Including-verbatim-R-code-chunks-inside-R-Markdown}
 \end{thebibliography}
 
 

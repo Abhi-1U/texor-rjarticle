@@ -5,13 +5,17 @@
 \maketitle
 
 \abstract{
-pandoc supports intermediate modification of the Abstract Syntax Tree (AST) between
+Pandoc supports intermediate modification of the Abstract Syntax Tree (AST) between
 the parsing and writing phase using filters. This supplement paper highlights
 the use cases of such filters written in the Lua language on LaTeX, markdown and native AST.
 }
 
 \section{Introduction}
-To fully understand pandoc filters, one must first grasp the document conversion process. A document in one format is read/parsed into an intermediate form, known as an abstract syntax tree (AST). A document writer is a specialized type-setter to read an AST and produce the contents in the chosen article format. Converting markdown to HTML, for example, will entail these pandoc operations. Figure~\ref{fig:workflow} shows the conversion workflow within pandoc.
+To fully understand pandoc filters, one must first grasp the document conversion process.
+Pandoc will read/parse an article and then store it internally as an intermediate form, known as an abstract syntax tree (AST). 
+Then, A document writer(a specialized type-setter) will read the AST and produce the contents in the chosen article format. 
+Converting markdown to HTML, for example, will entail these pandoc operations. 
+Figure~\ref{fig:workflow} shows the conversion workflow within pandoc.
 
 \begin{figure}[htbp]
   \centering
@@ -23,9 +27,10 @@ To fully understand pandoc filters, one must first grasp the document conversion
 When specific elements require adjustment, the Lua filters enter the picture. Assume you're converting markdown to HTML and want the page to have automated numbering for figures or tables. 
 If you use markdown, there is no system for automatically numbering figures/tables; to retain 1:1 conversion, the HTML output will also lack numbering. 
 
-At this point, you might wish there was a way to add such a feature. Then there is the possibility of unlimited choices for customization, including every customization as an option in pandoc or the writer is not viable. 
+At this point, you might wish there was a way to add such a feature. But including every customization as an option in pandoc or the writer is not viable. 
 To address this, the idea of filters emerged, with which you could modify the AST before the writer could read it to obtain the desired result \citep{pandocfilters}.
 
+Pandoc filters can technically be written in any language (called JSON filters) \footnote{More on this \href{https://pandoc.org/filters.html}{here}.}.
 \section{Need of Lua filters}
 
 Continuing the example above, let's create a dummy article, where we need to add
@@ -100,13 +105,13 @@ end
 
 Everything in Lua revolves around tables; for example, the pandoc AST or the document is one giant table with sub-tables.
 
-In pandoc, there are two sorts of elements: \verb|Blocks| and \verb|Inlines|. \verb|Blocks| are complicated constructions constructed from simple pieces (\verb|Inlines|). A \verb|Para|, for example, is a \verb|Block| made up of several \verb|Str| \verb|Inlines|.
+In pandoc, there are two sorts of elements: '\verb|Blocks|' and '\verb|Inlines|'. '\verb|Blocks|' are complicated constructions constructed from simpler pieces ('\verb|Inlines|'). A '\verb|Para|', for example, is a '\verb|Block|' made up of several '\verb|Str|' '\verb|Inlines|'.
 
-The first step in writing a filter is to select a target type, that is, which \verb|Block| or \verb|Inline| this filter will target.
-Following the selection, we name the function after the target type and each element in the argument as \verb|el|.
+The first step in writing a filter is to select a target type, that is, which '\verb|Block|' or '\verb|Inline|' this filter will target.
+Following the selection, we name the function after the target type and each element in the argument as '\verb|el|'.
 For instance, in the case of our filter, it would be \verb|function Figure(el)|. Pandoc is smart enough to match the names of filter functions to the AST elements.
 
-Now within the filter function we can assume that \verb|el| will contain the table object of a Figure element from the document. We can use many functions over it or \verb|Inlines| contained in it. One such function to walk over all the elements inside the block is \verb|walk_block|. Walk functions are a great way to check or count the presence of certain elements in a block. We use \verb|walk_block| to check if there are any \verb|Image| inline elements within the \verb|Figure| block. This is because after pandoc 3 \citep{pandoc} \verb|Figure| blocks can now contain elements other than \verb|Images| as well.
+Now within the filter function we can assume that \verb|el| will contain the table object of a Figure element from the document. We can use many functions over it or '\verb|Inlines|' contained in it. One such function to walk over all the elements inside the block is \verb|walk_block|. Walk functions are a great way to check or count the presence of certain elements in a block. We use \verb|walk_block| to check if there are any '\verb|Image|' inline elements within the '\verb|Figure|' block. This is because after pandoc 3 \citep{pandoc} '\verb|Figure|' blocks can now contain elements other than '\verb|Images|' as well.
 
 If there is an \verb|Image| then we append \verb|"Figure X :"| to the caption of the \verb|Figure| element.
 and return the modified element.
@@ -150,19 +155,22 @@ File Name & Description\\
 \hline
 \verb|table_caption.lua| & Adds table numbering in the captions similar to the ones found in R Markdown and \CRANpkg{kable}-based tables. \\
 \hline
-\verb|image_caption.lua| & Adds Figure/Algorithm/CodeBlock/WideTable numbering as well as clears out residuals of tikz/algorithm images. \\
+\verb|image_caption.lua| & Adds Figure/Algorithm numbering as well as clears out residuals of tikz/algorithm images. \\
 \hline
 \verb|conversion_compat_check.lua| & This filter keeps a count of all \verb|Inline| and \verb|Block| elements and writes it to a yaml file. \\
 \hline
 \verb|equation_filter.lua| & Adds \CRANpkg{bookdown} style equation numbering to LaTeX equation/math environments.\\
 \hline
-\verb|bookdown_ref.lua| & Changes the format of links to \CRANpkg{bookdown} (markdown) style.\\
+\verb|bookdown_ref.lua| & Corrects numbering for various elements.\\
 \hline
 \verb|issue_checker.lua| & Searches and notifies any occurrence of unrecognized math commands.\\
 \hline
 \verb|find_pdf_files.lua| & This filter creates a list for all image PDF files included in the article.\\
 \hline
+\verb|widetable_patcher.lua| & This filter sets the representation for widetables.\\
+\hline
 \end{tabular}
+
 \caption{A summary of all Lua filters used in the \CRANpkg{texor} package (available in the \href{https://github.com/Abhi-1U/texor/tree/master/inst}{/inst} folder of the package).}
 \label{tab:filters}
 \end{table}
