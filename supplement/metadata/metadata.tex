@@ -72,7 +72,7 @@ Some metadata like the volume and issue were picked up from the folder structure
 \label{table:1}
 \end{table}
 
-\section{Miscellaneous}
+\section{Miscellaneous}\label{misc}
 
 \subsubsection{Citations}
 
@@ -132,12 +132,41 @@ Most links work just fine using \verb|\href| and the \verb|\url| command will wo
  \verb|\href{www.google.com}{Google}| & \href{www.google.com}{Google} \\ \hline
 \verb|\url{www.google.com}| & \url{www.google.com}  \\ \hline
 \verb|Table \ref{table:3}| & Table \ref{table:3}  \\ \hline
+\verb|Section \nameref{misc}| & Section \nameref{misc}\\ \hline
+\verb|\autoref{table:3}| & \autoref{table:3} \\ \hline
 \end{tabular}
 \caption{Links}
 \label{table:4}
 \end{table}
 
-\subsection{Colored text}
+\paragraph{Note}
+Certain reference commands like \verb|\nameref{}| and \verb|\autoref{}| will not work as intended in HTML.
+
+\subsubsection{Lists}
+
+An example of usage of lists in LaTeX and \pkg{texor} generated HTML.
+
+\paragraph{itemize}
+\begin{itemize}
+\item A
+\item B
+\end{itemize}
+\paragraph{enumerate}
+\begin{enumerate}
+\item A
+\item B
+\end{enumerate}
+\paragraph{description}
+\begin{description}
+\item[\pkg{rebib}] Convert and Aggregate Bibliographies
+\item[\pkg{texor}] Converting 'LaTeX' 'R Journal' Articles into 'RJ-web-articles'
+\end{description}
+
+\paragraph{Note:}
+Some options for lists such as special numbering schemes or markups to description
+item points might not work as intended and the generated HTML might be simple.
+
+\subsubsection{Colored text}
 Some commands to describe colored text also work during conversion, such as
 \verb|\textcolor{blue}{Blue Text}|  \textcolor{blue}{Blue Text}.
 

@@ -36,31 +36,33 @@ not be supported.
 \label{table:1}
 \end{table}
 
-\section{Multicolumn tables}
+\section{Multicolumn and Multirow tables}
 \begin{table*}[htbp]
 \begin{center}
-\begin{tabular}{l | llll }
- \hline
- \multicolumn{1}{c |}{EXAMPLE} & \multicolumn{2}{c}{$X$} &
-\multicolumn{2}{c}{$Y$} \\
- \hline
-  & 1 & 2 & 1 & 2 \\
- EX1  & X11 & X12 &  Y11  & Y12 \\
- EX2  & X21 & X22 &  Y21  & Y22 \\
- EX3  & X31 & X32 &  Y31  & Y32 \\
- EX4  & X41 & X42 &  Y41  & Y42\\
- EX5  & X51 & X52 &  Y51  & Y52 \\
+\begin{tabular}{|l | llll |}
 \hline
+ \multicolumn{1}{|c |}{EXAMPLE} & \multicolumn{2}{c|}{$X$} &
+\multicolumn{2}{c|}{$Y$} \\\hline
+  & 1 & 2 & 1 & 2 \\\hline
+ EX1  & X11 & X12 &  Y11  & Y12 \\\hline
+ EX2  & X21 & X22 &  Y21  & Y22 \\\hline
+\multirow{ 2}{*}{EX3} & X31 & X32 &  Y31  & Y32 \\
+& X311 & X322 & Y311 & Y322\\\hline
+ \multirow{ 2}{*}{EX4}  & X41 & X42 &  Y41  & Y42\\
+ & X411 & X422 &  Y411  & Y422\\\hline
+ EX5  & X51 & X52 &  Y51  & Y52 \\\hline
 \end{tabular}
-\caption{An example table using \code{multicolumn}}
+\caption{An example table using \code{multicolumn} and \code{multirow}}
 \label{table:2}
 \end{center}
 \end{table*}
 
-Table~\ref{table:2} illustrates a table that uses the \code{multicolumn} command, which the \CRANpkg{texor} package can handle through subroutines and pre-processing steps to transform the LaTeX code. 
+
+Table~\ref{table:2} illustrates a table that uses the \code{multicolumn} and \code{multirow} command, which the \CRANpkg{texor} package can handle through subroutines and pre-processing steps to transform the LaTeX code. 
 
 Also note that the stream editor is used to rename \verb|table*| environment to \verb|table| environment because the HTML format is single column, so the asterisk indicating that the table should be drawn over the full width of the page is redundant in this case.
--- ToDo : include more details about MultiRow and tablenotes
+
+
 \section{Complex tables}
 A complex table with various other elements like figures, math, code and so on, are also supported
 by \CRANpkg{texor}.  
@@ -149,6 +151,50 @@ Package  & Commits  & Version  & Last Updated \tabularnewline
 
 \end{widetable}
 
+\section{Long Tables}
+
+Pandoc supports long tables from \pkg{longtable} CTAN package as well, here is an example as table \ref{table:6}.
+\begin{longtable}{|p{2cm}|p{2.5cm}|p{1cm}|p{2cm}|p{2cm}|p{2cm}|p{1cm}|}
+\caption{Table of Car data from mtcars dataset}
+\label{table:6}\\
+\hline
+\textbf{Manafacturer} & \textbf{Model and Make} & \textbf{MPG} & \textbf{Engine Cylinders} & \textbf{Engine Displacement (cu.in.)} & \textbf{Weight (1000 lbs)} & \textbf{Number of forward gears} \\
+\hline
+Mazda &RX4         &  21.0  & 6 & 160.0 & 2.620 &   4\\ \hline
+Mazda &RX4 Wag      & 21.0  & 6 & 160.0 & 2.875  &  4\\ \hline
+Datsun &710         & 22.8  & 4 &108.0 &2.320   & 4\\ \hline
+Hornet &4 Drive     & 21.4  & 6 &258.0 &3.215   & 3\\ \hline
+Hornet &Sportabout  & 18.7  & 8 &360.0 &3.440   & 3\\ \hline
+Valiant     &      &  18.1  & 6 &225.0 &3.460   & 3\\ \hline
+Duster &360        &  14.3  & 8 &360.0 &3.570   & 3\\ \hline
+Merc &240D         &  24.4  & 4 &146.7 &3.190   & 4\\ \hline
+Merc &230         &   22.8  & 4 &140.8 &3.150   & 4\\ \hline
+Merc &280          &  19.2  & 6 &167.6 &3.440   & 4\\ \hline
+Merc &280C        &   17.8  & 6 &167.6 &3.440   & 4\\ \hline
+Merc &450SE        &  16.4  & 8 &275.8 &4.070   & 3\\ \hline
+Merc &450SL        &  17.3  & 8 &275.8 &3.730   & 3\\ \hline
+Merc &450SLC       &  15.2  & 8 &275.8 &3.780   & 3\\ \hline
+Cadillac &Fleetwood & 10.4  & 8 &472.0 &5.250   & 3\\ \hline
+Lincoln &Continental& 10.4  & 8 &460.0 &5.424   & 3\\ \hline
+Chrysler &Imperial  & 14.7  & 8 &440.0 &5.345   & 3\\ \hline
+Fiat & 128          &  32.4 &  4 & 78.7 &2.200  &  4\\ \hline
+Honda &Civic        & 30.4  & 4 & 75.7 &1.615   & 4\\ \hline
+Toyota &Corolla     & 33.9  & 4 & 71.1 &1.835   & 4\\ \hline
+Toyota &Corona      & 21.5  & 4 &120.1 &2.465   & 3\\ \hline
+Dodge &Challenger   & 15.5  & 8 &318.0 &3.520   & 3\\ \hline
+AMC &Javelin        & 15.2  & 8 &304.0 &3.435   & 3\\ \hline
+Cheverolet &Camaro Z28 & 13.3 & 8& 350.0 &3.840   & 3\\ \hline
+Pontiac &Firebird   & 19.2  & 8 &400.0 &3.845   & 3\\ \hline
+Fiat &X1-9          & 27.3  & 4 & 79.0 &1.935   & 4\\ \hline
+Porsche& 914-2      & 26.0  & 4 &120.3 &2.140   & 5\\ \hline
+Lotus& Europa       & 30.4  & 4 & 95.1 &1.513   & 5\\ \hline
+Ford &Pantera L     & 15.8  & 8 &351.0 73.170   & 5\\ \hline
+Ferrari &Dino       & 19.7  & 6 &145.0 &2.770   & 5\\ \hline
+Maserati& Bora      & 15.0  & 8 &301.0 &3.570   & 5\\ \hline
+Volvo &142E         & 21.4  & 4 &121.0 &2.780   & 4\\ 
+\hline
+\end{longtable}
+
 \section{Limitations}
 
 Limitations of the \CRANpkg{texor} package in table handling includes:
@@ -168,13 +214,15 @@ Limitations of the \CRANpkg{texor} package in table handling includes:
 In summary the \CRANpkg{texor} package supports:
 \begin{itemize}
 \item Some common table environments.
-\item Wide tables.
-\item Some tables with \code{multicolumn} commands.
+\item Long and Wide Tables.
+\item Some tables with \code{multicolumn} and \code{multirow} commands.
 \item Environments such as \code{figure}/\code{code} in tables.
 \end{itemize}
 
 
+\section{Acknowledgements} 
 
+Special thanks to Albert Krewinkel for his contributions towards earlier versions of Lua filters to add table numbering.
 
 \address{%
 Abhishek Ulayil\\
