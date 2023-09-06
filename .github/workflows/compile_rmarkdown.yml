@@ -40,6 +40,9 @@ jobs:
       - name: install dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          extra-packages: |
+              any::plotly
+          needs: check
           cache-version: 2
       - name: Post Install
         run: |

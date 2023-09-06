@@ -104,7 +104,7 @@ S_{T, s}(z_t) = X^{\top} K_{b,t}^* X (Z - z_t)^s,
 \end{align}
 
 Equation labels must start with the prefix \verb|eq:| in bookdown. All labels in bookdown must only contain alphanumeric characters, \verb|:|, \verb|-|, and/or \verb|/| as suggested in \citep{bookdown}. To accomadate this, the \pkg{texor} package has a lua filter implementation to correct and modify equation labels and references to the
-bookdown accepted format. For example lets say this equation has a non standard label
+bookdown accepted format. 
 \paragraph{LaTeX source code}
 \begin{example}
 \begin{equation}\label{binomial pdf}
@@ -114,7 +114,7 @@ bookdown accepted format. For example lets say this equation has a non standard 
 The reference to above equation \eqref{binomial pdf}
 \end{example}
 
-\paragraph{Modified R markdown using \pkg{texor}}
+\paragraph{Generated R markdown using \pkg{texor}}
 \begin{verbatim}
 $$\label{binomial pdf}
   f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}   (\#eq:binomial-pdf)$$

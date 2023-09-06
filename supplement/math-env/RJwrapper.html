@@ -2614,15 +2614,14 @@ S_{T, s}(z_t) = X^{\top} K_{b,t}^* X (Z - z_t)^s,
 in bookdown must only contain alphanumeric characters, <code>:</code>, <code>-</code>, and/or
 <code>/</code> as suggested in <span class="citation" data-cites="bookdown">(<a href="#ref-bookdown" role="doc-biblioref">Yihui Xie 2023</a>)</span>. To accomadate this, the <strong>texor</strong>
 package has a lua filter implementation to correct and modify equation
-labels and references to the bookdown accepted format. For example lets
-say this equation has a non standard label</p>
+labels and references to the bookdown accepted format.</p>
 <h4 class="unnumbered" id="latex-source-code">LaTeX source code</h4>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>\begin{equation}\label{binomial pdf}</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  f\<span class="fu">left</span>(k\right) <span class="ot">=</span> \binom{n}{k} p<span class="sc">^</span>k\<span class="fu">left</span>(<span class="dv">1</span><span class="sc">-</span>p\right)<span class="sc">^</span>{n<span class="sc">-</span>k}</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>\end{equation}</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>The reference to above equation \eqref{binomial pdf}</span></code></pre></div>
-<h4 class="unnumbered" id="modified-r-markdown-using-texor">Modified R markdown using <strong>texor</strong></h4>
+<h4 class="unnumbered" id="generated-r-markdown-using-texor">Generated R markdown using <strong>texor</strong></h4>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">$</span><span class="er">$</span>\label{binomial pdf}</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  f\<span class="fu">left</span>(k\right) <span class="ot">=</span> \binom{n}{k} p<span class="sc">^</span>k\<span class="fu">left</span>(<span class="dv">1</span><span class="sc">-</span>p\right)<span class="sc">^</span>{n<span class="sc">-</span>k}   (\<span class="co">#eq:binomial-pdf)$$</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
