@@ -59,7 +59,7 @@ The tooling behind the production of the R Journal is regularly updated. Early a
 
 In 2019, with the help of funding from the R Consortium, work began to update operations. One aspect of this was to change from LaTeX article submissions to a more reproducible format, where code was embedded in the document, and the output could be both HTML and pdf. There are numerous benefits of HTML format: 
 
-1. Articles can include interactive graphics and tables.
+1. Articles can include interactive graphics and tables. 
 2. The format is more accessible to screen readers and other assistive technologies, making the work more accessible to vision-impaired researchers.
 3. HTML provides a more comfortable reading experience on mobile devices, which are increasing used as researchers work on the move and share work via social media.
 4. Search engines can easily access the full text of articles, facilitating discovery of published articles.
