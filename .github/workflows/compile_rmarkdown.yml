@@ -66,5 +66,6 @@ jobs:
           Rscript -e 'for (f in commandArgs(TRUE)) if (file.exists(f)) rmarkdown::render(f)' ${RMD_PATH[*]}
           git config --local user.name "$GITHUB_ACTOR"
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git commit ${RMD_PATH[*]/.html/.pdf/.tex} -m 'Re-render Rmarkdown files' || echo "No changes to commit"
+          git add *.html *.pdf *.tex
+          git commit ${RMD_PATH[*]} -m 'Re-render Rmarkdown files' || echo "No changes to commit"
           git push origin || echo "No changes to commit"
