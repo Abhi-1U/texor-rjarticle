@@ -1,0 +1,44 @@
+name: Compile R Markdown to HTML and PDF
+
+on:
+  push:
+    branches:
+      - master  # Change to your repository's default branch
+    paths:
+      - "texor.Rmd"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y pandoc texlive-latex-base texlive-fonts-recommended texlive-fonts-extra
+
+    - name: Install R and packages
+      uses: r-lib/actions/setup-r@v1
+      with:
+        r-version: 4.3.1  # Change to your desired R version
+
+    - name: Install R packages
+      run: |
+        R -e 'install.packages(c("rmarkdown"))'
+
+    - name: Compile R Markdown to HTML
+      run: R -e 'rmarkdown::render("texor.Rmd")'
+
+    - name: Compile R Markdown to PDF
+      run: R -e 'rmarkdown::render("texor.Rmd", "pdf_document")'
+
+    - name: Upload HTML and PDF
+      uses: actions/upload-artifact@v2
+      with:
+        name: compiled-files
+        path: |
+          texor.html
+          texor.pdf
