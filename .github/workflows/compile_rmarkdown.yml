@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ACTOR_PAT: ${{ secrets.GH_ACTOR_T}}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
