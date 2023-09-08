@@ -44,6 +44,7 @@ jobs:
           extra-packages: |
               any::plotly
               any::rjtools
+              any::DiagrammeR
           needs: check
           cache-version: 2
       - name: Post Install

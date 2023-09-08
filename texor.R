@@ -7,8 +7,18 @@ library(plotly)
 library(ggplot2)
 
 
-## ----workflow, fig.cap="Workflow of the document conversion conducted by texor.", out.width="90%", fig.align='center'----
+## ----workflow1, fig.cap="Workflow of the document conversion conducted by texor.", out.width="90%", fig.align='center', eval=knitr::is_latex_output()----
 knitr::include_graphics("workflow.png")
+
+
+## ----workflow, fig.cap="Workflow of the document conversion conducted by texor.", out.width="90%", fig.align='center', eval=knitr::is_html_output()----
+#> #knitr::include_graphics("workflow.png")
+#> library(DiagrammeR)
+#> DiagrammeR::mermaid(diagram = "flowchart TD
+#>     A[Original Article] --> |Pre processing in R| B[Pre-Processed Article]
+#>     B --> |pandoc reader|C{AST}
+#>     C -->|pandoc writer| D[Converted Article]
+#>     C -->|modify AST using lua filter| C{AST}")
 
 
 ## ----alghow, fig.cap="How to write algorithms.", out.width="60%", fig.align='center'----
