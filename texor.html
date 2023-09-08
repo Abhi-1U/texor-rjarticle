@@ -5124,12 +5124,9 @@ Describe changes in templates, and web site. Desirability to convert the legacy 
 <p>Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, some pre-processing is necessary to handle special R Journal LaTeX styling. And further post-processing is necessary to handle specific R Journal R Markdown styling. The <a href="https://cran.r-project.org/package=texor">texor</a> package contains functionality to handle this pre- and post-processing of the document, in a workflow illustrated in Figure <a href="#fig:workflow">1</a>.</p>
 <!-- uses these filters heavily, even for simple tasks like choosing which supporting figures to copy. A `Lua` filter constructs a list of image paths, stores them momentarily and the package uses this data to copy images. However, \CRANpkg{texor} also includes many pre-processing functions that employ regular expressions. This is needed to convert some text and LaTeX commands that are not recognized or handled by Pandoc. -->
 <div class="layout-chunk" data-layout="l-body">
-
-</div>
-<div class="layout-chunk" data-layout="l-body">
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:workflow"></span>
-<div class="DiagrammeR html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-62085dca70d1278b257d" style="width:90%;height:384px;"></div>
-<script type="application/json" data-for="htmlwidget-62085dca70d1278b257d">{"x":{"diagram":"flowchart TD\n    A[Original Article] --> |Pre processing in R| B[Pre-Processed Article]\n    B --> |pandoc reader|C{AST} \n    C -->|pandoc writer| D[Converted Article]\n    C -->|modify AST using lua filter| C{AST}"},"evals":[],"jsHooks":[]}</script>
+<div class="DiagrammeR html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-8abc4e08fa9299aae34c" style="width:90%;height:384px;"></div>
+<script type="application/json" data-for="htmlwidget-8abc4e08fa9299aae34c">{"x":{"diagram":"flowchart TD\n    A[Original Article] --> |Pre processing in R| B[Pre-Processed Article]\n    B --> |pandoc reader|C{AST} \n    C -->|pandoc writer| D[Converted Article]\n    C -->|modify AST using lua filter| C{AST}"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figure 1: Workflow of the document conversion conducted by texor.
 </p>

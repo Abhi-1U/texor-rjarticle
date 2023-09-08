@@ -92,18 +92,21 @@ Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, 
 <!-- uses these filters heavily, even for simple tasks like choosing which supporting figures to copy. A `Lua` filter constructs a list of image paths, stores them momentarily and the package uses this data to copy images. However, \CRANpkg{texor} also includes many pre-processing functions that employ regular expressions. This is needed to convert some text and LaTeX commands that are not recognized or handled by Pandoc. -->
 
 
-```{r workflow1, fig.cap="Workflow of the document conversion conducted by texor.", out.width="90%", fig.align='center', eval=knitr::is_latex_output()}
-knitr::include_graphics("workflow.png")
-```
 
-```{r workflow, fig.cap="Workflow of the document conversion conducted by texor.", out.width="90%", fig.align='center', eval=knitr::is_html_output()}
-#knitr::include_graphics("workflow.png")
-library(DiagrammeR)
-DiagrammeR::mermaid(diagram = "flowchart TD
+
+```{r workflow, fig.cap="Workflow of the document conversion conducted by texor.", out.width="90%", fig.align='center'}
+#
+if (knitr::is_html_output()) {
+  library(DiagrammeR)
+  DiagrammeR::mermaid(diagram = "flowchart TD
     A[Original Article] --> |Pre processing in R| B[Pre-Processed Article]
     B --> |pandoc reader|C{AST} 
     C -->|pandoc writer| D[Converted Article]
     C -->|modify AST using lua filter| C{AST}")
+}
+if (knitr::is_latex_output()) {
+  knitr::include_graphics("workflow.png")
+}
 ```
 
 ## Pre-processing using regular expressions 
