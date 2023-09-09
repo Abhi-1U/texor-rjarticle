@@ -14,8 +14,10 @@ LaTeX tables have more customization and are usually optimized for printing, whe
 Pandoc converts most of the tables somewhat easily, but is unable to do well with table customization packages and complex tables.
 The \CRANpkg{texor} packages uses the pandoc extensions \verb|simple_tables| and \verb|pipe_tables| to tackle these difficult cases.
 
-\section{Generic tables}
-Normal LaTeX tables will be converted just fine, even if they include a some math and other elements.
+\section{Simple tables}
+
+A simple table has $n$ rows and $p$ columns leading to $np$ cells.
+Simple LaTeX tables will be converted just fine, even if they include a some math and other elements.
 However, note that the conversion will be done to traditional or pandoc-style markdown rather than R Markdown with the \verb|knitr::kable(..)| function. Also any graphic commands or specific font characters will
 not be supported.
 \begin{table}[htbp]
