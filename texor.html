@@ -5125,8 +5125,8 @@ Describe changes in templates, and web site. Desirability to convert the legacy 
 <!-- uses these filters heavily, even for simple tasks like choosing which supporting figures to copy. A `Lua` filter constructs a list of image paths, stores them momentarily and the package uses this data to copy images. However, \CRANpkg{texor} also includes many pre-processing functions that employ regular expressions. This is needed to convert some text and LaTeX commands that are not recognized or handled by Pandoc. -->
 <div class="layout-chunk" data-layout="l-body">
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:workflow"></span>
-<div class="DiagrammeR html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-dafb099ab70319e07fa8" style="width:90%;height:384px;"></div>
-<script type="application/json" data-for="htmlwidget-dafb099ab70319e07fa8">{"x":{"diagram":"flowchart TD\n    A[Original Article] --> |Pre processing in R| B[Pre-Processed Article]\n    B --> |pandoc reader|C{AST} \n    C -->|pandoc writer| D[Converted Article]\n    C -->|modify AST using lua filter| C{AST}"},"evals":[],"jsHooks":[]}</script>
+<div class="DiagrammeR html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-80dc92da5f83a6b4bf25" style="width:90%;height:384px;"></div>
+<script type="application/json" data-for="htmlwidget-80dc92da5f83a6b4bf25">{"x":{"diagram":"flowchart TD\n    A[Original Article] --> |Pre processing in R| B[Pre-Processed Article]\n    B --> |pandoc reader|C{AST} \n    C -->|pandoc writer| D[Converted Article]\n    C -->|modify AST using lua filter| C{AST}"},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figure 1: Workflow of the document conversion conducted by texor.
 </p>
@@ -5453,7 +5453,7 @@ Where this might be useful in the future, other applications.-->
 <p>The <a href="https://cran.r-project.org/package=texor">texor</a> and <a href="https://cran.r-project.org/package=rebib">rebib</a> source code and materials to reproduce this paper are available at:</p>
 <ul>
 <li><a href="https://cran.r-project.org/package=texor">texor</a>: Version 1.2.0 <a href="https://abhi-1u.github.io/texor" class="uri">https://abhi-1u.github.io/texor</a></li>
-<li><a href="https://cran.r-project.org/package=rebib">rebib</a>: Version 0.3.0 <a href="https://abhi-1u.github.io/rebib/" class="uri">https://abhi-1u.github.io/rebib/</a></li>
+<li><a href="https://cran.r-project.org/package=rebib">rebib</a>: Version 0.3.2 <a href="https://abhi-1u.github.io/rebib/" class="uri">https://abhi-1u.github.io/rebib/</a></li>
 <li>This paper: <a href="https://github.com/Abhi-1U/texor-rjarticle" class="uri">https://github.com/Abhi-1U/texor-rjarticle</a></li>
 <li>More details on <a href="https://cran.r-project.org/package=rjtools">rjtools</a> are at <a href="https://rjournal.github.io/rjtools/" class="uri">https://rjournal.github.io/rjtools/</a></li>
 </ul>
