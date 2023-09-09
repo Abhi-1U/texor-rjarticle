@@ -89,7 +89,7 @@ f(x) = \frac{1}{\sigma\sqrt{2\pi}}
 \end{align}
 
 \section{Equation numbering}
-In LaTeX your equations get numbered automatically unless you are using \verb|\[..\]| environment or \verb|\nonumber| to suppress
+In LaTeX your equations get numbered automatically unless you are using a \verb|displaymath| environment (equivalently \verb|\[..\]|), a starred math environment such as \verb|equation*|, or \verb|\nonumber| to suppress
 numbering. Equation numbering works a bit differently in \CRANpkg{bookdown} (the base of the R Journal web article format) where
 it is mandatory to have a \verb|(\#eq:xx)| which is described in more detail in \citet{bookdown}.
 
@@ -138,7 +138,7 @@ The existence of user-defined LaTeX commands intended for the Math environments 
 \paragraph{Renders correctly in HTML}
 
 \begin{verbatim}
-\newcommand{\ABS}[1]{|#1|}
+\newcommand{\ABS}[1]{\left|#1\right|}
 \end{verbatim}
 
 $$ \ABS{\sigma^2} = \pm 1 $$
