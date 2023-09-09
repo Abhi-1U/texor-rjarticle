@@ -231,9 +231,9 @@ This is handled by pre-processing the LaTeX to create the image, as both PDF, an
 </figure>
 ```
 
-### Algorithms as figures
+### Algorithm2e graphics as figures
 
-Algorithms as figures are supported, and the following description will yield the result in Figure \@ref(fig:alghow).
+Algorithm2e graphics using the `algorithm2e` package in LaTeX  are supported, and the following description will yield the result in Figure \@ref(fig:alghow).
 
 ```latex
 \begin{algorithm}[htbp]
@@ -258,7 +258,7 @@ go back to the beginning of current section\;
 ```html
 <figure id="alg:how">
 <img src="alghow.png" style="width:100.0%" />
-<p>initialization</p>
+
 <figcaption>Algorithm 1: How to write algorithms</figcaption>
 </figure>
 ```
