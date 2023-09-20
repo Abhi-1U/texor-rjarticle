@@ -17,7 +17,9 @@ The R Journal is the primary open-access outlet for publications produced by the
 
 The tooling behind the production of the R Journal is regularly updated. Early articles were typeset using LaTeX (The LaTeX Project 2023), based on a specific, but changing, template. Using LaTeX requires that code is separated from the documentation, and there is a chance that code chunks in the paper don't reproduce the results reported. With the emergence of dynamic document systems such as R Markdown (Xie, Allaire, and Grolemund 2018), a tight coupling of code and documentation is possible. Code chunks are dynamically executed when the document is typeset using a system like \CRANpkg{knitr} (Xie 2015), making reporting of computing research more reproducible.
 
-In 2019, with the help of funding from the R Consortium, work began to update operations. One aspect of this was to change from LaTeX article submissions to a more reproducible format, where code was embedded in the document, and the output could be both HTML and pdf. There are numerous benefits of HTML format:
+In 2019, with the help of funding from the R Consortium, work began to update operations to adopt an R Markdown template, that would produce both HTML and PDF versions of the paper. In mind, was also to develop, adopt and encourage good standards for R Journal articles.
+
+There are numerous benefits of HTML format:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -439,11 +441,15 @@ As a consequence of this project, the journal web site has been furnished with a
 \hypertarget{summary}{%
 \section{Summary}\label{summary}}
 
-The original motivation for the \CRANpkg{texor} and \CRANpkg{rebib} packages was to convert legacy LaTeX articles into HTML format to accessibility. Thus it only creates the R Markdown and an HTML version leaving the original PDF as published. This will also be used to produce HTML versions of newly accepted papers only submitted as LaTeX.
+The original motivation for the \CRANpkg{texor} and \CRANpkg{rebib} packages was to convert legacy LaTeX articles into HTML format to accessibility. Thus it only creates an \texttt{.Rmd} (R Markdown) file which is used to produce only an HTML version. The original PDF remains as published. The goals is use use the packages for future articles where the authors have chosen to submit only in the legacy LaTeX template.
 
-However, it could be useful to help authors convert to dynamic documents, by providing an initial R Markdown version of their LaTeX, that with some modification, such as including their R code for computations directly in the document, will produce both PDF nd HTML versions of their submitted paper.
+However, the software can also be used by authors themselves to convert to dynamic documents, by providing an initial R Markdown version of their LaTeX, that with some modification, such as including their R code for computations directly in the document, will produce both PDF nd HTML versions of their submitted paper.
 
-One of the useful elements when an article is in HTML format is that figures can be made richer with an \texttt{alt-text} element. In an R Markdown code chunk generating a figure, this can be set using \texttt{fig.alt}. Alternative text provides a textual alternative to non-text content in HTML documents, serves various purposes: read by screen readers are accessible to people with visual disabilities, is displayed in place of the image if it fails to load, and can serve to assist search engines. It is a work in progress to have these added by authors of new article submissions, and at some point would be useful to add to the converted legacy articles.
+Adopting the new R Markdown template also provides better standards for R Journal articles. It encourages authors to be more conscious that their work is reproducible. There is more standardization of file names and file structure, and this helps the editors and reviewers check papers. This in turn makes it easier to build the issues eliminating some common errors that authors make that cause compilation failure.
+
+There are many benefits of providing good standards, though, and an important one is that this can have positive spillover effects for the R community. Authors can become more aware of good practice. For example, one of the useful elements when an article is in HTML format is that figures can be made richer with an \texttt{alt-text} element. In an R Markdown code chunk generating a figure, this can be set using \texttt{fig.alt}. Alternative text provides a textual alternative to non-text content in HTML documents, serves various purposes: read by screen readers are accessible to people with visual disabilities, is displayed in place of the image if it fails to load, and can serve to assist search engines. It is a work in progress to have these added by authors of new article submissions, and at some point would be useful to add to the converted legacy articles.
+
+There are many other journals that have a similar backlog of legacy articles. A current and ongoing project is being conducted by {``HTML as an Accessible Format for Papers''} (2023) to convert their collection of articles from LaTeX (shared as PDF) to HTML, utilizing LaTeXML ({``{LaTeXML}: A {LaTeX} to {XML/HTML/MathML} Converter''} 2023). The work conducted for the R Journal might of interest to similar small journals that operate without paid staff. Converting legacy articles provides accessibility to a wealth of educational material.
 
 Since the shift to R Markdown, a new development for the open source community has emerged: quarto (Allaire et al. 2022). Although R Markdown would suggest a focus on R, it was always possible to include code chunks written in other languages. But Quarto makes this cleaner, and thus more appealing for non-R developers. It also provides a cleaner type-setting. At some point, the R Journal will likely shift to a Quarto template, which is reasonably straightforward, but for the present R Markdown is a suitable dynamic document delivery system for the R Journal.
 
@@ -533,11 +539,17 @@ Gordon, Max, Stephen Gragg, and Peter Konings. 2022. \emph{htmlTable: Advanced T
 \leavevmode\vadjust pre{\hypertarget{ref-markdown}{}}%
 Gruber, John. 2002. {``Markdown.''} https://daringfireball.net/projects/markdown/.
 
+\leavevmode\vadjust pre{\hypertarget{ref-arxiv}{}}%
+{``HTML as an Accessible Format for Papers.''} 2023. https://info.arxiv.org/about/accessible\_HTML.html.
+
 \leavevmode\vadjust pre{\hypertarget{ref-gt}{}}%
 Iannone, Richard, Joe Cheng, Barret Schloerke, Ellis Hughes, Alexandra Lauer, and JooYoung Seo. 2023. \emph{Gt: Easily Create Presentation-Ready Display Tables}. \url{https://CRAN.R-project.org/package=gt}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-lua}{}}%
 Ierusalimschy, Roberto, Luiz Henrique de Figueiredo, and Waldemar Celes Filho. 1996. {``Lua---an Extensible Extension Language.''} \emph{Software: Practice and Experience} 26 (6): 635--52.
+
+\leavevmode\vadjust pre{\hypertarget{ref-latexML}{}}%
+{``{LaTeXML}: A {LaTeX} to {XML/HTML/MathML} Converter.''} 2023. https://math.nist.gov/~BMiller/LaTeXML/.
 
 \leavevmode\vadjust pre{\hypertarget{ref-pandoc}{}}%
 MacFarlane, John, Albert Krewinkel, and Jesse Rosenthal. 2023. {``Pandoc.''} https://github.com/jgm/pandoc.

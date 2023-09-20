@@ -57,7 +57,9 @@ The R Journal is the primary open-access outlet for publications produced by the
 
 The tooling behind the production of the R Journal is regularly updated. Early articles were typeset using LaTeX [@latex], based on a specific, but changing, template. Using LaTeX requires that code is separated from the documentation, and there is a chance that code chunks in the paper don't reproduce the results reported. With the emergence of dynamic document systems such as R Markdown [@rmarkdown], a tight coupling of code and documentation is possible. Code chunks are dynamically executed when the document is typeset using a system like \CRANpkg{knitr} [@knitr], making reporting of computing research more reproducible.  
 
-In 2019, with the help of funding from the R Consortium, work began to update operations. One aspect of this was to change from LaTeX article submissions to a more reproducible format, where code was embedded in the document, and the output could be both HTML and pdf. There are numerous benefits of HTML format: 
+In 2019, with the help of funding from the R Consortium, work began to update operations to adopt an R Markdown template, that would produce both HTML and PDF versions of the paper. In mind, was also to develop, adopt and encourage good standards for R Journal articles.
+
+There are numerous benefits of HTML format: 
 
 1. Articles can include interactive graphics and tables. 
 2. The format is more accessible to screen readers and other assistive technologies, making the work more accessible to vision-impaired researchers.
@@ -469,11 +471,15 @@ As a consequence of this project, the journal web site has been furnished with a
 
 # Summary
 
-The original motivation for the \CRANpkg{texor} and \CRANpkg{rebib} packages was to convert legacy LaTeX articles into HTML format to accessibility. Thus it only creates the R Markdown and an HTML version leaving the original PDF as published. This will also be used to produce HTML versions of newly accepted papers only submitted as LaTeX.
+The original motivation for the \CRANpkg{texor} and \CRANpkg{rebib} packages was to convert legacy LaTeX articles into HTML format to accessibility. Thus it only creates an `.Rmd` (R Markdown) file which is used to produce only an HTML version. The original PDF remains as published. The goals is use use the packages for future articles where the authors have chosen to submit only in the legacy LaTeX template. 
 
-However, it could be useful to help authors convert to dynamic documents, by providing an initial R Markdown version of their LaTeX, that with some modification, such as including their R code for computations directly in the document, will produce both PDF nd HTML versions of their submitted paper. 
+However, the software can also be used by authors themselves to convert to dynamic documents, by providing an initial R Markdown version of their LaTeX, that with some modification, such as including their R code for computations directly in the document, will produce both PDF nd HTML versions of their submitted paper. 
 
-One of the useful elements when an article is in HTML format is that figures can be made richer with an `alt-text` element. In an R Markdown code chunk generating a figure, this can be set using `fig.alt`. Alternative text provides a textual alternative to non-text content in HTML documents, serves various purposes: read by screen readers are accessible to people with visual disabilities, is displayed in place of the image if it fails to load, and can serve to assist search engines. It is a work in progress to have these added by authors of new article submissions, and at some point would be useful to add to the converted legacy articles. 
+Adopting the new R Markdown template also provides better standards for R Journal articles. It encourages authors to be more conscious that their work is reproducible. There is more standardization of file names and file structure, and this helps the editors and reviewers check papers. This in turn makes it easier to build the issues eliminating some common errors that authors make that cause compilation failure. 
+
+There are many benefits of providing good standards, though, and an important one is that this can have positive spillover effects for the R community. Authors can become more aware of good practice. For example, one of the useful elements when an article is in HTML format is that figures can be made richer with an `alt-text` element. In an R Markdown code chunk generating a figure, this can be set using `fig.alt`. Alternative text provides a textual alternative to non-text content in HTML documents, serves various purposes: read by screen readers are accessible to people with visual disabilities, is displayed in place of the image if it fails to load, and can serve to assist search engines. It is a work in progress to have these added by authors of new article submissions, and at some point would be useful to add to the converted legacy articles. 
+
+There are many other journals that have a similar backlog of legacy articles. A current and ongoing project is being conducted by @arxiv to convert their collection of articles from LaTeX (shared as PDF) to HTML, utilizing LaTeXML [@latexML]. The work conducted for the R Journal might of interest to similar small journals that operate without paid staff. Converting legacy articles provides accessibility to a wealth of educational material.
 
 <!--Remember only the HTML is rendered, and the original PDF is not re-generated.
 
