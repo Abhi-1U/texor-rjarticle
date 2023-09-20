@@ -2,7 +2,7 @@
 title: "Converting LaTeX Legacy R Journal Articles into R Markdown Articles using texor and rebib"
 date: "`r Sys.Date()`"
 abstract: >
-  In 2021 the R Journal made a change of templates for article writing to R Markdown instead of LaTeX. The reasons were to encourage better reproducibility of articles using dynamic documents, enable interactivity in articles, and to make the articles more accessible for vision-impaired readers. A resulting challenge was to explore whether legacy articles might be suitably converted into HTML output. This paper describes the process to convert an R Journal article from LaTeX to HTML format via R Markdown, and the two new R packages, \CRANpkg{texor} and \CRANpkg{rebib}, that can be used to achieve the conversion.
+  In 2021 the R Journal made a change of templates for article writing to R Markdown instead of LaTeX. The reasons were to encourage better reproducibility of articles using dynamic documents, enable interactivity in articles, and to make the articles more accessible for print disabled readers. A resulting challenge was to explore whether legacy articles might be suitably converted into HTML output. This paper describes the process to convert an R Journal article from LaTeX to HTML format via R Markdown, and the two new R packages, \CRANpkg{texor} and \CRANpkg{rebib}, that can be used to achieve the conversion.
 draft: true
 author:  
   # see ?rjournal_article for more information
@@ -62,7 +62,7 @@ In 2019, with the help of funding from the R Consortium, work began to update op
 There are numerous benefits of HTML format: 
 
 1. Articles can include interactive graphics and tables. 
-2. The format is more accessible to screen readers and other assistive technologies, making the work more accessible to vision-impaired researchers.
+2. The format is more accessible to screen readers and other assistive technologies, making the work more accessible to print disabled researchers. (See @W3C for current guidelines.)
 3. HTML provides a more comfortable reading experience on mobile devices, which are increasing used as researchers work on the move and share work via social media.
 4. Search engines can easily access the full text of articles, facilitating discovery of published articles.
 
@@ -477,7 +477,7 @@ However, the software can also be used by authors themselves to convert to dynam
 
 Adopting the new R Markdown template also provides better standards for R Journal articles. It encourages authors to be more conscious that their work is reproducible. There is more standardization of file names and file structure, and this helps the editors and reviewers check papers. This in turn makes it easier to build the issues eliminating some common errors that authors make that cause compilation failure. 
 
-There are many benefits of providing good standards, though, and an important one is that this can have positive spillover effects for the R community. Authors can become more aware of good practice. For example, one of the useful elements when an article is in HTML format is that figures can be made richer with an `alt-text` element. In an R Markdown code chunk generating a figure, this can be set using `fig.alt`. Alternative text provides a textual alternative to non-text content in HTML documents, serves various purposes: read by screen readers are accessible to people with visual disabilities, is displayed in place of the image if it fails to load, and can serve to assist search engines. It is a work in progress to have these added by authors of new article submissions, and at some point would be useful to add to the converted legacy articles. 
+There are many benefits of providing good standards, though, and an important one is that this can have positive spillover effects for the R community. Authors can become more aware of good practice. For example, one of the useful elements when an article is in HTML format is that figures can be made richer with an `alt-text` element. In an R Markdown code chunk generating a figure, this can be set using `fig.alt`. Alternative text provides a textual alternative to non-text content in HTML documents, serves various purposes: read by screen readers are accessible to print disabled people, is displayed in place of the image if it fails to load, and can serve to assist search engines. It is a work in progress to have these added by authors of new article submissions, and at some point would be useful to add to the converted legacy articles. 
 
 There are many other journals that have a similar backlog of legacy articles. A current and ongoing project is being conducted by @arxiv to convert their collection of articles from LaTeX (shared as PDF) to HTML, utilizing LaTeXML [@latexML]. The work conducted for the R Journal might of interest to similar small journals that operate without paid staff. Converting legacy articles provides accessibility to a wealth of educational material.
 
