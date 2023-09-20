@@ -61,14 +61,12 @@ In 2019, with the help of funding from the R Consortium, work began to update op
 
 There are numerous benefits of HTML format: 
 
-1. Articles can include interactive graphics and tables. 
-2. The format is more accessible to screen readers and other assistive technologies, making the work more accessible to print disabled researchers. (See @W3C for current guidelines.)
+1. Articles can include interactive graphics (to allow readers to query, re-focus, watch an animation, for example) and interactive tables (enabling re-sorting in different ways to better digest the information). 
+2. It is the best format for accessibility [@Daisy]. Screen readers and other assistive technologies can deliver the content to print disabled readers. (See @W3C for current guidelines.)
 3. HTML provides a more comfortable reading experience on mobile devices, which are increasing used as researchers work on the move and share work via social media.
 4. Search engines can easily access the full text of articles, facilitating discovery of published articles.
 
-<!-- traditional HTML is the most universally accessible format - Australian Human Rights Commission https://humanrights.gov.au/our-work/disability-rights/world-wide-web-access-disability-discrimination-act-advisory-notes-ver and https://printdisability.org -->
-
-The latter points are motivations for converting all of the legacy R Journal articles into HTML. 
+These provide the motivations for converting all of the legacy R Journal articles into HTML. 
 
 A key decision when designing the conversion software, was whether to convert the LaTeX source to HTML; the PDF output to HTML; or the LaTeX source to R Markdown, which would then be converted to HTML using the current journal tools. The latter approach was decided to be the most versatile and useful. If an article can be converted from LaTeX to R Markdown, it would help authors make the transition to reproducible publishing, beyond what the R Journal needed. Once an article is in R Markdown format it can be adapted to include the code for dynamic execution.
 
@@ -94,21 +92,35 @@ Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, 
 <!-- uses these filters heavily, even for simple tasks like choosing which supporting figures to copy. A `Lua` filter constructs a list of image paths, stores them momentarily and the package uses this data to copy images. However, \CRANpkg{texor} also includes many pre-processing functions that employ regular expressions. This is needed to convert some text and LaTeX commands that are not recognized or handled by Pandoc. -->
 
 
-
-
-```{r workflow, fig.cap="Workflow of the document conversion conducted by texor.", out.width="90%", fig.align='center'}
-#
-if (knitr::is_html_output()) {
-  library(DiagrammeR)
-  DiagrammeR::mermaid(diagram = "flowchart TD
-    A[Original Article] --> |Pre processing in R| B[Pre-Processed Article]
-    B --> |pandoc reader|C{AST} 
-    C -->|pandoc writer| D[Converted Article]
-    C -->|modify AST using lua filter| C{AST}")
-}
-if (knitr::is_latex_output()) {
-  knitr::include_graphics("workflow.png")
-}
+```{r workflow, fig.cap="Workflow of the document conversion conducted by texor. (Note: AST is pandoc's abstract syntax tree.)", out.width="100%", fig.align='center', fig.width=4, fig.height=3, layout="l-body", fig.alt="Flow diagram showing original article pre-processed in R passed to pandoc which creates the AST and modifies using many lua filters then passed to pacdoc writer to produce the converted article."}
+library(DiagrammeR)
+wf <- create_node_df(
+        n=8,
+        type=c("a", "b", "a", "b", 
+               "a", "b", "b", "a"),
+        label=c("original article", "pre-processing in R",
+                "pre-processed article", "pandoc reader",
+                "AST", 
+                "modify AST using lua filter",
+                "pandoc writer", 
+                "converted article"
+                ),
+        shape="rectangle",
+        width=c(1.3, 1.7, 1.9, 1.3, 0.5, 2.3, 1.2, 1.5),
+        fillcolor = c("darkseagreen2", "grey85", "darkseagreen2", "grey85", "darkseagreen2", "grey85", "grey85", "darkseagreen2"),
+        color = c("black", "grey85", "black", "grey85", "black", "grey85", "grey85", "black"),
+        fontcolor="black",
+        x=c(1,1,1,1,1,2,1,1),
+        y=c(1,2,3,4,5,5,6,6),
+        fontsize=14
+        )
+wf_arrows <- create_edge_df(from = c(1, 2, 3, 4, 5, 6, 5, 7),
+                            to = c(2, 3, 4, 5, 6, 5, 7, 8),
+                            color="black")
+wf_graph <- create_graph(wf, wf_arrows, 
+                   directed = TRUE, attr_theme = "tb")
+set.seed(7)
+render_graph(wf_graph, layout="fr", height=500)
 ```
 
 ## Pre-processing using regular expressions 
@@ -477,7 +489,7 @@ However, the software can also be used by authors themselves to convert to dynam
 
 Adopting the new R Markdown template also provides better standards for R Journal articles. It encourages authors to be more conscious that their work is reproducible. There is more standardization of file names and file structure, and this helps the editors and reviewers check papers. This in turn makes it easier to build the issues eliminating some common errors that authors make that cause compilation failure. 
 
-There are many benefits of providing good standards, though, and an important one is that this can have positive spillover effects for the R community. Authors can become more aware of good practice. For example, one of the useful elements when an article is in HTML format is that figures can be made richer with an `alt-text` element. In an R Markdown code chunk generating a figure, this can be set using `fig.alt`. Alternative text provides a textual alternative to non-text content in HTML documents, serves various purposes: read by screen readers are accessible to print disabled people, is displayed in place of the image if it fails to load, and can serve to assist search engines. It is a work in progress to have these added by authors of new article submissions, and at some point would be useful to add to the converted legacy articles. 
+There are many benefits of providing good standards, though, and an important one is that this can have positive spillover effects for the R community. Authors can become more aware of good practice. For example, one of the useful elements when an article is in HTML format is that figures can be made richer with an `alt-text` element. In an R Markdown code chunk generating a figure, this can be set using `fig.alt`. Alt-text provides a textual alternative to non-text content in HTML documents, and serves various purposes: screen readers can deliver the content to print disabled people, it is displayed in place of the image if it fails to load, and can serve to assist search engines. It is a work in progress: to encourage adoption by authors of new article submissions, and it would be useful to edit into the converted legacy articles at a later date. 
 
 There are many other journals that have a similar backlog of legacy articles. A current and ongoing project is being conducted by @arxiv to convert their collection of articles from LaTeX (shared as PDF) to HTML, utilizing LaTeXML [@latexML]. The work conducted for the R Journal might of interest to similar small journals that operate without paid staff. Converting legacy articles provides accessibility to a wealth of educational material.
 

@@ -7,19 +7,35 @@ library(plotly)
 library(ggplot2)
 
 
-## ----workflow, fig.cap="Workflow of the document conversion conducted by texor.", out.width="90%", fig.align='center'----
-#
-if (knitr::is_html_output()) {
-  library(DiagrammeR)
-  DiagrammeR::mermaid(diagram = "flowchart TD
-    A[Original Article] --> |Pre processing in R| B[Pre-Processed Article]
-    B --> |pandoc reader|C{AST} 
-    C -->|pandoc writer| D[Converted Article]
-    C -->|modify AST using lua filter| C{AST}")
-}
-if (knitr::is_latex_output()) {
-  knitr::include_graphics("workflow.png")
-}
+## ----workflow, fig.cap="Workflow of the document conversion conducted by texor. (Note: AST is pandoc's abstract syntax tree.)", out.width="100%", fig.align='center', fig.width=4, fig.height=3, layout="l-body", fig.alt="Flow diagram showing original article pre-processed in R passed to pandoc which creates the AST and modifies using many lua filters then passed to pacdoc writer to produce the converted article."----
+library(DiagrammeR)
+wf <- create_node_df(
+        n=8,
+        type=c("a", "b", "a", "b", 
+               "a", "b", "b", "a"),
+        label=c("original article", "pre-processing in R",
+                "pre-processed article", "pandoc reader",
+                "AST", 
+                "modify AST using lua filter",
+                "pandoc writer", 
+                "converted article"
+                ),
+        shape="rectangle",
+        width=c(1.3, 1.7, 1.9, 1.3, 0.5, 2.3, 1.2, 1.5),
+        fillcolor = c("darkseagreen2", "grey85", "darkseagreen2", "grey85", "darkseagreen2", "grey85", "grey85", "darkseagreen2"),
+        color = c("black", "grey85", "black", "grey85", "black", "grey85", "grey85", "black"),
+        fontcolor="black",
+        x=c(1,1,1,1,1,2,1,1),
+        y=c(1,2,3,4,5,5,6,6),
+        fontsize=14
+        )
+wf_arrows <- create_edge_df(from = c(1, 2, 3, 4, 5, 6, 5, 7),
+                            to = c(2, 3, 4, 5, 6, 5, 7, 8),
+                            color="black")
+wf_graph <- create_graph(wf, wf_arrows, 
+                   directed = TRUE, attr_theme = "tb")
+set.seed(7)
+render_graph(wf_graph, layout="fr", height=500)
 
 
 ## ----alghow, fig.cap="How to write algorithms.", out.width="60%", fig.align='center'----
