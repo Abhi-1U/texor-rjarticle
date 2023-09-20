@@ -10,10 +10,14 @@ Editor
 The R Journal  
 \bigskip
 
-Dear Professor Cook,
+Dear Dr Urbanek,
 \bigskip
 
-% Content
+Please consider our article titled "Converting LaTeX Legacy R Journal Articles into R Markdown Articles using texor and rebib" for possible publication in the R Journal. 
+
+It documents the packages, `texor` and `rebib`, that can be used to convert Latex formatted legacy articles into R Markdown to produce an HTML version. We developed this software and have used used it to convert all of the currently published R Journal articles.
+
+We think that the paper will be of interest to the R Journal readers.
 
 \bigskip
 \bigskip
@@ -23,15 +27,6 @@ Regards,
     
     
     
-Quietest Quokka  
-Department of Letter Q  
-University of Little Mates  
-Somewhere, Australia  
-qquo@ulm.edu
-
-\bigskip
-
-NOTES: Modify this file with information about your article. 
-
-1. It may be invisible to you, so be aware that after each address line there are two spaces, this makes the line break correctly.
-2. It is also reasonable to submit an .md format of your motivating letter instead of a pdf. 
+Abhishek Ulayil  
+Institute of Actuaries of India (student)  
+abhiman2000@gmail.com
