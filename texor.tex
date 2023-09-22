@@ -49,15 +49,15 @@ The paper is organised as follows. Section 2 gives an overview of the conversion
 
 The decision to convert to R Markdown format means that the final output to PDF and HTML will depend on Pandoc (MacFarlane, Krewinkel, and Rosenthal 2023). Pandoc is a versatile document conversion program written in Haskell that is core to numerous documentation systems, including R Markdown and Quarto. Pandoc first converts a document into an abstract syntax tree. From this, it can convert to a different format, including custom ones.
 
-Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, some pre-processing is necessary to handle special R Journal LaTeX styling. And further post-processing is necessary to handle specific R Journal R Markdown styling. The \CRANpkg{texor} package contains functionality to handle this pre- and post-processing of the document, in a workflow illustrated in Figure \ref{fig:workflow}.
+Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, some pre-processing is necessary to handle special R Journal LaTeX styling. And further post-processing is necessary to handle specific R Journal R Markdown styling. The \CRANpkg{texor} package contains functionality to handle this pre- and post-processing of the document, in a workflow illustrated in Figure \ref{fig:wf-fig}.
 
 \begin{figure}
 
-{\centering \includegraphics[width=1\linewidth]{texor_files/figure-latex/workflow-1} 
+{\centering \includegraphics[width=1\linewidth]{figures/wf} 
 
 }
 
-\caption{Workflow of the document conversion conducted by texor. (Note: AST is pandoc's abstract syntax tree.)}\label{fig:workflow}
+\caption{Workflow of the document conversion conducted by texor. (Note: AST is pandoc's abstract syntax tree.)}\label{fig:wf-fig}
 \end{figure}
 
 \hypertarget{pre-processing-using-regular-expressions}{%
@@ -224,7 +224,7 @@ go back to the beginning of current section\;
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.6\linewidth]{alghow} 
+{\centering \includegraphics[width=0.6\linewidth]{figures/alghow} 
 
 }
 

@@ -87,12 +87,9 @@ Describe changes in templates, and web site. Desirability to convert the legacy 
 
 The decision to convert to R Markdown format means that the final output to PDF and HTML will depend on Pandoc [@pandoc].  Pandoc is a versatile document conversion program written in Haskell that is core to numerous documentation systems, including R Markdown and Quarto. Pandoc first converts a document into an abstract syntax tree. From this, it can convert to a different format, including custom ones. <!-- Although creating bespoke writers/readers in `Lua` can be challenging, pandoc includes filters that allow users to customize the output generated based on matching patterns plus some logic to modify them. -->
 
-Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, some pre-processing is necessary to handle special R Journal LaTeX styling. And further post-processing is necessary to handle specific R Journal R Markdown styling. The \CRANpkg{texor} package contains functionality to handle this pre- and post-processing of the document, in a workflow illustrated in Figure \@ref(fig:workflow). 
+Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, some pre-processing is necessary to handle special R Journal LaTeX styling. And further post-processing is necessary to handle specific R Journal R Markdown styling. The \CRANpkg{texor} package contains functionality to handle this pre- and post-processing of the document, in a workflow illustrated in Figure \@ref(fig:wf-fig). 
 
-<!-- uses these filters heavily, even for simple tasks like choosing which supporting figures to copy. A `Lua` filter constructs a list of image paths, stores them momentarily and the package uses this data to copy images. However, \CRANpkg{texor} also includes many pre-processing functions that employ regular expressions. This is needed to convert some text and LaTeX commands that are not recognized or handled by Pandoc. -->
-
-
-```{r workflow, fig.cap="Workflow of the document conversion conducted by texor. (Note: AST is pandoc's abstract syntax tree.)", out.width="100%", fig.align='center', fig.width=4, fig.height=3, layout="l-body", fig.alt="Flow diagram showing original article pre-processed in R passed to pandoc which creates the AST and modifies using many lua filters then passed to pacdoc writer to produce the converted article."}
+```{r workflow, eval=FALSE}
 library(DiagrammeR)
 wf <- create_node_df(
         n=8,
@@ -121,6 +118,10 @@ wf_graph <- create_graph(wf, wf_arrows,
                    directed = TRUE, attr_theme = "tb")
 set.seed(7)
 render_graph(wf_graph, layout="fr", height=500)
+```
+
+```{r wf-fig, fig.cap="Workflow of the document conversion conducted by texor. (Note: AST is pandoc's abstract syntax tree.)", out.width="100%", fig.align='center', fig.width=3, fig.height=5, layout="l-body", fig.alt="Flow diagram showing original article pre-processed in R passed to pandoc which creates the AST and modifies using many lua filters then passed to pacdoc writer to produce the converted article."}
+knitr::include_graphics("figures/wf.png")
 ```
 
 ## Pre-processing using regular expressions 
@@ -277,8 +278,8 @@ go back to the beginning of current section\;
 </figure>
 ```
 
-```{r alghow, fig.cap="How to write algorithms.", out.width="60%", fig.align='center'}
-knitr::include_graphics("alghow.png")
+```{r alghow, fig.cap="How to write algorithms.", out.width="60%", fig.align='center', fig.alt="Illustration of an algorithm starting with Data and Result, followed by a while, and an if/else block."}
+knitr::include_graphics("figures/alghow.png")
 ```
 
 ## Equations
