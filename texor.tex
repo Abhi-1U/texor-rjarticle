@@ -7,7 +7,7 @@
 \maketitle
 
 \abstract{%
-In 2021 the R Journal made a change of templates for article writing to R Markdown instead of LaTeX. The reasons were to encourage better reproducibility of articles using dynamic documents, enable interactivity in articles, and to make the articles more accessible for print disabled readers. A resulting challenge was to explore whether legacy articles might be suitably converted into HTML output. This paper describes the process to convert an R Journal article from LaTeX to HTML format via R Markdown, and the two new R packages, \CRANpkg{texor} and \CRANpkg{rebib}, that can be used to achieve the conversion.
+In 2021 the R Journal made a change of templates for article writing to R Markdown instead of LaTeX. The reasons were to encourage better reproducibility of articles using dynamic documents, enable interactivity in articles, and to make the articles more accessible for print-disabled readers. A resulting challenge was to explore whether legacy articles might be suitably converted into HTML output. This paper describes the process of converting an R Journal article from LaTeX to HTML format via R Markdown, and the two new R packages, \CRANpkg{texor} and \CRANpkg{rebib}, that can be used to achieve the conversion.
 }
 
 \hypertarget{introduction}{%
@@ -25,39 +25,39 @@ There are numerous benefits of HTML format:
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Articles can include interactive graphics (to allow readers to query, re-focus, watch an animation, for example) and interactive tables (enabling re-sorting in different ways to better digest the information).
+  Articles can include interactive graphics (to allow readers to query, re-focus, and watch an animation, for example) and interactive tables (enabling re-sorting in different ways to better digest the information).
 \item
-  It is the best format for accessibility (The Daisy Consortium 2023). Screen readers and other assistive technologies can deliver the content to print disabled readers. (See Sheri Byrne-Haber (2023) for current guidelines.)
+  It is the best format for accessibility (The Daisy Consortium 2023). Screen readers and other assistive technologies can deliver the content to print-disabled readers. (See Sheri Byrne-Haber (2023) for current guidelines.)
 \item
-  HTML provides a more comfortable reading experience on mobile devices, which are increasing used as researchers work on the move and share work via social media.
+  HTML provides a more comfortable reading experience on mobile devices, which are increasingly used as researchers work on the move and share work via social media.
 \item
-  Search engines can easily access the full text of articles, facilitating discovery of published articles.
+  Search engines can easily access the full text of articles, facilitating the discovery of published articles.
 \end{enumerate}
 
 These provide the motivations for converting all of the legacy R Journal articles into HTML.
 
-A key decision when designing the conversion software, was whether to convert the LaTeX source to HTML; the PDF output to HTML; or the LaTeX source to R Markdown, which would then be converted to HTML using the current journal tools. The latter approach was decided to be the most versatile and useful. If an article can be converted from LaTeX to R Markdown, it would help authors make the transition to reproducible publishing, beyond what the R Journal needed. Once an article is in R Markdown format it can be adapted to include the code for dynamic execution.
+A key decision when designing the conversion software was whether to convert the LaTeX source to HTML; the PDF output to HTML; or the LaTeX source to R Markdown, which would then be converted to HTML using the current journal tools. The latter approach was decided to be the most versatile and useful. If an article can be converted from LaTeX to R Markdown, it would help authors make the transition to reproducible publishing, beyond what the R Journal needed. Once an article is in R Markdown format it can be adapted to include the code for dynamic execution.
 
-In addition to article format, changes to the web site structure were important for delivering the publication. Web site architectures are also constantly evolving, and the emergence of \CRANpkg{distill} (Dervieux et al. 2022) allows the journal web site to optimally deliver R Markdown articles.
+In addition to the article format, changes to the website structure were important for delivering the publication. Website architectures are also constantly evolving, and the emergence of \CRANpkg{distill} (Dervieux et al. 2022) allows the journal website to optimally deliver R Markdown articles.
 
-The \CRANpkg{rjtools} was developed to create articles using R Markdown for the R Journal and to embed them into the journal web site. The packages described here, \CRANpkg{texor} and \CRANpkg{rebib}, describe software to convert legacy LaTeX format articles into R Markdown, so that they can be rendered in HTML in the new web site.
+The \CRANpkg{rjtools} was developed to create articles using R Markdown for the R Journal and to embed them into the journal website. The packages described here, \CRANpkg{texor} and \CRANpkg{rebib}, describe software to convert legacy LaTeX format articles into R Markdown, so that they can be rendered in HTML in the new website.
 
-The paper is organised as follows. Section 2 gives an overview of the conversion process, that includes pre-processing using regular expressions, post-processing using Lua filters, and handling of figures, tables and equations. Section 3 describes the \CRANpkg{texor} package that handles most of the conversion. Section 4 describes tools to do special handling of bibliography files. The supplementary materials have folders containing specific examples that can be used for understanding how the conversions are done.
+The paper is organised as follows. Section 2 gives an overview of the conversion process, which includes pre-processing using regular expressions, post-processing using Lua filters, and handling of figures, tables and equations. Section 3 describes the \CRANpkg{texor} package that handles most of the conversion. Section 4 describes tools for special handling of bibliography files. The supplementary materials have folders containing specific examples that can be used for understanding how the conversions are done.
 
 \hypertarget{internals}{%
 \section{The internals of converting from LaTeX to R Markdown}\label{internals}}
 
 The decision to convert to R Markdown format means that the final output to PDF and HTML will depend on Pandoc (MacFarlane, Krewinkel, and Rosenthal 2023). Pandoc is a versatile document conversion program written in Haskell that is core to numerous documentation systems, including R Markdown and Quarto. Pandoc first converts a document into an abstract syntax tree. From this, it can convert to a different format, including custom ones.
 
-Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, some pre-processing is necessary to handle special R Journal LaTeX styling. And further post-processing is necessary to handle specific R Journal R Markdown styling. The \CRANpkg{texor} package contains functionality to handle this pre- and post-processing of the document, in a workflow illustrated in Figure \ref{fig:workflow}.
+Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, some pre-processing is necessary to handle special R Journal LaTeX styling. And further post-processing is necessary to handle specific R Journal R Markdown styling. The \CRANpkg{texor} package contains functionality to handle this pre- and post-processing of the document, in a workflow illustrated in Figure \ref{fig:wf-fig}.
 
 \begin{figure}
 
-{\centering \includegraphics[width=1\linewidth]{texor_files/figure-latex/workflow-1} 
+{\centering \includegraphics[width=1\linewidth]{figures/wf} 
 
 }
 
-\caption{Workflow of the document conversion conducted by texor. (Note: AST is pandoc's abstract syntax tree.)}\label{fig:workflow}
+\caption{Workflow of the document conversion conducted by texor. (Note: AST is pandoc's abstract syntax tree.)}\label{fig:wf-fig}
 \end{figure}
 
 \hypertarget{pre-processing-using-regular-expressions}{%
@@ -65,7 +65,7 @@ Pandoc can be used to do the conversion from LaTeX to R Markdown also. However, 
 
 LaTeX is very descriptive language, that allows authors substantial freedom for customization. Markdown (Gruber 2002), on which R Markdown is based, is more restrictive and was designed to make it easier to create web pages without the distraction of a gazillion HTML tags. The beauty of Markdown is that it allows the author to focus on writing, without format cluttering the text. The drawback is that it is simple typesetting, optimized for web delivery.
 
-While Pandoc can do most of the heavy-lifting, it cannot cope with all the freedom with which LaTeX documents are written. An example of this is with formatting of code. Pandoc only handles the \texttt{verbatim} environment, but there are many ways to format code in LaTeX, and the R Journal template has a special \texttt{\textbackslash{}code\{\}} command. If the code environment is not verbatim, then Pandoc will also try to process the actual code content as LaTeX commands and will likely lose details. It is better to convert these synonyms into \texttt{verbatim} environments prior to passing the document to Pandoc.
+While Pandoc can do most of the heavy lifting, it cannot cope with all the freedom with which LaTeX documents are written. An example of this is with formatting of code. Pandoc only handles the \texttt{verbatim} environment, but there are many ways to format code in LaTeX, and the R Journal template has a special \texttt{\textbackslash{}code\{\}} command. If the code environment is not verbatim, then Pandoc will also try to process the actual code content as LaTeX commands and will likely lose details. It is better to convert these synonyms into \texttt{verbatim} environments prior to passing the document to Pandoc.
 
 The functions in \CRANpkg{texor} that handle the pre-processing using regular expressions are:
 
@@ -88,7 +88,7 @@ These functions are verbose and describe all the changes being made. They also c
 \hypertarget{post-processing-using-lua-filters}{%
 \subsection{Post-processing using Lua filters}\label{post-processing-using-lua-filters}}
 
-Lua (Ierusalimschy, Figueiredo, and Filho 1996) is a programming language, that is light-weight and fast: ideal for procedural operations. It is embedded in many other applications to allow custom scripting for extensibility. Pandoc allows users to provide custom Lua filters to produce custom output formats. The \CRANpkg{texor} package handles post-processing of the R Markdown document into the special format for the R Journal using a suite of Lua filters.
+Lua (Ierusalimschy, Figueiredo, and Filho 1996) is a programming language, that is light-weight and fast: ideal for procedural operations. It is embedded in many other applications to allow custom scripting for extensibility. Pandoc allows users to provide custom Lua filters to produce custom output formats. The \CRANpkg{texor} package handles the post-processing of the R Markdown document into the special format for the R Journal using a suite of Lua filters.
 
 Here is an example of a Lua filter available in \CRANpkg{texor}:
 
@@ -108,7 +108,7 @@ This filter reads the abstract syntax tree, selecting all the Div elements. Then
 \hypertarget{standard-single-figure}{%
 \subsubsection{Standard, single figure}\label{standard-single-figure}}
 
-Figure definitions in LaTeX are many and varied! The standard, single figure definition with the \texttt{figure} environment and raster image format such as PNG or JPG, is handled by Pandoc. It will convert:
+Figure definitions in LaTeX are many and varied! The standard, single-figure definition with the \texttt{figure} environment and raster image format such as PNG or JPG, is handled by Pandoc. It will convert:
 
 \begin{verbatim}
 \begin{figure}[htbp]
@@ -224,7 +224,7 @@ go back to the beginning of current section\;
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.6\linewidth]{alghow} 
+{\centering \includegraphics[width=0.6\linewidth]{figures/alghow} 
 
 }
 
@@ -360,7 +360,7 @@ For individuals who are interested in submitting their paper to the R Journal bu
 \begin{itemize}
 \tightlist
 \item
-  Edit the lines where figures are included. The conversion will create HTML code to define the image. This should be changed into Markdown description \texttt{!{[}Caption{]}(Image)} or using \texttt{knitr::include\_graphic(Image)} in an R code chunk, in order for both HTML and PDF versions of the paper to be created when the \texttt{rjtools} article template is knitted.
+  Edit the lines where figures are included. The conversion will create HTML code to define the image. This should be changed into Markdown description \texttt{!{[}Caption{]}(Image)} or using \texttt{knitr::include\_graphic(Image)} in an R code chunk, in order for both HTML and PDF versions of the paper to be created when the \texttt{rjtools} article template is knitted.\\
 \item
   Edit the tables for aesthetics. The conversion will create Markdown tables, which will convert appropriately to HTML and PDF. However, to have more control and to create more elegant tables using \texttt{knitr::kable} provides finer level control.
 \item
@@ -400,12 +400,12 @@ The package \texttt{rebib} can be installed from CRAN and the development versio
 \hypertarget{the-process-of-converting-all-the-legacy-articles}{%
 \section{The process of converting all the legacy articles}\label{the-process-of-converting-all-the-legacy-articles}}
 
-The R Journal has been operating since 2009, and has published 682 articles through 2022 in addition to numerous editorials and news items. These LaTeX articles are the main focus of the conversions made with \CRANpkg{texor} and \CRANpkg{rebib}.
+The R Journal has been operating since 2009 and has published 682 articles through 2022 in addition to numerous editorials and news items. These LaTeX articles are the main focus of the conversions made with \CRANpkg{texor} and \CRANpkg{rebib}.
 
 \hypertarget{batch-processing}{%
 \subsection{Batch processing}\label{batch-processing}}
 
-The code is designed to process all the articles in an issue at a time, by operating on all the files in the directory housing the issue. Each processing function, from pre-processing the text in the LaTeX file to post-processing accepts a directory name as the argument. Generally, if a problem is encountered with one article, the processing will skip on to the next. The vignette \href{https://abhi-1u.github.io/texor/articles/introduction-to-texor.html}{Introduction to texor} provides more details.
+The code is designed to process all the articles in an issue at a time, by operating on all the files in the directory housing the issue. Each processing function, from pre-processing the text in the LaTeX file to post-processing accepts a directory name as the argument. Generally, if a problem is encountered with one article, the processing will skip to the next. The vignette \href{https://abhi-1u.github.io/texor/articles/introduction-to-texor.html}{Introduction to texor} provides more details.
 
 \hypertarget{known-problems-requiring-manual-fixes}{%
 \subsection{Known problems requiring manual fixes}\label{known-problems-requiring-manual-fixes}}
@@ -419,11 +419,11 @@ The problems encountered with some articles are many and varied, and include:
 \item
   Some of the figure files are missing - so the figure may need to be extracted from the pdf file and included with \texttt{knitr::include\_graphics()}.
 \item
-  Figures and equations may need some resizing. Sometimes the figure or equation might extend outside the text region in the HTML, which can be fixed with specifying preferred size, or breaks in the equation lines.
+  Figures and equations may need some resizing. Sometimes the figure or equation might extend outside the text region in the HTML, which can be fixed by specifying the preferred size, or breaks in the equation lines.
 \item
   Alignment in multi-line equations may need adjusting.
 \item
-  Alignment of columns in a table may not be the same as the original, for example text might be center-aligned, instead of the original left-aligned.
+  Alignment of columns in a table may not be the same as the original, for example, the text might be center-aligned, instead of the original left-aligned.
 \item
   Specialty LaTeX definitions included by an author for their article may not be recognized by Pandoc, leaving the original command as is, in the article.
 \end{itemize}
@@ -431,27 +431,27 @@ The problems encountered with some articles are many and varied, and include:
 \hypertarget{plan-for-release}{%
 \subsection{Plan for release}\label{plan-for-release}}
 
-The HTML versions of all successfully converted legacy articles will be on the \href{https://journal.r-project.org}{R Journal web site} late in 2023. The final step in the integration requires the R Markdown file to be knitted in place to capture the meta data for each article.
+The HTML versions of all successfully converted legacy articles will be on the \href{https://journal.r-project.org}{R Journal website} late in 2023. The final step in the integration requires the R Markdown file to be knitted in place to capture the metadata for each article.
 
 \hypertarget{reporting-problems}{%
 \subsection{Reporting problems}\label{reporting-problems}}
 
-As a consequence of this project, the journal web site has been furnished with an additional link titled ``CONTRIBUTE''. Visiting this link will give you details on how to report a problem with an article that you are reading, or even to make a suggestion on improving operations.
+As a consequence of this project, the journal website has been furnished with an additional link titled ``CONTRIBUTE''. Visiting this link will give you details on how to report a problem with an article that you are reading, or even to make a suggestion on improving operations.
 
 \hypertarget{summary}{%
 \section{Summary}\label{summary}}
 
-The original motivation for the \CRANpkg{texor} and \CRANpkg{rebib} packages was to convert legacy LaTeX articles into HTML format to accessibility. Thus it only creates an \texttt{.Rmd} (R Markdown) file which is used to produce only an HTML version. The original PDF remains as published. The goals is use use the packages for future articles where the authors have chosen to submit only in the legacy LaTeX template.
+The original motivation for the \CRANpkg{texor} and \CRANpkg{rebib} packages was to convert legacy LaTeX articles into HTML format for accessibility. Thus it only creates an \texttt{.Rmd} (R Markdown) file which is used to produce only an HTML version. The original PDF remains as published. The goal is to use the packages for future articles where the authors have chosen to submit only in the legacy LaTeX template.
 
-However, the software can also be used by authors themselves to convert to dynamic documents, by providing an initial R Markdown version of their LaTeX, that with some modification, such as including their R code for computations directly in the document, will produce both PDF nd HTML versions of their submitted paper.
+However, the software can also be used by authors themselves to convert to dynamic documents, by providing an initial R Markdown version of their LaTeX, that with some modification, such as including their R code for computations directly in the document, will produce both PDF and HTML versions of their submitted paper.
 
 Adopting the new R Markdown template also provides better standards for R Journal articles. It encourages authors to be more conscious that their work is reproducible. There is more standardization of file names and file structure, and this helps the editors and reviewers check papers. This in turn makes it easier to build the issues eliminating some common errors that authors make that cause compilation failure.
 
-There are many benefits of providing good standards, though, and an important one is that this can have positive spillover effects for the R community. Authors can become more aware of good practice. For example, one of the useful elements when an article is in HTML format is that figures can be made richer with an \texttt{alt-text} element. In an R Markdown code chunk generating a figure, this can be set using \texttt{fig.alt}. Alt-text provides a textual alternative to non-text content in HTML documents, and serves various purposes: screen readers can deliver the content to print disabled people, it is displayed in place of the image if it fails to load, and can serve to assist search engines. It is a work in progress: to encourage adoption by authors of new article submissions, and it would be useful to edit into the converted legacy articles at a later date.
+There are many benefits of providing good standards, though, and an important one is that this can have positive spillover effects for the R community. Authors can become more aware of good practice. For example, one of the useful elements when an article is in HTML format is that figures can be made richer with an \texttt{alt-text} element. In an R Markdown code chunk generating a figure, this can be set using \texttt{fig.alt}. Alt-text provides a textual alternative to non-text content in HTML documents, and serves various purposes: screen readers can deliver the content to print-disabled people, it is displayed in place of the image if it fails to load, and can serve to assist search engines. It is a work in progress: to encourage adoption by authors of new article submissions, and it would be useful to edit into the converted legacy articles at a later date.
 
 There are many other journals that have a similar backlog of legacy articles. A current and ongoing project is being conducted by arXiv Accessibility Project (2023) to convert their collection of articles from LaTeX (shared as PDF) to HTML, utilizing LaTeXML (Miller and Ginev 2023). The work conducted for the R Journal might of interest to similar small journals that operate without paid staff. Converting legacy articles provides accessibility to a wealth of educational material.
 
-Since the shift to R Markdown, a new development for the open source community has emerged: quarto (Allaire et al. 2022). Although R Markdown would suggest a focus on R, it was always possible to include code chunks written in other languages. But Quarto makes this cleaner, and thus more appealing for non-R developers. It also provides a cleaner type-setting. At some point, the R Journal will likely shift to a Quarto template, which is reasonably straightforward, but for the present R Markdown is a suitable dynamic document delivery system for the R Journal.
+Since the shift to R Markdown, a new development for the open-source community has emerged: quarto (Allaire et al. 2022). Although R Markdown would suggest a focus on R, it was always possible to include code chunks written in other languages. But Quarto makes this cleaner, and thus more appealing for non-R developers. It also provides a cleaner type-setting. At some point, the R Journal will likely shift to a Quarto template, which is reasonably straightforward, but for the present R Markdown is a suitable dynamic document delivery system for the R Journal.
 
 \hypertarget{acknowledgments}{%
 \section*{Acknowledgments}\label{acknowledgments}}
@@ -470,7 +470,7 @@ The supplementary materials has example folders containing LaTeX documents that 
 \item
   \texttt{code-env}: Explains how different code environments defined by the R Journal style are handled, and additional details such as code in figure environments, and code in table environments.
 \item
-  \texttt{math-env}: Examples of inline math, display math, how equation numbering is handled by a Lua filter to convert from LaTeX labeling to R Markdown labeling.
+  \texttt{math-env}: Examples of inline math, display math, and how equation numbering is handled by a Lua filter to convert from LaTeX labeling to R Markdown labeling.
 \item
   \texttt{figure-env}: Explains how the variety of figure definitions are handled in the conversion, including different image formats, numbering, captions, labeling, multiple images, and \texttt{tikz} (Cassidy 2013) images.
 \item
