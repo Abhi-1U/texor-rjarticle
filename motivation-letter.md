@@ -29,4 +29,4 @@ Regards,
     
 Abhishek Ulayil  
 Institute of Actuaries of India (student)  
-abhiman2000@gmail.com
+perricoq@outlook.com
