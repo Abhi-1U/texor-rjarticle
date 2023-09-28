@@ -2561,10 +2561,10 @@ available.</p>
 <div id="table:1">
 <table style="width:98%;">
 <caption>Table 1: Other commands supported by
-<a href="https://CRAN.R-project.org/package=texor"><strong>texor</strong></a> and pandoc</caption>
+<a href="https://CRAN.R-project.org/package=texor"><em>texor</em></a> and pandoc</caption>
 <colgroup>
 <col style="width: 26%" />
-<col style="width: 72%" />
+<col style="width: 71%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2583,15 +2583,15 @@ available.</p>
 </tr>
 <tr class="odd">
 <td style="text-align: center;"><code>\pkg{texor}</code></td>
-<td style="text-align: center;"><strong>texor</strong></td>
+<td style="text-align: center;"><em>texor</em></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;"><code>\CRANpkg{texor}</code></td>
-<td style="text-align: center;"><a href="https://CRAN.R-project.org/package=texor"><strong>texor</strong></a></td>
+<td style="text-align: center;"><a href="https://CRAN.R-project.org/package=texor"><em>texor</em></a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;"><code>\BIOpkg{Biobase}</code></td>
-<td style="text-align: center;"><a href="https://www.bioconductor.org/packages/release/bioc/html/Biobase.html"><strong>Biobase</strong></a></td>
+<td style="text-align: center;"><a href="https://www.bioconductor.org/packages/release/bioc/html/Biobase.html"><em>Biobase</em></a></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;"><code>\ctv{ReproducibleResearch}</code></td>
@@ -2731,7 +2731,7 @@ flawlessly, as demonstrated in Table  <a href="#table:4">4</a>.</p>
 <p>Certain reference commands like <code>\nameref{}</code> and <code>\autoref{}</code> will not
 work as intended in HTML.</p>
 <h3 class="unnumbered" id="lists">Lists</h3>
-<p>An example of usage of lists in LaTeX and <strong>texor</strong> generated HTML.</p>
+<p>An example of usage of lists in LaTeX and <em>texor</em> generated HTML.</p>
 <h4 class="unnumbered" id="itemize">itemize</h4>
 <ul>
 <li><p>A</p></li>
@@ -2744,11 +2744,11 @@ work as intended in HTML.</p>
 </ol>
 <h4 class="unnumbered" id="description">description</h4>
 <dl>
-<dt><strong>rebib</strong></dt>
+<dt><em>rebib</em></dt>
 <dd>
 <p>Convert and Aggregate Bibliographies</p>
 </dd>
-<dt><strong>texor</strong></dt>
+<dt><em>texor</em></dt>
 <dd>
 <p>Converting ‘LaTeX’ ‘R Journal’ Articles into ‘RJ-web-articles’</p>
 </dd>
@@ -2760,12 +2760,28 @@ HTML might be simple.</p>
 <h3 class="unnumbered" id="colored-text">Colored text</h3>
 <p>Some commands to describe colored text also work during conversion, such
 as <code>\textcolor{blue}{Blue Text}</code> <span style="color: blue">Blue Text</span>.</p>
-<h1 data-number="3" id="summary"><span class="header-section-number">3</span> Summary</h1>
-<p>In summary the <a href="https://CRAN.R-project.org/package=texor"><strong>texor</strong></a>
+<h1 data-number="3" id="theorem-environments"><span class="header-section-number">3</span> Theorem environments</h1>
+<div id="theorem:1" class="theorem">
+<p><strong>Theorem 1</strong>. <em>This is a sample theorem..</em></p>
+</div>
+<div id="prop:1" class="proposition">
+<p><strong>Proposition 1</strong>. <em>As with <span class="math inline">\(X \in \mathbb{R}\)</span> this proposition ...</em></p>
+</div>
+<div id="rm:1" class="remark">
+<p><strong>Remark 1</strong>. <em><a href="https://CRAN.R-project.org/package=texor"><em>texor</em></a> makes
+the article conversion easier.</em></p>
+</div>
+<p><em>Pandoc</em> supports default LaTeX theorem environments. One can refer to
+these environments like Theorem <a href="#theorem:1">1</a>,Proposition <a href="#prop:1">1</a>
+and Remark <a href="#rm:1">1</a> made here. However custom theorem environments are
+not supported yet.</p>
+<h1 data-number="4" id="summary"><span class="header-section-number">4</span> Summary</h1>
+<p>In summary the <a href="https://CRAN.R-project.org/package=texor"><em>texor</em></a>
 package alongside pandoc supports:</p>
 <ul>
 <li><p>Extracting metadata and putting it together well.</p></li>
 <li><p>Handling links, block quotes, citations and footnotes.</p></li>
+<li><p>Default theorem environments.</p></li>
 </ul>
 </div>
 <h2 class="appendix unnumbered" id="cran-packages-used">CRAN packages used</h2>
@@ -2801,6 +2817,15 @@ A. Krewinkel and A.  Lucero. <em><span class="nocase">pandoc 3.0 Release notes<
 <div class="d-appendix">
 </div>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->

@@ -170,11 +170,30 @@ item points might not work as intended and the generated HTML might be simple.
 Some commands to describe colored text also work during conversion, such as
 \verb|\textcolor{blue}{Blue Text}|  \textcolor{blue}{Blue Text}.
 
+\section{Theorem environments}
+
+\begin{theorem}\label{theorem:1}
+This is a sample theorem..
+\end{theorem}
+
+\begin{proposition}\label{prop:1}
+As with $X \in \mathbb{R}$ this proposition ...  
+\end{proposition}
+
+\begin{remark}\label{rm:1}
+\CRANpkg{texor} makes the article conversion easier.
+\end{remark}
+
+\pkg{Pandoc} supports default LaTeX theorem environments. One can refer to these environments
+like Theorem~\ref{theorem:1},Proposition~\ref{prop:1} and Remark~\ref{rm:1} made here.
+However custom theorem environments are not supported yet.
+
 \section{Summary}
 In summary the \CRANpkg{texor} package alongside pandoc supports:
 \begin{itemize}
 \item Extracting metadata and putting it together well.
 \item Handling links, block quotes, citations and footnotes.
+\item Default theorem environments.
 \end{itemize}
 
 \begin{thebibliography}{2}
