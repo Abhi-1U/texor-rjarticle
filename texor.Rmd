@@ -498,7 +498,7 @@ The supplementary materials has example folders containing LaTeX documents that 
 
 - `code-env`: Explains how different code environments defined by the R Journal style are handled, and additional details such as code in figure environments, and code in table environments. 
 - `math-env`: Examples of inline math, display math, and how equation numbering is handled by a Lua filter to convert from LaTeX labeling to R Markdown labeling. 
-- `figure-env`: Explains how the variety of figure definitions are handled in the conversion, including different image formats, numbering, captions, labeling, multiple images, and `tikz` [@casflow] images.
+- `figure-env`: Explains how the variety of figure definitions are handled in the conversion, including different image formats, numbering, captions, labeling, multiple images, and `tikz` images with an example adapted from [@casflow].
 - `table-env`: Examples of how a variety of table types are converted, including multicolumn, complex and wide tables.
 - `lua-filters`: Overview and lots of small examples of Lua filters to handle the custom output needed for the R Markdown format.
 - `metadata`: This has a collection of additional format handling including extracting metadata like author names and affiliations, article identifiers used in the review process, and handling citations, footnotes and links.
@@ -520,7 +520,7 @@ You'll need to ensure that you have the latest versions of \CRANpkg{texor} and \
 
 The \CRANpkg{texor} and \CRANpkg{rebib} source code and materials to reproduce this paper are available at:
 
-- \CRANpkg{texor}: Version 1.2.0 https://abhi-1u.github.io/texor
+- \CRANpkg{texor}: Version 1.3.0 https://abhi-1u.github.io/texor
 - \CRANpkg{rebib}: Version 0.3.2 https://abhi-1u.github.io/rebib/
 - This paper: https://github.com/Abhi-1U/texor-rjarticle
 - More details on \CRANpkg{rjtools} are at https://rjournal.github.io/rjtools/
