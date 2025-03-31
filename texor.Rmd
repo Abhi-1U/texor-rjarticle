@@ -38,13 +38,8 @@ author:
     email: dicook@monash.edu
 type: package
 output: 
-  rjtools::rjournal_pdf_article:
-    toc: no
-  rjtools::rjournal_web_article:
-    self_contained: yes
-    toc: no
+  rjtools::rjournal_article
 bibliography: RJreferences.bib
-
 ---
 
 ```{r setup, include=FALSE}
@@ -486,9 +481,9 @@ Adopting the new R Markdown template also provides better standards for R Journa
 
 There are many benefits of providing good standards, though, and an important one is that this can have positive spillover effects for the R community. Authors can become more aware of good practice. For example, one of the useful elements when an article is in HTML format is that figures can be made richer with an `alt-text` element. In an R Markdown code chunk generating a figure, this can be set using `fig.alt`. Alt-text provides a textual alternative to non-text content in HTML documents, and serves various purposes: screen readers can deliver the content to print-disabled people, it is displayed in place of the image if it fails to load, and can serve to assist search engines. It is a work in progress: to encourage adoption by authors of new article submissions, and it would be useful to edit into the converted legacy articles at a later date. 
 
-There are many other journals that have a similar backlog of legacy articles. A current and ongoing project is being conducted by @arxiv to convert their collection of articles from LaTeX (shared as PDF) to HTML, utilizing LaTeXML [@latexML]. The work conducted for the R Journal might of interest to similar small journals that operate without paid staff. Converting legacy articles provides accessibility to a wealth of educational material.
+There are many other journals that have a similar backlog of legacy articles. A current and ongoing project is being conducted by @arxiv to convert their collection of articles from LaTeX (shared as PDF) to HTML, utilizing LaTeXML [@latexML]. The work conducted for the R Journal might be of interest to similarly small journals that operate without paid staff. Converting legacy articles provides accessibility to a wealth of educational material.
 
-Since the shift to R Markdown, a new development for the open-source community has emerged: quarto [@Allaire_Quarto_2024]. Although R Markdown would suggest a focus on R, it was always possible to include code chunks written in other languages. But Quarto makes this cleaner, and thus more appealing for non-R developers. It also provides a cleaner type-setting. At some point, the R Journal will likely shift to a Quarto template, which is reasonably straightforward, but for the present R Markdown is a suitable dynamic document delivery system for the R Journal.
+After the change was made to use R Markdown, a new development for the open-source scientific and technical publishing community has emerged: quarto [@quarto]. Although R Markdown would suggest a focus on R, it was always possible to include code chunks written in other languages. But Quarto makes this cleaner, and thus more appealing for non-R developers. It also provides a cleaner type-setting. At some point, the R Journal will likely shift to a Quarto template, which is reasonably straightforward, but for the present R Markdown is a suitable dynamic document delivery system for the R Journal.
 
 # Acknowledgments {-}
 
