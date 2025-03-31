@@ -38,8 +38,10 @@ author:
     email: dicook@monash.edu
 type: package
 output: 
-  rjtools::rjournal_article
-bibliography: RJreferences.bib
+  rjtools::rjournal_article:
+    self_contained: yes
+    toc: no
+bibliography: texor.bib
 ---
 
 ```{r setup, include=FALSE}
