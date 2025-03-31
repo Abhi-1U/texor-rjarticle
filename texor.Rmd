@@ -11,7 +11,7 @@ author:
     address:
     - Mumbai, India
     orcid: 0009-0000-6935-8690
-    email: perricoq@outlook.com
+    email: abhishek.ulayil.m@gmail.com
   - name: Mitch O'Hara-Wild
     affiliation: Monash University
     address:
@@ -38,6 +38,8 @@ author:
     email: dicook@monash.edu
 type: package
 output: 
+  rjtools::rjournal_pdf_article:
+    toc: no
   rjtools::rjournal_web_article:
     self_contained: yes
     toc: no
@@ -486,7 +488,7 @@ There are many benefits of providing good standards, though, and an important on
 
 There are many other journals that have a similar backlog of legacy articles. A current and ongoing project is being conducted by @arxiv to convert their collection of articles from LaTeX (shared as PDF) to HTML, utilizing LaTeXML [@latexML]. The work conducted for the R Journal might of interest to similar small journals that operate without paid staff. Converting legacy articles provides accessibility to a wealth of educational material.
 
-Since the shift to R Markdown, a new development for the open-source community has emerged: quarto [@quarto]. Although R Markdown would suggest a focus on R, it was always possible to include code chunks written in other languages. But Quarto makes this cleaner, and thus more appealing for non-R developers. It also provides a cleaner type-setting. At some point, the R Journal will likely shift to a Quarto template, which is reasonably straightforward, but for the present R Markdown is a suitable dynamic document delivery system for the R Journal.
+Since the shift to R Markdown, a new development for the open-source community has emerged: quarto [@Allaire_Quarto_2024]. Although R Markdown would suggest a focus on R, it was always possible to include code chunks written in other languages. But Quarto makes this cleaner, and thus more appealing for non-R developers. It also provides a cleaner type-setting. At some point, the R Journal will likely shift to a Quarto template, which is reasonably straightforward, but for the present R Markdown is a suitable dynamic document delivery system for the R Journal.
 
 # Acknowledgments {-}
 
