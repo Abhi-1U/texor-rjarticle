@@ -343,7 +343,7 @@ A multicolumn table requires:
 1. The stream editor modifies the `\multicolumn{..}` to
     `\multicolumnx{..}`.
 
-2. A LaTeX macro is used to redefine the `\multicolumnxx{..}` to
+2. A LaTeX macro is used to redefine the `\multicolumnx{..}` to
     `\multicolumn{---}` (which is accepted by pandoc).
 
 3. Pandoc reads the table and transforms it to markdown.
@@ -404,7 +404,7 @@ Tables with images, math, code or links in the cells are generally handled. Also
 
 The package `texor` can be installed from CRAN and the development version from https://github.com/Abhi-1U/texor. The website for the package, https://abhi-1u.github.io/texor, has vignettes documenting usage. 
 
-Note that you will need to use [Pandoc Version > 3.0.0 (if possible latest)]((https://pandoc.org/installing.html)) for the best results. You can check your version with:
+Note that you will need to use [Pandoc Version > 3.0.0 (if possible latest)](https://pandoc.org/installing.html) for the best results. You can check your version with:
 
 ```r
 rmarkdown::pandoc_version()
@@ -415,7 +415,7 @@ This is achieved by several sequential steps: `convert_to_markdown()`, `generate
 
 For converting the 14 years of legacy R Journal articles, batch processing of issues was conducted. 
 
-For individuals who are interested in submitting their paper to the R Journal but have written their article using the legacy LaTeX format and wish to convert it to the current R Markdown format, you can use the `latex_to_web()` function on your paper directory. This will get you about 80% of the way to an R Markdown version of your paper. You will then want to 
+For individuals who are interested in submitting their paper to the R Journal but have written their article using the legacy LaTeX format and wish to convert it to the current R Markdown format, you can use the `latex_to_web()` function on your paper directory. This will get you about 80% of the way to an R Markdown version of your paper. You will then want to: 
 
 - Edit the lines where figures are included. The conversion will create HTML code to define the image. This should be changed into Markdown description `![Caption](Image)` or using `knitr::include_graphic(Image)` in an R code chunk, in order for both HTML and PDF versions of the paper to be created when the `rjtools` article template is knitted.  
 - Edit the tables for aesthetics. The conversion will create Markdown tables, which will convert appropriately to HTML and PDF. However, to have more control and to create more elegant tables using `knitr::kable` provides finer level control.
@@ -481,7 +481,7 @@ However, the software can also be used by authors themselves to convert to dynam
 
 Adopting the new R Markdown template also provides better standards for R Journal articles. It encourages authors to be more conscious that their work is reproducible. There is more standardization of file names and file structure, and this helps the editors and reviewers check papers. This in turn makes it easier to build the issues eliminating some common errors that authors make that cause compilation failure. 
 
-There are many benefits of providing good standards, though, and an important one is that this can have positive spillover effects for the R community. Authors can become more aware of good practice. For example, one of the useful elements when an article is in HTML format is that figures can be made richer with an `alt-text` element. In an R Markdown code chunk generating a figure, this can be set using `fig.alt`. Alt-text provides a textual alternative to non-text content in HTML documents, and serves various purposes: screen readers can deliver the content to print-disabled people, it is displayed in place of the image if it fails to load, and can serve to assist search engines. It is a work in progress: to encourage adoption by authors of new article submissions, and it would be useful to edit into the converted legacy articles at a later date. 
+There are many benefits of providing good standards, though, and an important one is that this can have positive spillover effects for the R community. Authors can become more aware of good practice. For example, one of the useful elements when an article is in HTML format is that figures can be made richer with an `alt-text` (alternative text) element. In an R Markdown code chunk generating a figure, this can be set using `fig.alt`. Alt-text provides a textual alternative to non-text content in HTML documents, and serves various purposes: screen readers can deliver the content to print-disabled people, it is displayed in place of the image if it fails to load, and can serve to assist search engines. It is a work in progress: to encourage adoption by authors of new article submissions, and it would be useful to edit into the converted legacy articles at a later date. 
 
 There are many other journals that have a similar backlog of legacy articles. A current and ongoing project is being conducted by @arxiv to convert their collection of articles from LaTeX (shared as PDF) to HTML, utilizing LaTeXML [@latexML]. The work conducted for the R Journal might be of interest to similarly small journals that operate without paid staff. Converting legacy articles provides accessibility to a wealth of educational material.
 

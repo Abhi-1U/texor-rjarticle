@@ -292,7 +292,7 @@ A multicolumn table requires:
   The stream editor modifies the \texttt{\textbackslash{}multicolumn\{..\}} to
   \texttt{\textbackslash{}multicolumnx\{..\}}.
 \item
-  A LaTeX macro is used to redefine the \texttt{\textbackslash{}multicolumnxx\{..\}} to
+  A LaTeX macro is used to redefine the \texttt{\textbackslash{}multicolumnx\{..\}} to
   \texttt{\textbackslash{}multicolumn\{-\/-\/-\}} (which is accepted by pandoc).
 \item
   Pandoc reads the table and transforms it to markdown.
@@ -328,7 +328,7 @@ Tables with images, math, code or links in the cells are generally handled. Also
 
 The package \texttt{texor} can be installed from CRAN and the development version from \url{https://github.com/Abhi-1U/texor}. The website for the package, \url{https://abhi-1u.github.io/texor}, has vignettes documenting usage.
 
-Note that you will need to use \href{(https://pandoc.org/installing.html)}{Pandoc Version \textgreater{} 3.0.0 (if possible latest)} for the best results. You can check your version with:
+Note that you will need to use \href{https://pandoc.org/installing.html}{Pandoc Version \textgreater{} 3.0.0 (if possible latest)} for the best results. You can check your version with:
 
 \begin{verbatim}
 rmarkdown::pandoc_version()
@@ -339,7 +339,7 @@ This is achieved by several sequential steps: \texttt{convert\_to\_markdown()}, 
 
 For converting the 14 years of legacy R Journal articles, batch processing of issues was conducted.
 
-For individuals who are interested in submitting their paper to the R Journal but have written their article using the legacy LaTeX format and wish to convert it to the current R Markdown format, you can use the \texttt{latex\_to\_web()} function on your paper directory. This will get you about 80\% of the way to an R Markdown version of your paper. You will then want to
+For individuals who are interested in submitting their paper to the R Journal but have written their article using the legacy LaTeX format and wish to convert it to the current R Markdown format, you can use the \texttt{latex\_to\_web()} function on your paper directory. This will get you about 80\% of the way to an R Markdown version of your paper. You will then want to:
 
 \begin{itemize}
 \tightlist
