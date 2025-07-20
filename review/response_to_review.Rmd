@@ -25,7 +25,7 @@ P7: The link on "Pandoc Version > 3.0.0 (if possible latest)" appears to be miss
 
 P7: The bullet list in Section 3 seems to have a superfluous blank line after the first list item.
 
-*It's not clear how ot fix this. There is nothing special added to the list. It has to be something that latex is doing that we do not control. The html version doesn't have the problem.*
+*Fixed*
 
 P8: I don't see the link titled "CONTRIBUTE" on the R Journal website as mentioned in Section 5.4.
 
@@ -43,9 +43,13 @@ I didn't fully review the source code since it was rather lengthy, but I could s
 
 - The stringr wrappers in texor are not necessary: https://github.com/Abhi-1U/texor/blob/e669ec3f9bf7ad5fb5c4b929f13d18ad7944f735/R/string-tools.R#L3-L28 What we need is `@importFrom stringr str_trim str_detect ...`, and the stringr functions can be used without the `stringr::` qualifier.
 
+*Done, will be included in the latest CRAN release of the package.*
+
 - The `stream_editor()` function (https://github.com/Abhi-1U/texor/blob/main/R/stream-editor.R) plays a central role in texor but its implementation didn't take advantage of the built-in vectorization of `gsub()`, i.e., there is absolutely no need to use a `for` loop to modify the input line by line (to mimic `sed`), which is very inefficient, and we can just do `gsub()` on all matches:
 
     i <- grep(pattern, raw_lines) 
     raw_lines[i] <- gsub(target, replacement, raw_lines[i])
 
-- The supplementary materials (https://github.com/Abhi-1U/texor-rjarticle/tree/master/supplement) are quite helpful, and I really like the examples. It will be nice to also include the intermediate `.Rmd` or `.md` files when converting `.tex` to `.html`, so readers can see how various LaTeX environments are converted to their Markdown counterparts, although the article has already provided some examples in Section 2. The function `texor::latex_to_web()` doesn't seem to have an argument for preserving the intermediate Markdown output, and it may be worth adding one.
+*Done, will be included in the latest CRAN release of the package.*
+
+- The supplementary materials (https://github.com/Abhi-1U/texor-rjarticle/tree/master/supplement) are quite helpful, and I really like the examples. It will be nice to also include the intermediate `.Rmd` or `.md` files when converting `.tex` to `.html`, so readers can see how various LaTeX environments are converted to their Markdown counterparts, although the article has already provided some examples in Section 2. The function `texor::latex_to_web()` doesn't seem to have an argument for preserving the intermediate Markdown output, and it may be worth adding one. 

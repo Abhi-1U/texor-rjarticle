@@ -383,9 +383,7 @@ appears to be missing and doesn’t work for me.</p>
 <p><em>Fixed</em></p>
 <p>P7: The bullet list in Section 3 seems to have a superfluous blank
 line after the first list item.</p>
-<p><em>It’s not clear how ot fix this. There is nothing special added to
-the list. It has to be something that latex is doing that we do not
-control. The html version doesn’t have the problem.</em></p>
+<p><em>Fixed</em></p>
 <p>P8: I don’t see the link titled “CONTRIBUTE” on the R Journal website
 as mentioned in Section 5.4.</p>
 <p><em>This is coming. We expect the current editor will add this,
@@ -402,11 +400,15 @@ documentation are well-written.</p>
 <p>I didn’t fully review the source code since it was rather lengthy,
 but I could see room for improvement, e.g.,</p>
 <ul>
-<li><p>The stringr wrappers in texor are not necessary: <a href="https://github.com/Abhi-1U/texor/blob/e669ec3f9bf7ad5fb5c4b929f13d18ad7944f735/R/string-tools.R#L3-L28" class="uri">https://github.com/Abhi-1U/texor/blob/e669ec3f9bf7ad5fb5c4b929f13d18ad7944f735/R/string-tools.R#L3-L28</a>
+<li>The stringr wrappers in texor are not necessary: <a href="https://github.com/Abhi-1U/texor/blob/e669ec3f9bf7ad5fb5c4b929f13d18ad7944f735/R/string-tools.R#L3-L28" class="uri">https://github.com/Abhi-1U/texor/blob/e669ec3f9bf7ad5fb5c4b929f13d18ad7944f735/R/string-tools.R#L3-L28</a>
 What we need is
 <code>@importFrom stringr str_trim str_detect ...</code>, and the
 stringr functions can be used without the <code>stringr::</code>
-qualifier.</p></li>
+qualifier.</li>
+</ul>
+<p><em>Done, will be included in the latest CRAN release of the
+package.</em></p>
+<ul>
 <li><p>The <code>stream_editor()</code> function (<a href="https://github.com/Abhi-1U/texor/blob/main/R/stream-editor.R" class="uri">https://github.com/Abhi-1U/texor/blob/main/R/stream-editor.R</a>)
 plays a central role in texor but its implementation didn’t take
 advantage of the built-in vectorization of <code>gsub()</code>, i.e.,
@@ -415,7 +417,11 @@ input line by line (to mimic <code>sed</code>), which is very
 inefficient, and we can just do <code>gsub()</code> on all matches:</p>
 <p>i &lt;- grep(pattern, raw_lines) raw_lines[i] &lt;- gsub(target,
 replacement, raw_lines[i])</p></li>
-<li><p>The supplementary materials (<a href="https://github.com/Abhi-1U/texor-rjarticle/tree/master/supplement" class="uri">https://github.com/Abhi-1U/texor-rjarticle/tree/master/supplement</a>)
+</ul>
+<p><em>Done, will be included in the latest CRAN release of the
+package.</em></p>
+<ul>
+<li>The supplementary materials (<a href="https://github.com/Abhi-1U/texor-rjarticle/tree/master/supplement" class="uri">https://github.com/Abhi-1U/texor-rjarticle/tree/master/supplement</a>)
 are quite helpful, and I really like the examples. It will be nice to
 also include the intermediate <code>.Rmd</code> or <code>.md</code>
 files when converting <code>.tex</code> to <code>.html</code>, so
@@ -423,7 +429,7 @@ readers can see how various LaTeX environments are converted to their
 Markdown counterparts, although the article has already provided some
 examples in Section 2. The function <code>texor::latex_to_web()</code>
 doesn’t seem to have an argument for preserving the intermediate
-Markdown output, and it may be worth adding one.</p></li>
+Markdown output, and it may be worth adding one.</li>
 </ul>
 </div>
 
