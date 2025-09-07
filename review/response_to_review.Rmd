@@ -53,3 +53,5 @@ I didn't fully review the source code since it was rather lengthy, but I could s
 *Done, will be included in the latest CRAN release of the package.*
 
 - The supplementary materials (https://github.com/Abhi-1U/texor-rjarticle/tree/master/supplement) are quite helpful, and I really like the examples. It will be nice to also include the intermediate `.Rmd` or `.md` files when converting `.tex` to `.html`, so readers can see how various LaTeX environments are converted to their Markdown counterparts, although the article has already provided some examples in Section 2. The function `texor::latex_to_web()` doesn't seem to have an argument for preserving the intermediate Markdown output, and it may be worth adding one. 
+
+*Done, intermediate `.Rmd` and `.md` files would be included in the next iteration of article. They are generated via the `texor::latex_to_web()` function and, by default, are retained automatically after a successful conversion without requiring explicit arguments.*

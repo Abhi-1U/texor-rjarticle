@@ -1,0 +1,273 @@
+---
+title: Metadata and Other Structures in texor
+abstract: |
+  This is a small sample article to demonstrate handling of metadata and
+  other structures during conversion in texor package.
+author:
+- name: Abhishek Ulayil
+  affiliation: Institute of Actuaries of India (Student)
+  orcid: 0009-0000-6935-8690
+  address: Mumbai, India
+date: '2025-09-01'
+date_received: ~
+journal:
+  firstpage: ~
+  lastpage: ~
+volume: 17
+issue: 3
+slug: RJ-2025-000
+citation_url: https://rjournal.github.io/
+packages:
+  cran: texor
+  bioc: Biobase
+preview: preview.png
+bibliography: metadata.bib
+CTV: ~
+legacy_pdf: yes
+legacy_converted: yes
+output:
+  rjtools::rjournal_web_article:
+    self_contained: yes
+    toc: no
+    mathjax: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js
+    md_extension: -tex_math_single_backslash
+
+---
+
+:::::::::: article
+## Introduction
+
+There is a difference in the structure of metadata and generally R
+Markdown has more metadata entries than its LaTeX counterpart. So for
+the conversion, the main task is to transform the metadata and include
+it in the generated R Markdown file, matching the LaTeX metadata as
+closely as possible.
+
+When used with the `-s` or `standalone` mode, pandoc reads out some of
+the existing meta data. The extracted metadata are listed below.
+
+#### Metadata read from LaTeX file
+
+-   Author names
+
+-   Author address (affiliation)
+
+-   ORCID number
+
+-   Title
+
+-   Bibliography
+
+-   Abstract
+
+-   CRAN/Bioconductor packages
+
+The `\address{..}` section must be typeset in this manner for the most
+effective conversion.
+
+``` r
+\address{
+Abhishek Ulayil\\ % Your Name in the first Line
+Institute of Actuaries of India (Student)\\% Your affiliation which includes post and/or org
+Mumbai, India\\ % Your City/Country
+ORCiD: 0009-0000-6935-8690\\% ORCID number with prefix ORCiD: 
+}
+```
+
+#### Metadata read from DESCRIPTION file
+
+-   Date
+
+-   Slug
+
+-   Volume and issue
+
+Some metadata like the volume and issue were picked up from the folder
+structure for some legacy articles, where the DESCRIPTION file was not
+available.
+
+#### Other supported commands in conversion
+
+::: {#table:1}
+  --------------------------------------------------------------------------------------------------------------------
+             Command                                                    Render
+  ------------------------------ -------------------------------------------------------------------------------------
+          `\acronym{A}`                                                    A
+
+               `\R`                                                        R
+
+          `\pkg{texor}`                                                **texor**
+
+        `\CRANpkg{texor}`                        [**texor**](https://CRAN.R-project.org/package=texor)
+
+        `\BIOpkg{Biobase}`        [**Biobase**](https://www.bioconductor.org/packages/release/bioc/html/Biobase.html)
+
+   `\ctv{ReproducibleResearch}`     [*ReproducibleResearch*](https://CRAN.R-project.org/view=ReproducibleResearch)
+
+         `\command{help}`                                               `help`
+  --------------------------------------------------------------------------------------------------------------------
+
+  : (#tab:T1) Other commands supported by
+  [**texor**](https://CRAN.R-project.org/package=texor) and pandoc
+:::
+
+## Miscellaneous {#misc}
+
+#### Citations
+
+Table [2](#tab:T2){reference-type="ref" reference="table:2"} represents
+all the ways one can use citations in LaTeX and expect the generated
+output.
+
+::: {#table:2}
+  ------------------------------------
+          Command            Render
+  ----------------------- ------------
+     `\citet{pandoc}`       @pandoc
+
+     `\citep{pandoc}`      [@pandoc]
+
+     `\citet*{pandoc}`      @pandoc
+
+     `\citep*{pandoc}`     [@pandoc]
+
+    `\citeyear{pandoc}`    [-@pandoc]
+
+   `\citeauthor{pandoc}`    @pandoc
+
+      `\cite{pandoc}`      [@pandoc]
+  ------------------------------------
+
+  : (#tab:T2) Different forms of citation in LaTeX.
+:::
+
+#### Footnotes
+
+Footnotes do not work in `tabular` environments in LaTeX but do work in
+R Markdown tables[^1]. Custom footnote numbering works in LaTeX but does
+not work in R Markdown[^2]. These features are demonstrated in
+Table [3](#tab:T3){reference-type="ref" reference="table:3"}.
+
+::: {#table:3}
+  -----------------------------------------------------------------------
+                             Command                              Render
+  -------------------------------------------------------------- --------
+   `\acronym{A}\footnote{This works in HTML, but not in LaTeX}`   A[^3]
+
+          `\R\footnote[25]{HTML shows 4 rather than 25}`          R[^4]
+  -----------------------------------------------------------------------
+
+  : (#tab:T3) Demonstration of footnotes.
+:::
+
+#### Block quotes
+
+> This block quote should justify an example.
+
+#### Links
+
+Most links work just fine using `\href` and the `\url` command will work
+flawlessly, as demonstrated in Table  [4](#tab:T4){reference-type="ref"
+reference="table:4"}.
+
+::: {#table:4}
+  ------------------------------------------------------------------------------------------------
+               Command                                          Render
+  --------------------------------- --------------------------------------------------------------
+   `\href{www.google.com}{Google}`                 [Google](http://www.google.com)
+
+       `\url{www.google.com}`               [www.google.com](http://www.google.com){.uri}
+
+        `Table \ref{table:3}`        Table [3](#tab:T3){reference-type="ref" reference="table:3"}
+
+      `Section \nameref{misc}`        Section [2](#misc){reference-type="ref" reference="misc"}
+
+         `\autoref{table:3}`            [3](#tab:T3){reference-type="ref" reference="table:3"}
+  ------------------------------------------------------------------------------------------------
+
+  : (#tab:T4) Links
+:::
+
+##### Note
+
+Certain reference commands like `\nameref{}` and `\autoref{}` may not
+work as intended in HTML.
+
+#### Lists
+
+An example of usage of lists in LaTeX and **texor** generated HTML.
+
+##### itemize
+
+-   A
+
+-   B
+
+##### enumerate
+
+1.  A
+
+2.  B
+
+##### description
+
+**rebib**
+
+:   Convert and Aggregate Bibliographies
+
+**texor**
+
+:   Converting 'LaTeX' 'R Journal' Articles into 'RJ-web-articles'
+
+##### Note:
+
+Some options for lists such as special numbering schemes or markups to
+description item points might not work as intended and the generated
+HTML might be simple.
+
+#### Colored text
+
+Some commands to describe colored text also work during conversion, such
+as `\textcolor{blue}{Blue Text}` [Blue Text]{style="color: blue"}.
+
+## Theorem environments
+
+::: {#theorem:1 .theorem}
+**Theorem 1**. *This is a sample theorem..*
+:::
+
+::: {#prop:1 .proposition}
+**Proposition 1**. *As with $X \in \mathbb{R}$ this proposition \...*
+:::
+
+::: {#rm:1 .remark}
+**Remark 1**. *[**texor**](https://CRAN.R-project.org/package=texor)
+makes the article conversion easier.*
+:::
+
+**Pandoc** supports default LaTeX theorem environments. One can refer to
+these environments like Theorem [1](#theorem:1){reference-type="ref"
+reference="theorem:1"},Proposition [1](#prop:1){reference-type="ref"
+reference="prop:1"} and Remark [1](#rm:1){reference-type="ref"
+reference="rm:1"} made here. However custom theorem environments are not
+supported yet.
+
+## Summary
+
+In summary the [**texor**](https://CRAN.R-project.org/package=texor)
+package alongside pandoc supports:
+
+-   Extracting metadata and putting it together well.
+
+-   Handling links, block quotes, citations and footnotes.
+
+-   Default theorem environments.
+::::::::::
+
+[^1]: Footnotes in paragraph text work in both LaTeX and R markdown
+
+[^2]: Footnote 25
+
+[^3]: This works in HTML, but not in LaTeX
+
+[^4]: HTML shows 4 rather than 25

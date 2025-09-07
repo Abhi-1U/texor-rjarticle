@@ -99,7 +99,7 @@ expect the generated output.
 
 \subsubsection{Footnotes}
 
-Footnotes do not work in \verb|tabular| environments in LaTeX but do work in R Markdown tables\footnote{Footnotes in paragraph text work in both LaTeX and R markdown}. Custom footnote numbering works in LaTeX but does not work in R Markdown\footnote[21]{Forever 21 :)}. These features are demonstrated in Table~\ref{table:3}.
+Footnotes do not work in \verb|tabular| environments in LaTeX but do work in R Markdown tables\footnote{Footnotes in paragraph text work in both LaTeX and R markdown}. Custom footnote numbering works in LaTeX but does not work in R Markdown\footnote[25]{Footnote 25 }. These features are demonstrated in Table~\ref{table:3}.
 
 \begin{table}[htbp]
 \centering
@@ -107,8 +107,8 @@ Footnotes do not work in \verb|tabular| environments in LaTeX but do work in R M
  \hline
  Command & Render \\
  \hline
- \verb|\acronym{A}\footnote{This works in HTML}| & \acronym{A}\footnote{This works in HTML} \\ \hline
-\verb|\R\footnote[21]{HTML shows 2 rather than 21}| & \R\footnote[21]{HTML shows 2 rather than 21}  \\ \hline
+ \verb|\acronym{A}\footnote{This works in HTML, but not in LaTeX}| & \acronym{A}\footnote{This works in HTML, but not in LaTeX}} \\ \hline
+\verb|\R\footnote[25]{HTML shows 4 rather than 25}| & \R\footnote[25]{HTML shows 4 rather than 25}  \\ \hline
 \end{tabular}
 \caption{Demonstration of footnotes.}
 \label{table:3}
@@ -140,7 +140,7 @@ Most links work just fine using \verb|\href| and the \verb|\url| command will wo
 \end{table}
 
 \paragraph{Note}
-Certain reference commands like \verb|\nameref{}| and \verb|\autoref{}| will not work as intended in HTML.
+Certain reference commands like \verb|\nameref{}| and \verb|\autoref{}| may not work as intended in HTML.
 
 \subsubsection{Lists}
 

@@ -1,0 +1,214 @@
+---
+title: Working with Math environments in texor
+abstract: |
+  This is a small sample article to demonstrate usage of the texor
+  package to convert math environments.
+author:
+- name: Abhishek Ulayil
+  affiliation: Student, Institute of Actuaries of India
+  orcid: 0009-0000-6935-8690
+  address: Mumbai, India
+date: '2025-09-01'
+date_received: ~
+journal:
+  firstpage: ~
+  lastpage: ~
+volume: 17
+issue: 3
+slug: RJ-2025-000
+citation_url: https://rjournal.github.io/
+packages:
+  cran:
+  - texor
+  - rmarkdown
+  - bookdown
+  bioc: []
+preview: preview.png
+bibliography: math-example.bib
+CTV: ~
+legacy_pdf: yes
+legacy_converted: yes
+output:
+  rjtools::rjournal_web_article:
+    self_contained: yes
+    toc: no
+    mathjax: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js
+    md_extension: -tex_math_single_backslash
+
+---
+
+:::: article
+## Introduction
+
+Math typesetting has always been a highlight of LaTeX, making it a de
+facto choice among academics and researchers globally. However, in the
+move to humble web interfaces, math has been traditionally hard to
+describe. There have been advances in JavaScript libraries to better
+typeset and present math in web pages but not all LaTeX commands/math
+functions are available.
+
+#### MathJax
+
+The [**texor**](https://CRAN.R-project.org/package=texor) package uses
+Mathjax version 3 to enhance the visual look of the math content in
+HTML.
+
+The core goal of the MathJax project is the development of its
+state-of-the-art, open source, JavaScript platform for display of
+mathematics. The key advantages are [@mathjax]:
+
+-   High-quality display of mathematics notation in all browsers.
+
+-   No special browser setup required.
+
+-   Support for LaTeX, MathML, and other equation markup directly in the
+    HTML source.
+
+-   Support for accessibility, copy and paste, and other rich
+    functionality.
+
+-   Interoperability with other applications and math-aware search.
+
+As [**texor**](https://CRAN.R-project.org/package=texor) calls
+[**rmarkdown**](https://CRAN.R-project.org/package=rmarkdown) to render
+the R Markdown file into HTML, the `rjtools::rjournal_web_article`
+template uses MathJax as the math engine by default. We also specify the
+Mathjax version in the metadata of the generated Rmarkdown file.
+
+## Inline math
+
+One can define inline math in LaTeX using commands `\(..\)` or `$..$`.
+
+::: {#table:1}
++-------------------------+----------------------+
+| Command                 | Math                 |
++:=======================:+:====================:+
+| ::: minipage            | ::: minipage         |
+| ``` r                   | $\mu = (0,0,0)^\top$ |
+| \(\mu = (0,0,0)^\top \) | :::                  |
+| ```                     |                      |
+| :::                     |                      |
++-------------------------+----------------------+
+| ::: minipage            | ::: minipage         |
+| ``` r                   | $\mu = (0,0,0)^\top$ |
+| $\mu = (0,0,0)^\top $   | :::                  |
+| ```                     |                      |
+| :::                     |                      |
++-------------------------+----------------------+
+
+: (#tab:T1) Inline math syntax and its output side by side.
+:::
+
+## Display math
+
+Display math refers to equations typeset on separate lines rather than
+in line with the text. Almost all LaTeX equations can be rendered by
+MathJax.
+
+``` r
+\begin{align}
+f(x) = \frac{1}{\sigma\sqrt{2\pi}} 
+  \exp\left( -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)
+  \label{eq:1}
+\end{align}
+```
+
+The code above will render as Equation \@ref(eq:1).
+
+$$\begin{aligned}
+\label{eq:1}
+f(x) = \frac{1}{\sigma\sqrt{2\pi}} 
+  \exp\left( -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)
+\end{aligned}   (\#eq:1)$$
+
+## Equation numbering
+
+In LaTeX your equations get numbered automatically unless you are using
+a `displaymath` environment (equivalently `\[..\]`), a starred math
+environment such as `equation*`, or `\nonumber` to suppress numbering.
+Equation numbering works a bit differently in
+[**bookdown**](https://CRAN.R-project.org/package=bookdown) (the base of
+the R Journal web article format) where it is mandatory to have a
+`(\#eq:xx)` which is described in more detail in @bookdown.
+
+The [**texor**](https://CRAN.R-project.org/package=texor) package
+relieves authors from manually adding `(\#eq:xx)` to equations in R
+Markdown by using a pandoc Lua filter to convert existing `\label{..}`
+in the equations to `(\#eq:xx)` during conversion. Equation \@ref(eq:xe)
+shows such a use case of an equation being numbered by its label in R
+Markdown as well as LaTeX.
+
+$$\begin{aligned}
+S_{T, s}(z_t) = X^{\top} K_{b,t}^* X (Z - z_t)^s, 
+\label{eq:xe}
+\end{aligned}   (\#eq:xe)$$
+
+Equation labels must start with the prefix `eq:` in bookdown. All labels
+in bookdown must only contain alphanumeric characters, `:`, `-`, and/or
+`/` as suggested in [@bookdown]. To accomadate this, the **texor**
+package has a lua filter implementation to correct and modify equation
+labels and references to the bookdown accepted format.
+
+##### LaTeX source code
+
+``` r
+\begin{equation}\label{binomial pdf}
+  f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}
+
+\end{equation}
+The reference to above equation \eqref{binomial pdf}
+```
+
+##### Generated R markdown using **texor**
+
+``` r
+$$\label{binomial pdf}
+  f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}   (\#eq:binomial-pdf)$$
+
+The reference to above equation \@ref(eq:binomial-pdf)
+```
+
+##### Rendering of the above example
+
+$$\label{binomial pdf}
+  f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}   (\#eq:binomial-pdf)$$
+
+The reference to above equation \@ref(eq:binomial-pdf)
+
+## Custom math commands
+
+The existence of user-defined LaTeX commands intended for the Math
+environments will work as long as they do not contain non-math LaTeX
+commands or commands from other CTAN math packages.
+
+##### Renders correctly in HTML
+
+``` r
+\newcommand{\ABS}[1]{\left|#1\right|}
+```
+
+$$|\sigma^2| = \pm 1$$
+
+##### Does not render correctly in HTML
+
+``` r
+\newcommand{\rotatethis}[1]{\rotatebox[origin=c]{90}{$#1$}}
+```
+
+$$\rotatebox[origin=c]{90}{\sigma^2} = \pm 1$$
+
+## Unsupported LaTeX commands
+
+Altough MathJax does a good job of supporting most LaTeX math functions,
+some functions do not currently work. Common examples are `\bm` and
+`\boldmath`, for which `\mathbf` can be used instead.
+
+## Summary
+
+In summary the [**texor**](https://CRAN.R-project.org/package=texor)
+package, with the help of pandoc and MathJax supports:
+
+-   Common math environments.
+
+-   Equation numbering.
+::::
